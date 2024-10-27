@@ -1,0 +1,154 @@
+<h1 class="mb-4">Quản lý thể loại</h1>
+
+<!-- search & add btn -->
+<div class="d-flex gap-2 mb-3">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <i class="bi bi-plus-circle me-2"></i> <span> Thêm thể loại </span>
+  </button>
+  <form (ngSubmit)="onSearch()" autocomplete="off">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="Nhập thể loại"
+        [(ngModel)]="genreParams.searchTerm"
+        name="searchTerm"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </form>
+</div>
+
+<!-- table genre -->
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="genres"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('name')"
+          style="width: 35%"
+        >
+          Thể loại
+        </th>
+        <th>Mô tả</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (genre of genres; track genre.id) {
+      <tr>
+        <td class="text-center">{{ genre.id }}</td>
+        <td>{{ genre.name }}</td>
+        <td>
+          <div class="fixed-height-box">
+            {{ genre.description }}
+          </div>
+        </td>
+        <td>
+          <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-6" (click)="showModal(genre.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(genre.id || 0)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>
+
+<!-- modal create & edit -->
+<nz-modal
+  [(nzVisible)]="isVisibleModal"
+  [nzTitle]="isUpdate ? 'Sửa thể loại' : 'Thêm thể loại'"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+  >
+    <div class="mb-3">
+      <label class="form-label" for="">Thể loại</label>
+      <input
+        nz-input
+        placeholder="Nhập thể loại"
+        type="text"
+        formControlName="name"
+      />
+      @if(frm.get('name')?.errors && frm.get('name')?.touched) {
+      <span class="text-danger">Vui lòng nhập thể loại</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="">Mô tả</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Nhập mô tả"
+        formControlName="description"
+      ></textarea>
+      @if(frm.get('description')?.errors && frm.get('description')?.touched) {
+      <span class="text-danger">Vui lòng nhập mô tả</span>
+      }
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
