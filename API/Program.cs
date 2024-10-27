@@ -1,3 +1,4 @@
+using API.Middleware;
 using KM.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +11,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.RegisterDb(builder.Configuration);
+builder.Services.RegisterDI(builder.Configuration);
 
 
 var app = builder.Build();
+
+
+// Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
+
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+.WithOrigins("https://localhost:4200", "http://localhost:4200"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
