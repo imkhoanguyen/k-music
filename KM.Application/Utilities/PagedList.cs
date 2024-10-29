@@ -1,4 +1,4 @@
-﻿namespace KM.Domain.Utilities
+﻿namespace KM.Application.Utilities
 {
     public class PagedList<T> : List<T>
     {

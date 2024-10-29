@@ -1,4 +1,4 @@
-﻿using KM.Domain.Repositories;
+﻿using KM.Application.Repositories;
 using KM.Infrastructure.DataAccess;
 
 namespace KM.Infrastructure.Repositories

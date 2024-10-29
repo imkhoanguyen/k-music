@@ -1,4 +1,4 @@
-﻿using KM.Domain.Utilities;
+﻿using KM.Application.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KM.Infrastructure.Ultilities

@@ -1,4 +1,4 @@
-﻿namespace KM.Domain.Parameters
+﻿namespace KM.Application.Parameters
 {
     public class PaginationParams
     {

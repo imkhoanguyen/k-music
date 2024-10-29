@@ -1,8 +1,8 @@
 ﻿using API.Extensions;
 using KM.Application.DTOs.Genres;
+using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
-using KM.Domain.Parameters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

@@ -1,11 +1,11 @@
 ﻿using KM.Application.DTOs.Genres;
 using KM.Application.Mappers;
+using KM.Application.Parameters;
+using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
+using KM.Application.Utilities;
 using KM.Domain.Entities;
 using KM.Domain.Exceptions;
-using KM.Domain.Parameters;
-using KM.Domain.Repositories;
-using KM.Domain.Utilities;
 using System.Diagnostics;
 using System.Linq.Expressions;
 

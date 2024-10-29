@@ -1,4 +1,4 @@
-﻿namespace KM.Domain.Repositories
+﻿namespace KM.Application.Repositories
 {
     public interface IUnitOfWork
     {

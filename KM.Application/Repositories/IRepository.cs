@@ -1,7 +1,6 @@
-﻿using KM.Domain.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace KM.Domain.Repositories
+namespace KM.Application.Repositories
 {
     public interface IRepository<T> where T : class
     {

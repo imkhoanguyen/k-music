@@ -1,5 +1,5 @@
-﻿using KM.Domain.Entities;
-using KM.Domain.Repositories;
+﻿using KM.Application.Repositories;
+using KM.Domain.Entities;
 using KM.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

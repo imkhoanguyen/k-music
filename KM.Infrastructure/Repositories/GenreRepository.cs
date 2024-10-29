@@ -1,7 +1,7 @@
-﻿using KM.Domain.Entities;
-using KM.Domain.Parameters;
-using KM.Domain.Repositories;
-using KM.Domain.Utilities;
+﻿using KM.Application.Parameters;
+using KM.Application.Repositories;
+using KM.Application.Utilities;
+using KM.Domain.Entities;
 using KM.Infrastructure.DataAccess;
 using KM.Infrastructure.Ultilities;
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,7 @@
 ﻿using KM.Application.DTOs.Genres;
+using KM.Application.Parameters;
+using KM.Application.Utilities;
 using KM.Domain.Entities;
-using KM.Domain.Parameters;
-using KM.Domain.Utilities;
 using System.Linq.Expressions;
 
 namespace KM.Application.Service.Abstract
