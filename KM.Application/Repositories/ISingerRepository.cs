@@ -4,7 +4,7 @@ using KM.Domain.Entities;
 
 namespace KM.Application.Repositories
 {
-    public interface ISingerRepository
+    public interface ISingerRepository : IRepository<Singer>
     {
         Task<PagedList<Singer>> GetAllAsync(SingerParams prm, bool tracked = false);
         Task UpdateNoPhotoAsync(Singer singer);
