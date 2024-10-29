@@ -4,6 +4,7 @@ using KM.Domain.Entities;
 using KM.Domain.Repositories;
 using KM.Infrastructure.DataAccess;
 using KM.Infrastructure.Repositories;
+using KM.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ namespace KM.Infrastructure.Configuration
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
         }
     }
 }

@@ -1,5 +1,6 @@
 using API.Middleware;
 using KM.Infrastructure.Configuration;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.RegisterDb(builder.Configuration);
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.RegisterDI(builder.Configuration);
 
 
