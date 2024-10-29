@@ -48,7 +48,7 @@ namespace KM.Infrastructure.Services
             };
         }
 
-        public async Task<FileUploadResult> AddPhotoAsync(IFormFile file)
+        public async Task<FileUploadResult> AddImageAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
