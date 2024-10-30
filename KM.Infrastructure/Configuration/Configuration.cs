@@ -31,6 +31,7 @@ namespace KM.Infrastructure.Configuration
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddScoped<ISingerService, SingerService>();
+            services.AddScoped<ISongService, SongService>();
         }
     }
 }
