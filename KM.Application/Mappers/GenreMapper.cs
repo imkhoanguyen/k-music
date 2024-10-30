@@ -5,7 +5,7 @@ namespace KM.Application.Mappers
 {
     public class GenreMapper
     {
-        public static GenreDto EntityToDto(Genre genre)
+        public static GenreDto EntityToGenreDto(Genre genre)
         {
             return new GenreDto
             {

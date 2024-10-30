@@ -32,7 +32,7 @@ namespace KM.Application.Service.Implementation
 
             if (await _unit.CompleteAsync())
             {
-                return GenreMapper.EntityToDto(genre);
+                return GenreMapper.EntityToGenreDto(genre);
             }
 
             throw new Exception("Đã xảy ra lỗi khi tạo thể loại");
@@ -57,14 +57,14 @@ namespace KM.Application.Service.Implementation
             var genres = await _unit.Genre.GetAllAsync(prm, tracked);
 
             // Map Genre to GenreDto
-            var genreDtos = genres.Select(GenreMapper.EntityToDto);
+            var genreDtos = genres.Select(GenreMapper.EntityToGenreDto);
             return new PagedList<GenreDto>(genreDtos, genres.TotalCount, genres.CurrentPage, genres.PageSize);
         }
 
         public async Task<IEnumerable<GenreDto>> GetAllAsync(bool tracked)
         {
             var genres = await _unit.Genre.GetAllAsync(tracked);
-            return genres.Select(GenreMapper.EntityToDto); // return list GenreDto
+            return genres.Select(GenreMapper.EntityToGenreDto); // return list GenreDto
         }
 
         public async Task<GenreDto?> GetAsync(Expression<Func<Genre, bool>> expression)
@@ -73,7 +73,7 @@ namespace KM.Application.Service.Implementation
             if (genre == null)
                 throw new NotFoundException("Thể loại không tồn tại");
 
-            return GenreMapper.EntityToDto(genre);
+            return GenreMapper.EntityToGenreDto(genre);
         }
 
         public async Task<GenreDto> UpdateAsync(int id, GenreDto dto)
