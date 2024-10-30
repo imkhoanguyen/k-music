@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace KM.Infrastructure.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly MusicContext _context;
         private readonly DbSet<T> _dbSet;
