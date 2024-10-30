@@ -30,6 +30,7 @@ namespace KM.Infrastructure.Configuration
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<ISingerService, SingerService>();
         }
     }
 }
