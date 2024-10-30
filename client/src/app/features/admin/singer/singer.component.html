@@ -1,0 +1,293 @@
+<h1 class="mb-4">Quản lý ca sĩ</h1>
+
+<!-- search & add btn -->
+<div class="row g-2 mb-3">
+  <div class="col-md-auto">
+    <button nz-button nzType="primary" (click)="showModal()" class="w-100">
+      <i class="bi bi-plus-circle me-2"></i> <span>Thêm ca sĩ</span>
+    </button>
+  </div>
+
+  <div class="col-md">
+    <form (ngSubmit)="onSearch()" autocomplete="off" class="row g-2">
+      <div class="col-md-4">
+        <nz-input-group [nzSuffix]="suffixIconSearch" class="w-100">
+          <input
+            type="text"
+            nz-input
+            placeholder="Nhập tên ca sĩ"
+            [(ngModel)]="singerParams.searchTerm"
+            name="searchTerm"
+            (keydown.enter)="onSearch()"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <span nz-icon nzType="search"></span>
+        </ng-template>
+      </div>
+
+      <div class="col-md-4">
+        <nz-select
+          class="w-100"
+          nzPlaceHolder="Chọn giới tính"
+          [(ngModel)]="singerParams.gender"
+          (ngModelChange)="onSearch()"
+          name="gender"
+        >
+          <nz-option nzValue="Male" nzLabel="Nam"></nz-option>
+          <nz-option nzValue="Female" nzLabel="Nữ"></nz-option>
+          <nz-option nzValue="Orther" nzLabel="Khác"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="col-md-4">
+        <nz-select
+          class="w-100"
+          [(ngModel)]="singerParams.location"
+          (ngModelChange)="onSearch()"
+          nzPlaceHolder="Chọn quốc gia"
+          name="location"
+        >
+          @for (location of locations; track location) {
+          <nz-option [nzValue]="location" [nzLabel]="location"></nz-option>
+          }
+        </nz-select>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- table genre -->
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="singers"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Hình ảnh ca sĩ</th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('name')"
+          style="width: 20%"
+        >
+          Ca sĩ
+        </th>
+        <th
+          style="width: 10%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('gender')"
+        >
+          Giới tính
+        </th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('location')"
+          style="width: 10%"
+        >
+          Quốc gia
+        </th>
+        <th>Giới thiệu</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody class="align-middle">
+      @for (singer of singers; track singer.id) {
+      <tr>
+        <td class="text-center">{{ singer.id }}</td>
+        <td>
+          <img
+            src="{{ singer.imgUrl }}"
+            alt="{{ singer.name }}"
+            width="100"
+            style="object-fit: cover"
+          />
+        </td>
+        <td>
+          {{ singer.name }}
+        </td>
+        <td>
+          {{
+            singer.gender === "Female"
+              ? "Nữ"
+              : singer.gender === "Male"
+              ? "Nam"
+              : "Khác"
+          }}
+        </td>
+        <td>
+          {{ singer.location }}
+        </td>
+        <td>
+          <div class="fixed-height-box">
+            {{ singer.introduction }}
+          </div>
+        </td>
+        <td>
+          <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-6" (click)="showModal(singer.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(singer.id || 0)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>
+
+<!-- modal create & edit -->
+<nz-modal
+  [nzStyle]="{ top: '20px' }"
+  [(nzVisible)]="isVisibleModal"
+  [nzTitle]="isUpdate ? 'Cập nhật ca sĩ' : 'Thêm ca sĩ'"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label class="form-label" for="name">Tên ca sĩ</label>
+      <input
+        nz-input
+        placeholder="Nhập tên ca sĩ"
+        type="text"
+        formControlName="name"
+        id="name"
+      />
+      @if(frm.get('name')?.errors && frm.get('name')?.touched) {
+      <span class="text-danger">Vui lòng nhập tên ca sĩ</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="location">Quốc gia</label>
+      <input
+        nz-input
+        placeholder="Nhập quốc gia"
+        type="text"
+        formControlName="location"
+        id="location"
+      />
+      @if(frm.get('location')?.errors && frm.get('location')?.touched) {
+      <span class="text-danger">Vui lòng nhập quốc gia</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="gender">Giới tính</label>
+      <nz-select class="w-100" formControlName="gender" id="gender">
+        <nz-option nzValue="Male" nzLabel="Nam"></nz-option>
+        <nz-option nzValue="Female" nzLabel="Nữ"></nz-option>
+        <nz-option nzValue="Orther" nzLabel="Khác"></nz-option>
+      </nz-select>
+      @if(frm.get('gender')?.errors && frm.get('gender')?.touched) {
+      <span class="text-danger">Vui lòng chọn giới tính</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="introduction">Giới thiệu</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Giới thiệu thông tin về ca sĩ..."
+        formControlName="introduction"
+        id="introduction"
+      ></textarea>
+      @if(frm.get('introduction')?.errors && frm.get('introduction')?.touched) {
+      <span class="text-danger">Vui lòng nhập giới thiệu</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <div class="row mb-1">
+        <nz-upload
+          [nzBeforeUpload]="beforeUpload"
+          nzMultiple="false"
+          [nzShowUploadList]="false"
+        >
+          <button nz-button type="button">
+            <i nz-icon nzType="upload"></i>
+            {{ isUpdate ? "Thay đổi ảnh ca sĩ" : "Upload ảnh ca sĩ" }}
+          </button>
+        </nz-upload>
+      </div>
+
+      @if(previewImage) {
+      <img
+        [src]="previewImage"
+        alt="Image Preview"
+        style="max-width: 200px; margin-top: 10px; object-fit: cover"
+      />
+      } @else {
+      <img
+        src="img/300x200.jpg"
+        alt="Image Preview"
+        style="max-width: 200px; margin-top: 10px; object-fit: cover"
+      />
+
+      }
+      <!-- input img -->
+      <input type="hidden" formControlName="imgFile" />
+
+      @if(frm.get('description')?.errors && frm.get('description')?.touched) {
+      <span class="text-danger">Vui lòng upload ảnh ca sĩ</span>
+      }
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
