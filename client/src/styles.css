@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+/* Xóa bóng bên trái table */
+/* Delete shabow right in table */
+.ant-table-content {
+  box-shadow: none !important;
+}
+
+/* Style cho ô trong table có nội dung dài */
+/* Style for table cells with long content */
+.fixed-height-box {
+  height: 100px;
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung quá dài */
+  white-space: pre-wrap; /* Bảo toàn định dạng xuống dòng trong văn bản */
+  text-overflow: ellipsis;
+}
+
+/* For larger screens, let the table take full width without scroll */
+.table-responsive-custom {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* For smaller screens, limit the table's width to enable horizontal scrolling */
+@media (max-width: 768px) {
+  .table-responsive-custom {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* set color success when upload file with ng-zorro */
+.ant-upload-list-item-error,
+.ant-upload-list-item-error .ant-upload-list-item-card-actions .anticon,
+.ant-upload-list-item-error .ant-upload-list-item-name,
+.ant-upload-list-item-error .ant-upload-text-icon > .anticon {
+  color: #75a8ff !important;
+}
