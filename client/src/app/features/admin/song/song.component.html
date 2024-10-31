@@ -1,0 +1,337 @@
+<h1 class="mb-4">Quản lý bài hát</h1>
+
+<!-- search & add btn -->
+<div class="row g-2 mb-3">
+  <div class="col-md-auto">
+    <button nz-button nzType="primary" (click)="showModal()" class="w-100">
+      <i class="bi bi-plus-circle me-2"></i> <span>Thêm bài hát</span>
+    </button>
+  </div>
+
+  <div class="col-md">
+    <form (ngSubmit)="onSearch()" autocomplete="off" class="row g-2">
+      <div class="col-md-4">
+        <nz-input-group [nzSuffix]="suffixIconSearch" class="w-100">
+          <input
+            type="text"
+            nz-input
+            placeholder="Nhập tên bài hát hoặc ca sĩ"
+            [(ngModel)]="songParams.searchTerm"
+            name="searchTerm"
+            (keydown.enter)="onSearch()"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <span nz-icon nzType="search"></span>
+        </ng-template>
+      </div>
+
+      <div class="col-md-4">
+        <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Chọn thể loại"
+          [(ngModel)]="songParams.genreList"
+          (ngModelChange)="onSearch()"
+          name="genreList"
+        >
+          @for (genre of genres; track genre.id) {
+          <nz-option [nzLabel]="genre.name" [nzValue]="genre.id"></nz-option>
+          }
+        </nz-select>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- table genre -->
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="songs"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Ảnh bìa</th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('name')"
+          style="width: 10%"
+        >
+          Bài hát
+        </th>
+        <th style="width: 10%">Thể loại</th>
+        <th style="width: 15%">Ca sĩ</th>
+
+        <th style="width: 15%">Giới thiệu</th>
+        <th style="width: 20%">Lời bài hát</th>
+        <th style="width: 5%">VIP</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody class="align-middle">
+      @for (song of songs; track song.id) {
+      <tr>
+        <td class="text-center">{{ song.id }}</td>
+        <td class="d-flex align-items-center justify-content-center">
+          <img
+            src="{{ song.imgUrl }}"
+            alt="{{ song.name }}"
+            width="100"
+            style="object-fit: cover"
+          />
+        </td>
+        <td>
+          {{ song.name }}
+        </td>
+        <td>
+          {{ getGenresString(song) }}
+        </td>
+        <td>
+          {{ getSingersString(song) }}
+        </td>
+
+        <td>
+          <div class="fixed-height-box">
+            {{ song.introduction }}
+          </div>
+        </td>
+        <td>
+          <div class="fixed-height-box">
+            {{ song.lyric }}
+          </div>
+        </td>
+        <td class="text-center">
+          <nz-switch
+            [ngModel]="song.isVip"
+            (ngModelChange)="updateIsVip(song.id, $event)"
+          ></nz-switch>
+        </td>
+        <td>
+          <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-5" (click)="onGoDetail(song.id)">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn btn-sm fs-6" (click)="showModal(song.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(song.id || 0)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>
+
+<!-- modal create & edit -->
+<nz-modal
+  [nzStyle]="{ top: '20px', width: '1000px' }"
+  [(nzVisible)]="isVisibleModal"
+  [nzTitle]="isUpdate ? 'Cập nhật bài hát' : 'Thêm bài hát'"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+    enctype="multipart/form-data"
+  >
+    <div class="row">
+      <!-- right -->
+      <div class="col-6">
+        <!-- input name -->
+        <div class="mb-3">
+          <label class="form-label" for="name">Tên bài hát</label>
+          <input
+            nz-input
+            placeholder="Nhập tên ca sĩ"
+            type="text"
+            formControlName="name"
+            id="name"
+          />
+          @if(frm.get('name')?.errors && frm.get('name')?.touched) {
+          <span class="text-danger">Vui lòng nhập tên ca sĩ</span>
+          }
+        </div>
+
+        <!-- input singer -->
+        <div class="mb-3">
+          <label class="form-label" for="singerList">Chọn ca sĩ</label>
+          <nz-select
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="multiple"
+            nzPlaceHolder="Chọn ca sĩ"
+            formControlName="singerList"
+            id="singerList"
+          >
+            @for (singer of singers; track singer.id) {
+            <nz-option
+              [nzLabel]="singer.name"
+              [nzValue]="singer.id"
+            ></nz-option>
+            }
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList
+            >and {{ selectedList.length }} more selected</ng-template
+          >
+          @if(frm.get('singerList')?.errors && frm.get('singerList')?.touched) {
+          <span class="text-danger">Vui lòng chọn ca sĩ của bài hát</span>
+          }
+        </div>
+
+        <!-- input genre -->
+        <div class="mb-3">
+          <label class="form-label" for="genreList">Chọn thể loại</label>
+          <nz-select
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="multiple"
+            nzPlaceHolder="Chọn thể loại"
+            formControlName="genreList"
+            id="genreList"
+          >
+            @for (genre of genres; track genre.id) {
+            <nz-option [nzLabel]="genre.name" [nzValue]="genre.id"></nz-option>
+            }
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList
+            >and {{ selectedList.length }} more selected</ng-template
+          >
+          @if(frm.get('genreList')?.errors && frm.get('genreList')?.touched) {
+          <span class="text-danger">Vui lòng chọn thể loại bài hát</span>
+          }
+        </div>
+
+        <!-- input song file -->
+        <div class="mb-3">
+          <div class="row">
+            <label class="form-label">File bài hát</label>
+            <nz-upload
+              [nzMultiple]="false"
+              (nzChange)="handleChangeSongFile($event)"
+            >
+              <button nz-button type="button">
+                <span nz-icon nzType="upload"></span>
+                Upload file bài hát
+              </button>
+            </nz-upload>
+            @if(frm.get('songFile')?.errors && frm.get('songFile')?.touched) {
+            <span class="text-danger">Vui lòng upload file nhạc</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- left -->
+      <div class="col-6">
+        <!-- input img file -->
+        <div class="mb-3">
+          <div class="row">
+            <label class="form-label">Ảnh bìa bài hát</label>
+            <nz-upload
+              [nzBeforeUpload]="beforeUploadImg"
+              nzMultiple="false"
+              [nzShowUploadList]="false"
+            >
+              <button nz-button type="button">
+                <i nz-icon nzType="upload"></i>
+                {{ isUpdate ? "Thay đổi ảnh bìa" : "Upload ảnh bìa" }}
+              </button>
+            </nz-upload>
+          </div>
+
+          @if(previewImage) {
+          <img
+            [src]="previewImage"
+            alt="Image Preview"
+            style="max-width: 200px; margin-top: 10px; object-fit: cover"
+          />
+          }
+          <!-- input img -->
+          <input type="hidden" formControlName="imgFile" />
+
+          @if(frm.get('imgFile')?.errors && frm.get('imgFile')?.touched) {
+          <span class="text-danger">Vui lòng upload ảnh ca sĩ</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="introduction">Giới thiệu</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Giới thiệu thông tin về ca sĩ..."
+        formControlName="introduction"
+        id="introduction"
+      ></textarea>
+      @if(frm.get('introduction')?.errors && frm.get('introduction')?.touched) {
+      <span class="text-danger">Vui lòng nhập giới thiệu</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="lyric">Lời bài hát</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Lời bài hát..."
+        formControlName="lyric"
+        id="lyric"
+      ></textarea>
+      @if(frm.get('lyric')?.errors && frm.get('lyric')?.touched) {
+      <span class="text-danger">Vui lòng lời bài hát</span>
+      }
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
