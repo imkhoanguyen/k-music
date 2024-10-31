@@ -70,9 +70,9 @@ namespace API.Controllers
         [HttpPut("update-vip/{songId:int}")]
         public async Task<ActionResult> UpdateSongVip([FromRoute] int songId, [FromBody] bool vip)
         {
-            var song = await _songService.UpdateVipAsync(songId, vip);
+            await _songService.UpdateVipAsync(songId, vip);
 
-            return Ok(song);
+            return NoContent();
         }
 
     }

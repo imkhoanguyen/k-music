@@ -13,6 +13,6 @@ namespace KM.Application.Service.Abstract
         Task<SongDto> CreateAsync(SongCreateDto songCreateDto);
         Task<SongDto> UpdateAsync(int songId, SongUpdateDto songUpdateDto);
         Task DeleteAsync(Expression<Func<Song, bool>> expression);
-        Task<SongDto> UpdateVipAsync(int songId, bool vip);
+        Task UpdateVipAsync(int songId, bool vip);
     }
 }

@@ -59,7 +59,9 @@ namespace KM.Application.Service.Implementation
             // save to db
             if (await _unit.CompleteAsync())
             {
-               return SongMapper.EntityToSongDto(song); // map song to songDto
+               // get new song because current song have not song list and genre list
+               var songToReturn = await _unit.Song.GetAsync(s => s.Id == song.Id);
+               return SongMapper.EntityToSongDto(songToReturn); // map song to songDto
             }
 
             throw new BadRequestException("Xảy ra lỗi khi thêm bài hát");
@@ -184,18 +186,18 @@ namespace KM.Application.Service.Implementation
             throw new BadRequestException("Xảy ra lỗi khi cập nhật bài hát");
         }
 
-        public async Task<SongDto> UpdateVipAsync(int songId, bool vip)
+        public async Task UpdateVipAsync(int songId, bool vip)
         {
             var song = await _unit.Song.GetAsync(s => s.Id == songId);
             if (song == null) throw new NotFoundException("Không tìm thấy bài hát");
 
             await _unit.Song.UpdateSongVipAsync(songId, vip);
 
-            if (await _unit.CompleteAsync())
+            if (!await _unit.CompleteAsync())
             {
-                return SongMapper.EntityToSongDto(song);
+                throw new BadRequestException("Xảy ra lỗi khi cập nhật vip của bài hát");
             }
-            throw new BadRequestException("Xảy ra lỗi khi cập nhật vip của bài hát");
+            
         }
     }
 }
