@@ -83,10 +83,10 @@ namespace KM.Application.Service.Implementation
                 throw new BadRequestException("Id không khớp. Không thể cập nhật");
             }
 
-            if (!_unit.Genre.Query().Any(g => g.Id == id))
+            if (!await _unit.Genre.ExistsAsync(g => g.Id == id))
                 throw new NotFoundException("Không tìm thấy thể loại");
 
-            if (_unit.Genre.Query().Any(g => g.Name.ToLower() == dto.Name.ToLower() && g.Id != id))
+            if (await _unit.Genre.ExistsAsync(g => g.Name.ToLower() == dto.Name.ToLower() && g.Id != id))
                 throw new BadRequestException("Tên thể loại đã tồn tại");
 
             var genre = GenreMapper.GenreDtoToEntity(dto);
