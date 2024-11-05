@@ -109,15 +109,16 @@
     autocomplete="off"
     *nzModalContent
   >
-    @if (validationErrors) {
-    <div class="mx-auto my-4 bg-danger text-white rounded">
+    <div
+      *ngIf="validationErrors && validationErrors.length > 0"
+      class="mx-auto mb-4 bg-danger text-white rounded"
+    >
       <ul class="list-unstyled p-3">
-        @for (error of validationErrors; track $index) {
-        <li class="mb-2">{{ error }}</li>
-        }
+        <li *ngFor="let error of validationErrors; let i = index" class="mb-2">
+          {{ error }}
+        </li>
       </ul>
     </div>
-    }
 
     <div class="mb-3">
       <label class="form-label" for="">Thể loại</label>

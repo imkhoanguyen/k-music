@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { GenreService } from '../../../core/services/genre.service';
 import { Pagination } from '../../../shared/models/pagination';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-genre',
@@ -31,6 +32,7 @@ import { Pagination } from '../../../shared/models/pagination';
     NzModalModule,
     ReactiveFormsModule,
     FormsModule,
+    CommonModule,
   ],
 
   templateUrl: './genre.component.html',
@@ -76,7 +78,7 @@ export class GenreComponent implements OnInit {
         this.pagination = response.pagination as Pagination;
       },
       error: (er) => {
-        this.messageServies.showError(er.message);
+        console.log(er);
       },
     });
   }
@@ -143,6 +145,7 @@ export class GenreComponent implements OnInit {
           const index = this.genres.findIndex((g) => g.id === genreEdit.id);
           this.genres[index] = genre;
           this.messageServies.showSuccess('Cập nhật thể loại thành công');
+          this.closeModal();
         },
         error: (er) => {
           this.validationErrors = er;
@@ -159,13 +162,13 @@ export class GenreComponent implements OnInit {
         next: (response) => {
           this.genres.unshift(response);
           this.messageServies.showSuccess('Thêm thể loại thành công');
+          this.closeModal();
         },
         error: (er) => {
-          this.validationErrors = er;
+          console.log(er);
         },
       });
     }
-    this.closeModal();
   }
 
   showDeleteConfirm(id: number) {
@@ -187,7 +190,7 @@ export class GenreComponent implements OnInit {
             this.genres.splice(index, 1);
             this.messageServies.showSuccess('Xóa thể loại thành công');
           },
-          error: (er) => this.messageServies.showError(er.error),
+          error: (er) => (this.validationErrors = er),
         });
       },
       nzCancelText: 'No',
