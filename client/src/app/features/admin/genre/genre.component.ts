@@ -40,7 +40,7 @@ export class GenreComponent implements OnInit {
   private genreServices = inject(GenreService);
   private messageServies = inject(MessageService);
   private fb = inject(FormBuilder);
-  constructor(private modal: NzModalService) {}
+  private modal = inject(NzModalService);
   genres: Genre[] = [];
   genreParams = new GenreParams();
   // att pagination
@@ -54,6 +54,7 @@ export class GenreComponent implements OnInit {
   frm: FormGroup = new FormGroup({});
   isVisibleModal = false;
   isUpdate = false;
+  validationErrors?: string[];
   private genreId: number = 0;
 
   ngOnInit(): void {
@@ -124,6 +125,7 @@ export class GenreComponent implements OnInit {
     this.isVisibleModal = false;
     this.isUpdate = false;
     this.genreId = 0;
+    this.validationErrors = [];
     this.frm.reset();
   }
 
@@ -137,14 +139,13 @@ export class GenreComponent implements OnInit {
       };
 
       this.genreServices.updateGenre(genreEdit.id || 0, genreEdit).subscribe({
-        next: (_) => {
+        next: (genre) => {
           const index = this.genres.findIndex((g) => g.id === genreEdit.id);
-          this.editGenre(index, genreEdit);
+          this.genres[index] = genre;
           this.messageServies.showSuccess('Cập nhật thể loại thành công');
         },
         error: (er) => {
-          const errorJson = JSON.stringify(er.error, null, 2);
-          this.messageServies.showError(errorJson);
+          this.validationErrors = er;
         },
       });
     } else {
@@ -160,17 +161,11 @@ export class GenreComponent implements OnInit {
           this.messageServies.showSuccess('Thêm thể loại thành công');
         },
         error: (er) => {
-          const errorJson = JSON.stringify(er.error, null, 2);
-          this.messageServies.showError(errorJson);
+          this.validationErrors = er;
         },
       });
     }
     this.closeModal();
-  }
-
-  editGenre(index: number, newGenre: Genre) {
-    this.genres[index].name = newGenre.name;
-    this.genres[index].description = newGenre.description;
   }
 
   showDeleteConfirm(id: number) {

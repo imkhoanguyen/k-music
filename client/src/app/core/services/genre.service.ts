@@ -49,7 +49,7 @@ export class GenreService {
   }
 
   updateGenre(genreId: number, genre: Genre) {
-    return this.http.put(this.baseUrl + `genre/${genreId}`, genre);
+    return this.http.put<Genre>(this.baseUrl + `genre/${genreId}`, genre);
   }
 
   deleteGenre(genreId: number) {
