@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ServerErrorComponent } from './shared/component/server-error/server-error.component';
+import { NotFoundComponent } from './shared/component/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -7,9 +9,11 @@ export const routes: Routes = [
       import('./features/admin/admin.module').then((m) => m.AdminModule),
   },
   {
-    path: '',
+    path: '', // default
     loadChildren: () =>
       import('./features/client/client.module').then((m) => m.ClientModule),
-  }, // Default route
-  { path: '**', redirectTo: 'home' }, // Wildcard route for invalid URLs
+  },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];
