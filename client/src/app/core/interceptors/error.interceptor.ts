@@ -21,14 +21,19 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               }
               throw modalStateErrors.flat();
             } else {
-              messageService.showError(error.error.statusCode + ' - ' + error.error.message)
+              messageService.showError(
+                error.error.statusCode + ' - ' + error.error.message
+              );
             }
             break;
           case 401:
             messageService.showError(error.statusCode + '-' + 'Unauthorised');
             break;
           case 404:
-            router.navigateByUrl('/not-found');
+            const navigationExtrasNotFound: NavigationExtras = {
+              state: { error: error.error },
+            };
+            router.navigateByUrl('/not-found', navigationExtrasNotFound);
             break;
           case 500:
             const navigationExtras: NavigationExtras = {
@@ -43,5 +48,5 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       }
       throw error;
     })
-  )
+  );
 };
