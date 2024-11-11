@@ -1,0 +1,61 @@
+<div class="bg">
+  <h1 class="login-title">Đăng ký / K-music</h1>
+  <div class="login-box">
+    <form>
+      <div class="mb-3">
+        <input nz-input placeholder="Enter username " type="text" />
+      </div>
+      <div class="mb-3">
+        <input nz-input placeholder="Enter your email " type="text" />
+      </div>
+      <div class="mb-3">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            placeholder="Enter password"
+          />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            class="ant-input-password-icon"
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
+      </div>
+
+      <div class="mb-3">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            placeholder="Enter confirm password"
+          />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            class="ant-input-password-icon"
+            [nzType]="confirmPassworVisible ? 'eye-invisible' : 'eye'"
+            (click)="confirmPassworVisible = !confirmPassworVisible"
+          ></span>
+        </ng-template>
+      </div>
+
+      <div class="mb-3">
+        <nz-select [(ngModel)]="selectedGender" name="gender">
+          @for (gender of genderList; track gender) {
+          <nz-option [nzValue]="gender.value" [nzLabel]="gender.dislay">
+          </nz-option>
+          }
+        </nz-select>
+      </div>
+
+      <div class="d-flex gap-3">
+        <button nz-button nzType="primary" nzvalue="large">Đăng ký</button>
+      </div>
+    </form>
+  </div>
+</div>
