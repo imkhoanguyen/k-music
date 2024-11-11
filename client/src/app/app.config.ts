@@ -14,7 +14,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
 
+// Import specific icons
+import {
+  EyeOutline,
+  EyeInvisibleOutline,
+} from '@ant-design/icons-angular/icons';
+
+// Define icons array
+const icons = [EyeOutline, EyeInvisibleOutline];
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
@@ -25,5 +34,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
+    provideNzIcons(icons),
   ],
 };

@@ -7,11 +7,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .login-box {
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
-  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .login-title {
@@ -20,4 +20,26 @@
   text-align: center;
   margin-bottom: 20px;
   color: white;
+}
+
+[nz-button] {
+  width: 100%;
+}
+
+form {
+  min-width: 300px;
+}
+
+.link {
+  font-size: 14px;
+}
+
+.btn-log-gg {
+  background-color: #c84433;
+  border: #c84433;
+  transition: background-color 0.9s, transform 0.9s;
+}
+
+.btn-log-gg:hover {
+  background-color: #f07b6e;
 }

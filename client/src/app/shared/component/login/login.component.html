@@ -1,14 +1,64 @@
 <div class="bg">
+  <h1 class="login-title">Đăng nhập / K-music</h1>
   <div class="login-box">
-    <div class="login-title">Yin-music 后台管理</div>
     <form>
       <div class="mb-3">
-        <input type="text" class="form-control" placeholder="admin" />
+        <input nz-input placeholder="Enter user name or email" type="text" />
       </div>
       <div class="mb-3">
-        <input type="password" class="form-control" placeholder="•••" />
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            placeholder="Enter your password"
+          />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            class="ant-input-password-icon"
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
       </div>
-      <button type="submit" class="btn btn-primary w-100">登录</button>
+      <div class="mb-3 d-flex">
+        <label
+          nz-checkbox
+          [(ngModel)]="checked"
+          name="checkboxName"
+          class="me-auto"
+          >Remember me</label
+        >
+        <a class="link" href="#">Quên mật khẩu</a>
+      </div>
+      <div class="d-flex gap-3">
+        <button nz-button nzType="default" nzvalue="large">Đăng ký</button>
+
+        <button nz-button nzType="primary" nzvalue="large">Đăng nhập</button>
+      </div>
     </form>
+    <nz-divider nzText="Hoặc"></nz-divider>
+    <div class="d-flex gap-3 justify-content-center align-items-center">
+      <button
+        nz-button
+        nzType="primary"
+        class="btn-log-gg d-flex gap-2 justify-content-center align-items-center"
+        nzvalue="large"
+      >
+        <i class="bi bi-google"></i>
+        <span>Google</span>
+      </button>
+
+      <button
+        nz-button
+        nzType="primary"
+        class="d-flex gap-2 justify-content-center align-items-center"
+        nzvalue="large"
+      >
+        <i class="bi bi-facebook"></i>
+        <span>Facebook</span>
+      </button>
+    </div>
   </div>
 </div>
