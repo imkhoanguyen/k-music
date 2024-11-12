@@ -1,5 +1,6 @@
 ﻿using API.Middleware;
 using API.Service.Abstract;
+using API.Service.Implementation;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
 using KM.Application.Service.Implementation;
@@ -38,11 +39,10 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
     opt.SignIn.RequireConfirmedEmail = false;
 })
     .AddRoles<AppRole>()
-    .AddRoleManager<AppRole>()
+    .AddRoleManager<RoleManager<AppRole>>()
     .AddEntityFrameworkStores<MusicContext>()
-    .AddSignInManager<AppUser>()
-    .AddUserManager<AppUser>()
-    .AddRoleManager<AppRole>()
+    .AddSignInManager<SignInManager<AppUser>>()
+    .AddUserManager<UserManager<AppUser>>()
     .AddDefaultTokenProviders(); // be able to create tokens for email confirmation
 
 
@@ -69,7 +69,7 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<ISingerService, SingerService>();
 builder.Services.AddScoped<ISongService, SongService>();
-builder.Services.AddScoped<ITokenService, ITokenService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
