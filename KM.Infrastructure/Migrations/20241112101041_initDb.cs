@@ -200,14 +200,13 @@ namespace KM.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsVip = table.Column<bool>(type: "bit", nullable: false),
-                    VipExpiryDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VipExpiryDay = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VipPlanId = table.Column<int>(type: "int", nullable: false),
+                    VipPlanId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -230,8 +229,7 @@ namespace KM.Infrastructure.Migrations
                         name: "FK_AspNetUsers_VipPlans_VipPlanId",
                         column: x => x.VipPlanId,
                         principalTable: "VipPlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

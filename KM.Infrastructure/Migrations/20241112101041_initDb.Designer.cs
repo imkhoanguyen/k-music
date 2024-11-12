@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241026163353_initDb")]
+    [Migration("20241112101041_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -46,9 +46,6 @@ namespace KM.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Fullname")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -95,10 +92,10 @@ namespace KM.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime>("VipExpiryDay")
+                    b.Property<DateTime?>("VipExpiryDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VipPlanId")
+                    b.Property<int?>("VipPlanId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -640,9 +637,7 @@ namespace KM.Infrastructure.Migrations
                 {
                     b.HasOne("KM.Domain.Entities.VipPlan", "VipPlan")
                         .WithMany()
-                        .HasForeignKey("VipPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VipPlanId");
 
                     b.Navigation("VipPlan");
                 });

@@ -7,7 +7,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { MessageService } from '../../../core/services/message.service';
-import { NzI18nService, en_US } from 'ng-zorro-antd/i18n';
 import { FormsModule } from '@angular/forms';
 
 import {

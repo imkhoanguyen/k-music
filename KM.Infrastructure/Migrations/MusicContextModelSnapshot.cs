@@ -44,9 +44,6 @@ namespace KM.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Fullname")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
@@ -92,10 +89,10 @@ namespace KM.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime>("VipExpiryDay")
+                    b.Property<DateTime?>("VipExpiryDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VipPlanId")
+                    b.Property<int?>("VipPlanId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -637,9 +634,7 @@ namespace KM.Infrastructure.Migrations
                 {
                     b.HasOne("KM.Domain.Entities.VipPlan", "VipPlan")
                         .WithMany()
-                        .HasForeignKey("VipPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VipPlanId");
 
                     b.Navigation("VipPlan");
                 });
