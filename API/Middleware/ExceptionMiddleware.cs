@@ -38,6 +38,10 @@ namespace API.Middleware
                         status = HttpStatusCode.BadRequest;
                         message = ex.Message;
                         break;
+                    case UnauthorizedException:
+                        status = HttpStatusCode.Unauthorized;
+                        message = ex.Message;
+                        break;
                     default:
                         status = HttpStatusCode.InternalServerError;
                         message = "An unexpected error occurred.";
