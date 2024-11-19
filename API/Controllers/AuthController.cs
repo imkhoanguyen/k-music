@@ -43,8 +43,11 @@ namespace API.Controllers
             {
                 Id = user.Id,
                 UserName = user.UserName,
+                FullName = user.FullName,
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user),
+                Gender = user.Gender.ToString(),
+                ImgUrl = user.ImgUrl,
+                Token = await _tokenService.CreateTokenAsync(user),
             });
         }
 
@@ -69,6 +72,7 @@ namespace API.Controllers
             var userToAdd = new AppUser
             {
                 UserName = dto.UserName,
+                FullName = dto.FullName,
                 Email = dto.Email,
                 Gender = Enum.Parse<Gender>(dto.Gender, true)
             };
