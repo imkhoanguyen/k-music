@@ -23,6 +23,7 @@ namespace KM.Infrastructure.DataAccess
         public DbSet<Comment> Comments { get; set; }
         public DbSet<SongSinger> SongSingers { get; set; }
         public DbSet<SongGenre> SongGenres { get; set; }
+        public DbSet<AppRole> AppRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

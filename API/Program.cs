@@ -7,6 +7,7 @@ using KM.Application.Service.Implementation;
 using KM.Domain.Entities;
 using KM.Infrastructure.Configuration;
 using KM.Infrastructure.DataAccess;
+using KM.Infrastructure.DataAccess.SeedData;
 using KM.Infrastructure.Repositories;
 using KM.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -93,5 +94,24 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// seed data
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var context = services.GetRequiredService<MusicContext>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    await context.Database.MigrateAsync();
+    await RoleSeed.SeedAsync(roleManager);
+    await UserSeed.SeedAsync(userManager);
+} catch(Exception ex)
+{
+    Console.WriteLine(ex);
+    throw;
+}
+
 
 app.Run();
