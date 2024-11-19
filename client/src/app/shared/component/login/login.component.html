@@ -1,9 +1,14 @@
 <div class="bg">
   <h1 class="login-title">Đăng nhập / K-music</h1>
   <div class="login-box">
-    <form>
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()" autocomplete="off">
       <div class="mb-3">
-        <input nz-input placeholder="Enter user name or email" type="text" />
+        <input
+          nz-input
+          placeholder="Enter user name or email"
+          type="text"
+          formControlName="userName"
+        />
       </div>
       <div class="mb-3">
         <nz-input-group [nzSuffix]="suffixTemplate">
@@ -11,6 +16,7 @@
             [type]="passwordVisible ? 'text' : 'password'"
             nz-input
             placeholder="Enter your password"
+            formControlName="password"
           />
         </nz-input-group>
         <ng-template #suffixTemplate>
@@ -21,16 +27,6 @@
             (click)="passwordVisible = !passwordVisible"
           ></span>
         </ng-template>
-      </div>
-      <div class="mb-3 d-flex">
-        <label
-          nz-checkbox
-          [(ngModel)]="checked"
-          name="checkboxName"
-          class="me-auto"
-          >Remember me</label
-        >
-        <a class="link" href="#">Quên mật khẩu</a>
       </div>
       <div class="d-flex gap-3">
         <button nz-button nzType="default" nzvalue="large">Đăng ký</button>
