@@ -27,7 +27,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             }
             break;
           case 401:
-            messageService.showError(error.statusCode + '-' + 'Unauthorised');
+            messageService.showError(
+              error.error.statusCode + ' - ' + error.error.message
+            );
             break;
           case 404:
             const navigationExtrasNotFound: NavigationExtras = {
