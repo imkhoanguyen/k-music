@@ -24,6 +24,7 @@ namespace KM.Infrastructure.DataAccess
         public DbSet<SongSinger> SongSingers { get; set; }
         public DbSet<SongGenre> SongGenres { get; set; }
         public DbSet<AppRole> AppRoles { get; set; }
+        public DbSet<PlaylistSong> PlaylistSongs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

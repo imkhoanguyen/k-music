@@ -7,6 +7,8 @@
         ISongRepository Song { get; }
         ISongGenreRepository SongGenre { get; }
         ISongSingerRepository SongSinger { get; }
+        IPlaylistRepository Playlist { get; }
+        IPlaylistSongRepository PlaylistSong { get; }
         Task<bool> CompleteAsync();
     }
 }

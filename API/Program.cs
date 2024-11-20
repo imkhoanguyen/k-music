@@ -71,6 +71,7 @@ builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<ISingerService, SingerService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 
 var app = builder.Build();
 
@@ -107,6 +108,9 @@ try
     await context.Database.MigrateAsync();
     await RoleSeed.SeedAsync(roleManager);
     await UserSeed.SeedAsync(userManager);
+    await GenreSeed.SeedAsync(context);
+    await SingerSeed.SeedAsync(context);
+    await SongSeed.SeedAsync(context);
 } catch(Exception ex)
 {
     Console.WriteLine(ex);

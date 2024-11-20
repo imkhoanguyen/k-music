@@ -3,9 +3,9 @@
     public class Playlist : BaseEntity
     {
         public required string Name { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Updated { get; set; }
-        public required string ImgUrl { get; set; }
+        public string ImgUrl { get; set; } = string.Empty;
         public string? PublicId { get; set; }
         public int PlayCount { get; set; }
         public bool IsPublic { get; set; } = true;

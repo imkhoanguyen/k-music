@@ -1,5 +1,4 @@
 ﻿using KM.Application.Repositories;
-using KM.Domain.Entities;
 using KM.Infrastructure.DataAccess;
 
 namespace KM.Infrastructure.Repositories
@@ -17,6 +16,10 @@ namespace KM.Infrastructure.Repositories
 
         public ISongSingerRepository SongSinger { get; private set; }
 
+        public IPlaylistRepository Playlist { get; private set; }
+
+        public IPlaylistSongRepository PlaylistSong { get; private set; }
+
         public UnitOfWork(MusicContext context)
         {
             _context = context;
@@ -25,6 +28,8 @@ namespace KM.Infrastructure.Repositories
             Song = new SongRepository(_context);
             SongGenre = new SongGenreRepository(_context);
             SongSinger = new SongSingerRepository(_context);
+            Playlist = new PlaylistRepository(_context);
+            PlaylistSong = new PlaylistSongRepository(_context);
         }
 
         public async Task<bool> CompleteAsync()
