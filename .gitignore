@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /API/appsettings.json
+/KM.Infrastructure/Migrations/20241120045710_initDb.cs
+/KM.Infrastructure/Migrations/20241120045710_initDb.Designer.cs
