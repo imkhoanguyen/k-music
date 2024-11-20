@@ -1,5 +1,6 @@
 ﻿using KM.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace KM.Infrastructure.DataAccess.SeedData
 {
@@ -7,7 +8,7 @@ namespace KM.Infrastructure.DataAccess.SeedData
     {
         public static async Task SeedAsync(UserManager<AppUser> userManager)
         {
-            if (userManager.Users.Any()) return;
+            if (await userManager.Users.AnyAsync()) return;
 
             var users = new List<AppUser>
             {

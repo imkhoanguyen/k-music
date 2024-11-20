@@ -1,5 +1,6 @@
 ﻿using KM.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace KM.Infrastructure.DataAccess.SeedData
 {
@@ -7,7 +8,7 @@ namespace KM.Infrastructure.DataAccess.SeedData
     {
         public static async Task SeedAsync(RoleManager<AppRole> roleManager)
         {
-            if (roleManager.Roles.Any()) return;
+            if (await roleManager.Roles.AnyAsync()) return;
 
             var roles = new List<AppRole>
             {
