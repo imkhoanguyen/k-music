@@ -32,10 +32,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             );
             break;
           case 404:
-            const navigationExtrasNotFound: NavigationExtras = {
-              state: { error: error.error },
-            };
-            router.navigateByUrl('/not-found', navigationExtrasNotFound);
+            messageService.showError(
+              error.error.statusCode + ' - ' + error.error.message
+            );
             break;
           case 500:
             const navigationExtras: NavigationExtras = {
