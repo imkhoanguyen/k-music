@@ -21,6 +21,7 @@ import {
   EyeOutline,
   EyeInvisibleOutline,
 } from '@ant-design/icons-angular/icons';
+import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 // Define icons array
 const icons = [EyeOutline, EyeInvisibleOutline];
@@ -33,7 +34,9 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
+    provideHttpClient(
+      withInterceptors([errorInterceptor, jwtInterceptor, loadingInterceptor])
+    ),
     provideNzIcons(icons),
   ],
 };
