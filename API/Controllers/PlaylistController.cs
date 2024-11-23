@@ -28,7 +28,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PlaylistDto>> CreatePlaylist([FromForm] PlaylistCreateDto dto)
         {
-            if (ModelState.IsValid)
+            dto.UserId = User.GetUserId();
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
