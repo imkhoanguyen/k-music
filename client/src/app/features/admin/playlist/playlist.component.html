@@ -1,0 +1,205 @@
+<h1 class="mb-4">Quản lý danh sách phát</h1>
+
+<!-- search & add btn -->
+<div class="d-flex gap-2 mb-3">
+  <button
+    nz-button
+    nz-popover
+    nzType="primary"
+    nzPopoverTitle="Thêm danh sách phát"
+    [nzPopoverContent]="contentTemplate"
+  >
+    <i class="bi bi-plus-circle me-2"></i> <span> Thêm danh sách phát</span>
+  </button>
+
+  <ng-template #contentTemplate>
+    <div class="d-flex gap-3">
+      <button nz-button nzType="primary" (click)="openNomarlAddModal()">
+        Thêm thủ công
+      </button>
+      <button nz-button nzType="primary" (click)="showModal()">
+        Thêm tự động
+      </button>
+    </div>
+  </ng-template>
+
+  <form (ngSubmit)="onSearch()" autocomplete="off">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="Nhập thể loại"
+        [(ngModel)]="prm.searchTerm"
+        name="searchTerm"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </form>
+</div>
+
+<!-- table playlist -->
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="playlists"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Ảnh bìa</th>
+        <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
+          Tên danh sách phát
+        </th>
+        <th>Ngày tạo</th>
+        <th>Ngày cập nhật</th>
+        <th>Lượt nghe</th>
+        <th style="width: 10%">Trạng thái</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (playlist of playlists; track playlist.id) {
+      <tr>
+        <td class="text-center">{{ playlist.id }}</td>
+        <td class="image-column">
+          <img
+            nz-image
+            nzSrc="{{ playlist.imgUrl }}"
+            alt="{{ playlist.name }}"
+            class="img-table"
+          />
+        </td>
+        <td>{{ playlist.name }}</td>
+        <td>{{ ultilSerivce.getFormattedDate(playlist.created) }}</td>
+        <td>{{ ultilSerivce.getFormattedDate(playlist.updated) }}</td>
+        <td>{{ playlist.playCount }}</td>
+        <td class="fw-bold">
+          <nz-tag
+            *ngIf="playlist.isPublic === true; else draftStatus"
+            [nzColor]="ultilSerivce.publicStatus"
+          >
+            {{ ultilSerivce.publicStatusString }}
+          </nz-tag>
+          <ng-template #draftStatus>
+            <nz-tag [nzColor]="ultilSerivce.privateStatus">
+              {{ ultilSerivce.privateStatusString }}
+            </nz-tag>
+          </ng-template>
+        </td>
+        <!-- <td>
+          <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-6" (click)="showModal(genre.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(genre.id || 0)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td> -->
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>
+
+<!-- modal edit playlist -->
+<nz-modal
+  [(nzVisible)]="isVisibleModal"
+  nzTitle="Thêm thể loại"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+  >
+    <div
+      *ngIf="validationErrors && validationErrors.length > 0"
+      class="mx-auto mb-4 bg-danger text-white rounded"
+    >
+      <ul class="list-unstyled p-3">
+        <li *ngFor="let error of validationErrors; let i = index" class="mb-2">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="">Thể loại</label>
+      <input
+        nz-input
+        placeholder="Nhập thể loại"
+        type="text"
+        formControlName="name"
+      />
+      @if(frm.get('name')?.errors && frm.get('name')?.touched) {
+      <span class="text-danger">Vui lòng nhập thể loại</span>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="">Mô tả</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Nhập mô tả"
+        formControlName="description"
+      ></textarea>
+      @if(frm.get('description')?.errors && frm.get('description')?.touched) {
+      <span class="text-danger">Vui lòng nhập mô tả</span>
+      }
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
+
+<!-- normal add playlist modal -->
+<app-add-playlist (playlistAdded)="addNewPlaylist($event)"></app-add-playlist>

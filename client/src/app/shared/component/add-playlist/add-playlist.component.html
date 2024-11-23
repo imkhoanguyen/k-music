@@ -1,0 +1,237 @@
+<!-- add-playlist.component.html -->
+<nz-modal
+  [nzStyle]="{ top: '20px', width: '1000px' }"
+  [(nzVisible)]="isVisibleModal"
+  nzTitle="Thêm danh sách phát thủ công"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+  >
+    <div
+      *ngIf="validationErrors && validationErrors.length > 0"
+      class="mx-auto mb-4 bg-danger text-white rounded"
+    >
+      <ul class="list-unstyled p-3">
+        <li *ngFor="let error of validationErrors; let i = index" class="mb-2">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="mb-3">
+          <label class="form-label" for="">Tên danh sách phát</label>
+          <input
+            nz-input
+            placeholder="Nhập tên danh sách phát"
+            formControlName="name"
+          />
+          <div
+            *ngIf="frm.get('name')?.errors?.['required'] && frm.get('name')?.touched"
+            class="text-danger"
+          >
+            Vui lòng nhập tên danh sách phát.
+          </div>
+        </div>
+
+        <!-- <div class="mb-3">
+          <nz-radio-group [(ngModel)]="radioValue">
+            <label
+              nz-radio
+              nzValue="false"
+              [style]="{ color: ultilService.privateStatus }"
+              >Private</label
+            >
+            <label
+              nz-radio
+              nzValue="true"
+              [style]="{ color: ultilService.publicStatus }"
+              >Public</label
+            >
+            <
+          </nz-radio-group>
+        </div> -->
+
+        <div class="mb-3">
+          <div class="row">
+            <label class="form-label">Ảnh bìa danh sách phát</label>
+            <nz-upload
+              [nzBeforeUpload]="beforeUploadImg"
+              nzMultiple="false"
+              [nzShowUploadList]="false"
+            >
+              <button nz-button type="button">
+                <i nz-icon nzType="upload"></i>
+                Upload ảnh bìa danh sách phát
+              </button>
+            </nz-upload>
+          </div>
+
+          @if(previewImage) {
+          <img
+            [src]="previewImage"
+            alt="Image Preview"
+            style="max-width: 100%; margin-top: 10px; object-fit: cover"
+          />
+          }
+          <!-- input img -->
+          <input type="hidden" formControlName="imgFile" />
+
+          @if(frm.get('imgFile')?.errors && frm.get('imgFile')?.touched) {
+          <span class="text-danger">Vui lòng upload ảnh danh sách phát</span>
+          }
+        </div>
+      </div>
+
+      <!-- search song -->
+      <div class="col-6">
+        <!-- form search -->
+        <div class="mb-3">
+          <form (ngSubmit)="loadSongs()" autocomplete="off">
+            <label class="form-label">Tìm kiếm bài hát</label>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input
+                type="text"
+                nz-input
+                placeholder="Nhập tên bài hát hoặc tên ca sĩ"
+                [(ngModel)]="prm.searchTerm"
+                name="searchTerm"
+              />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzType="primary" nzSearch>
+                <span nz-icon nzType="search"></span>
+              </button>
+            </ng-template>
+          </form>
+        </div>
+
+        <!-- table song search -->
+        <div class="table-responsive-custom">
+          <nz-table
+            [nzData]="songList"
+            nzTableLayout="auto"
+            [nzFrontPagination]="false"
+            [nzBordered]="false"
+          >
+            <tbody class="align-middle">
+              @for (song of songList; track song.id) {
+              <tr (click)="addToCurrentSongList(song)" style="cursor: pointer">
+                <td class="image-column">
+                  <img
+                    nz-image
+                    nzSrc="{{ song.imgUrl }}"
+                    alt="{{ song.name }}"
+                    class="img-table-mini"
+                  />
+                </td>
+                <td>
+                  <div class="d-flex gap-1 flex-column">
+                    <span
+                      class="fw-bold text-ellipsis"
+                      nz-tooltip
+                      [nzTooltipTitle]="song.name"
+                      [nzTooltipTrigger]="'hover'"
+                    >
+                      {{ song.name }}
+                    </span>
+                    <span
+                      class="text-ellipsis"
+                      nz-tooltip
+                      [nzTooltipTitle]="ultilService.getSingersString(song)"
+                      [nzTooltipTrigger]="'hover'"
+                    >
+                      {{ ultilService.getSingersString(song) }}
+                    </span>
+                  </div>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-sm fs-6">
+                    <i class="bi bi-plus-circle"></i>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </nz-table>
+        </div>
+
+        <!-- pagination -->
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <nz-pagination
+            [nzPageIndex]="pagination.currentPage"
+            [nzTotal]="pagination.totalItems"
+            [nzSize]="'default'"
+            [nzPageSize]="pagination.itemsPerPage"
+            (nzPageIndexChange)="onPageIndexChange($event)"
+            (nzPageSizeChange)="onPageSizeChange($event)"
+            [nzShowTotal]="totalTemplate"
+          ></nz-pagination>
+          <ng-template #totalTemplate let-total
+            >Total {{ total }} items</ng-template
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- current song list in playlist -->
+    <div *ngIf="currentSongList.length > 0" class="mb-2">Danh sách bài hát</div>
+    <!-- table current song -->
+    <div *ngIf="currentSongList.length > 0" class="table-responsive-custom">
+      <nz-table
+        [nzData]="songList"
+        nzTableLayout="auto"
+        [nzFrontPagination]="false"
+        [nzBordered]="false"
+      >
+        <tbody class="align-middle">
+          @for (song of currentSongList; track song.id) {
+          <tr>
+            <td class="image-column">
+              <img
+                nz-image
+                nzSrc="{{ song.imgUrl }}"
+                alt="{{ song.name }}"
+                class="img-table-mini"
+              />
+            </td>
+            <td>
+              <div class="d-flex gap-1 flex-column">
+                <span class="fw-bold">{{ song.name }} </span>
+                <span>{{ ultilService.getSingersString(song) }}</span>
+              </div>
+            </td>
+
+            <td>
+              <button class="btn btn-sm fs-6" (click)="deleteSong(song.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
