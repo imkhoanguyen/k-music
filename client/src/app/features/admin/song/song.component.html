@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<!-- table genre -->
+<!-- table song -->
 <div class="table-responsive-custom">
   <nz-table
     [nzData]="songs"
@@ -81,12 +81,12 @@
       @for (song of songs; track song.id) {
       <tr>
         <td class="text-center">{{ song.id }}</td>
-        <td class="d-flex align-items-center justify-content-center">
+        <td class="image-column">
           <img
-            src="{{ song.imgUrl }}"
+            class="img-table"
+            nz-image
+            nzSrc="{{ song.imgUrl }}"
             alt="{{ song.name }}"
-            width="100"
-            style="object-fit: cover"
           />
         </td>
         <td>

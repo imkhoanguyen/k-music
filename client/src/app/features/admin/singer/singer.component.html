@@ -104,12 +104,12 @@
       @for (singer of singers; track singer.id) {
       <tr>
         <td class="text-center">{{ singer.id }}</td>
-        <td>
+        <td class="image-column">
           <img
-            src="{{ singer.imgUrl }}"
+            class="img-table"
+            nz-image
+            nzSrc="{{ singer.imgUrl }}"
             alt="{{ singer.name }}"
-            width="100"
-            style="object-fit: cover"
           />
         </td>
         <td>

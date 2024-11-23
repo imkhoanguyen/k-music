@@ -53,7 +53,7 @@ export class SingerService {
   }
 
   updateSinger(id: number, formData: FormData) {
-    return this.http.put(this.baseUrl + `singer/${id}`, formData);
+    return this.http.put<Singer>(this.baseUrl + `singer/${id}`, formData);
   }
 
   deleteSinger(id: number) {

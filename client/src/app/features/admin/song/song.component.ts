@@ -20,7 +20,6 @@ import {
 } from 'ng-zorro-antd/upload';
 import { SongService } from '../../../core/services/song.service';
 import { MessageService } from '../../../core/services/message.service';
-import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { Song, SongParams } from '../../../shared/models/song';
 import { GenreService } from '../../../core/services/genre.service';
 import { Genre } from '../../../shared/models/genre';
@@ -29,6 +28,7 @@ import { SingerService } from '../../../core/services/singer.service';
 import { Singer } from '../../../shared/models/singer';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { Router } from '@angular/router';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-song',
@@ -45,6 +45,7 @@ import { Router } from '@angular/router';
     NzSelectModule,
     NzUploadModule,
     NzSwitchModule,
+    NzImageModule,
   ],
   templateUrl: './song.component.html',
   styleUrl: './song.component.css',
@@ -57,82 +58,26 @@ export class SongComponent implements OnInit {
   private singerServices = inject(SingerService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  constructor(private modal: NzModalService, private i18n: NzI18nService) {}
+  constructor(private modal: NzModalService) {}
+  ngOnInit(): void {
+    this.loadSongs();
+    this.loadGenres();
+    this.loadSingers();
+    this.initSongForm();
+  }
 
-  //
+  // load song, singer, genre
   songs: Song[] = [];
   genres: Genre[] = [];
   singers: Singer[] = [];
   songParams = new SongParams();
 
-  // att pagination
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 5,
     totalItems: 0,
     totalPages: 1,
   };
-
-  // att main form (create & update singer)
-  frm: FormGroup = new FormGroup({});
-  isVisibleModal = false;
-  isUpdate = false;
-  private songId: number = 0;
-
-  // img preview
-  previewImage: string | ArrayBuffer | null = null;
-  // song file
-  songFile: File | null = null;
-
-  beforeUploadImg = (file: NzUploadFile): boolean => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        this.previewImage = e.target.result;
-      }
-    };
-    reader.readAsDataURL(file as any);
-
-    // path value to input
-    this.frm.patchValue({
-      imgFile: file,
-    });
-
-    return false; // Ngăn không cho upload tự động
-  };
-
-  handleChangeSongFile(info: NzUploadChangeParam): void {
-    const file = info.file;
-    this.songFile = file.originFileObj as File;
-  }
-
-  ngOnInit(): void {
-    this.loadSongs();
-    this.loadGenres();
-    this.loadSingers();
-    this.initSongForm();
-    this.i18n.setLocale(en_US);
-  }
-
-  getGenresString(song: Song) {
-    return song.genres.map((g: Genre) => g.name).join(', ');
-  }
-
-  getSingersString(song: Song) {
-    return song.singers.map((s: Singer) => s.name).join(', ');
-  }
-
-  initSongForm() {
-    this.frm = this.fb.group({
-      name: ['', Validators.required],
-      lyric: ['', Validators.required],
-      introduction: ['', Validators.required],
-      imgFile: [''],
-      songFile: [''],
-      genreList: [[], Validators.required],
-      singerList: [[], Validators.required],
-    });
-  }
 
   loadSongs() {
     this.songServices.getSongs(this.songParams).subscribe({
@@ -141,7 +86,6 @@ export class SongComponent implements OnInit {
         this.pagination = paginationResult.pagination as Pagination;
       },
       error: (er) => {
-        this.messageServies.showError(er.message);
         console.log(er);
       },
     });
@@ -152,7 +96,7 @@ export class SongComponent implements OnInit {
       next: (data) => {
         this.singers = data;
       },
-      error: (er) => this.messageServies.showError(er.message),
+      error: (er) => console.log(er),
     });
   }
 
@@ -161,10 +105,11 @@ export class SongComponent implements OnInit {
       next: (data) => {
         this.genres = data;
       },
-      error: (er) => this.messageServies.showError(er.message),
+      error: (er) => console.log(er),
     });
   }
 
+  //paging sorting
   onPageIndexChange(newPageNumber: number) {
     this.songParams.pageNumber = newPageNumber;
     this.loadSongs();
@@ -191,16 +136,21 @@ export class SongComponent implements OnInit {
     this.loadSongs();
   }
 
-  updateIsVip(songId: number, isVip: boolean) {
-    this.songServices.updateSongVip(songId, isVip).subscribe({
-      next: (_) => {
-        if (isVip === true)
-          this.messageServies.showSuccess(
-            'Chuyyển bài hát thành vip thành công'
-          );
-        else this.messageServies.showSuccess('Hủy vip của bài hát thành công');
-      },
-      error: (er) => this.messageServies.showError(er.error),
+  // form create, update song
+  frm: FormGroup = new FormGroup({});
+  isVisibleModal = false;
+  isUpdate = false;
+  private songId: number = 0;
+
+  initSongForm() {
+    this.frm = this.fb.group({
+      name: ['', Validators.required],
+      lyric: ['', Validators.required],
+      introduction: ['', Validators.required],
+      imgFile: [''],
+      songFile: [''],
+      genreList: [[], Validators.required],
+      singerList: [[], Validators.required],
     });
   }
 
@@ -258,13 +208,13 @@ export class SongComponent implements OnInit {
       }
       this.songServices.updateSong(this.songId, formData).subscribe({
         next: (response) => {
-          console.log(response);
-          this.loadSongs();
+          const index = this.songs.findIndex((s) => s.id === this.songId);
+          this.songs[index] = response;
           this.messageServies.showSuccess('Cập nhật bài hát thành công');
           this.closeModal();
         },
         error: (er) => {
-          this.messageServies.showError(er.message);
+          console.log(er);
         },
       });
     } else {
@@ -293,28 +243,68 @@ export class SongComponent implements OnInit {
       }
       this.songServices.addSong(formData).subscribe({
         next: (response) => {
-          console.log(response);
-          this.loadSongs();
+          this.songs.unshift(response);
           this.messageServies.showSuccess('Thêm bài hát thành công');
           this.loadGenres();
           this.loadSingers();
           this.closeModal();
         },
         error: (er) => {
-          this.messageServies.showError(er.message);
+          console.log(er);
         },
       });
     }
   }
 
-  editRow(index: number, song: Song) {
-    // this.singers[index].name = singer.name;
-    // this.singers[index].imgUrl = singer.imgUrl;
-    // this.singers[index].introduction = singer.introduction;
-    // this.singers[index].location = singer.location;
-    // this.singers[index].gender = singer.gender;
+  // img preview
+  previewImage: string | ArrayBuffer | null = null;
+  // song file
+  songFile: File | null = null;
+
+  beforeUploadImg = (file: NzUploadFile): boolean => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        this.previewImage = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file as any);
+
+    // path value to input
+    this.frm.patchValue({
+      imgFile: file,
+    });
+
+    return false; // Ngăn không cho upload tự động
+  };
+
+  handleChangeSongFile(info: NzUploadChangeParam): void {
+    const file = info.file;
+    this.songFile = file.originFileObj as File;
   }
 
+  getGenresString(song: Song) {
+    return song.genres.map((g: Genre) => g.name).join(', ');
+  }
+
+  getSingersString(song: Song) {
+    return song.singers.map((s: Singer) => s.name).join(', ');
+  }
+
+  updateIsVip(songId: number, isVip: boolean) {
+    this.songServices.updateSongVip(songId, isVip).subscribe({
+      next: (_) => {
+        if (isVip === true)
+          this.messageServies.showSuccess(
+            'Chuyyển bài hát thành vip thành công'
+          );
+        else this.messageServies.showSuccess('Hủy vip của bài hát thành công');
+      },
+      error: (er) => console.log(er),
+    });
+  }
+
+  // delete popup
   showDeleteConfirm(id: number) {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this task?',
@@ -333,7 +323,7 @@ export class SongComponent implements OnInit {
             this.songs.splice(index, 1);
             this.messageServies.showSuccess('Xóa bài hát thành công');
           },
-          error: (er) => this.messageServies.showError(er),
+          error: (er) => console.log(er),
         });
       },
       nzCancelText: 'No',

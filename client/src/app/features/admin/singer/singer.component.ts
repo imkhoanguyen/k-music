@@ -19,6 +19,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-singer',
@@ -34,6 +35,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
     FormsModule,
     NzSelectModule,
     NzUploadModule,
+    NzImageModule,
   ],
   templateUrl: './singer.component.html',
   styleUrl: './singer.component.css',
@@ -43,63 +45,24 @@ export class SingerComponent implements OnInit {
   private singerServices = inject(SingerService);
   private messageServies = inject(MessageService);
   private fb = inject(FormBuilder);
-  constructor(private modal: NzModalService, private i18n: NzI18nService) {}
+  constructor(private modal: NzModalService) {}
+  ngOnInit(): void {
+    this.loadSingers();
+    this.loadLocations();
+    this.initSingerForm();
+  }
 
-  //
+  // load singer and combobox
   singers: Singer[] = [];
   locations: string[] = [];
   singerParams = new SingerParams();
 
-  // att pagination
   pagination: Pagination = {
     currentPage: 1,
     itemsPerPage: 5,
     totalItems: 0,
     totalPages: 1,
   };
-
-  // att main form (create & update singer)
-  frm: FormGroup = new FormGroup({});
-  isVisibleModal = false;
-  isUpdate = false;
-  private singerId: number = 0;
-
-  // img preview
-  previewImage: string | ArrayBuffer | null = null;
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        this.previewImage = e.target.result; // Chỉ gán nếu result không phải undefined
-      }
-    };
-    reader.readAsDataURL(file as any); // Đọc file để hiển thị preview
-
-    // path value to input
-    this.frm.patchValue({
-      imgFile: file,
-    });
-
-    return false; // Ngăn không cho upload tự động
-  };
-
-  ngOnInit(): void {
-    this.loadSingers();
-    this.loadLocations();
-    this.initSingerForm();
-    this.i18n.setLocale(en_US);
-  }
-
-  initSingerForm() {
-    this.frm = this.fb.group({
-      name: ['', Validators.required],
-      gender: ['', Validators.required],
-      location: ['', Validators.required],
-      imgFile: [''],
-      introduction: ['', Validators.required],
-    });
-  }
 
   loadSingers() {
     this.singerServices.getSingers(this.singerParams).subscribe({
@@ -124,6 +87,7 @@ export class SingerComponent implements OnInit {
     });
   }
 
+  // search, paging, sort
   onPageIndexChange(newPageNumber: number) {
     this.singerParams.pageNumber = newPageNumber;
     this.loadSingers();
@@ -131,6 +95,10 @@ export class SingerComponent implements OnInit {
 
   onPageSizeChange(newPageSize: number) {
     this.singerParams.pageSize = newPageSize;
+    this.loadSingers();
+  }
+
+  onSearch() {
     this.loadSingers();
   }
 
@@ -148,8 +116,20 @@ export class SingerComponent implements OnInit {
     this.loadSingers();
   }
 
-  onSearch() {
-    this.loadSingers();
+  //form create and edit singer
+  frm: FormGroup = new FormGroup({});
+  isVisibleModal = false;
+  isUpdate = false;
+  private singerId: number = 0;
+
+  initSingerForm() {
+    this.frm = this.fb.group({
+      name: ['', Validators.required],
+      gender: ['', Validators.required],
+      location: ['', Validators.required],
+      imgFile: [''],
+      introduction: ['', Validators.required],
+    });
   }
 
   showModal(id?: number) {
@@ -192,13 +172,13 @@ export class SingerComponent implements OnInit {
       this.singerServices.updateSinger(this.singerId, formData).subscribe({
         next: (response) => {
           const index = this.singers.findIndex((s) => s.id === this.singerId);
-          this.editRow(index, response as Singer);
+          this.singers[index] = response;
           this.messageServies.showSuccess('Cập nhật ca sĩ thành công');
           this.closeModal();
           this.loadLocations();
         },
         error: (er) => {
-          this.messageServies.showError(er.message);
+          console.log(er);
         },
       });
     } else {
@@ -220,20 +200,33 @@ export class SingerComponent implements OnInit {
           this.loadLocations();
         },
         error: (er) => {
-          this.messageServies.showError(er.message);
+          console.log(er.message);
         },
       });
     }
   }
 
-  editRow(index: number, singer: Singer) {
-    this.singers[index].name = singer.name;
-    this.singers[index].imgUrl = singer.imgUrl;
-    this.singers[index].introduction = singer.introduction;
-    this.singers[index].location = singer.location;
-    this.singers[index].gender = singer.gender;
-  }
+  // img preview
+  previewImage: string | ArrayBuffer | null = null;
 
+  beforeUpload = (file: NzUploadFile): boolean => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        this.previewImage = e.target.result; // Chỉ gán nếu result không phải undefined
+      }
+    };
+    reader.readAsDataURL(file as any); // Đọc file để hiển thị preview
+
+    // path value to input
+    this.frm.patchValue({
+      imgFile: file,
+    });
+
+    return false; // Ngăn không cho upload tự động
+  };
+
+  // delete popup
   showDeleteConfirm(id: number) {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this task?',

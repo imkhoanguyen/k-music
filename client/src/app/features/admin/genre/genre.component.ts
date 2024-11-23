@@ -38,37 +38,26 @@ import { CommonModule } from '@angular/common';
   styleUrl: './genre.component.css',
 })
 export class GenreComponent implements OnInit {
+  // init
   private genreServices = inject(GenreService);
   private messageServies = inject(MessageService);
-  private fb = inject(FormBuilder);
   private modal = inject(NzModalService);
-  genres: Genre[] = [];
-  genreParams = new GenreParams();
-  // att pagination
-  pagination: Pagination = {
-    currentPage: 1,
-    itemsPerPage: 5,
-    totalItems: 0,
-    totalPages: 1,
-  };
-  // att form
-  frm: FormGroup = new FormGroup({});
-  isVisibleModal = false;
-  isUpdate = false;
-  validationErrors?: string[];
-  private genreId: number = 0;
 
   ngOnInit(): void {
     this.loadGenres();
     this.initGenreForm();
   }
 
-  initGenreForm() {
-    this.frm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-  }
+
+  //load genre
+  genres: Genre[] = [];
+  genreParams = new GenreParams();
+  pagination: Pagination = {
+    currentPage: 1,
+    itemsPerPage: 5,
+    totalItems: 0,
+    totalPages: 1,
+  };
 
   loadGenres() {
     this.genreServices.getGenres(this.genreParams).subscribe({
@@ -82,6 +71,7 @@ export class GenreComponent implements OnInit {
     });
   }
 
+  // search, paging, sorting
   onPageIndexChange(newPageNumber: number) {
     this.genreParams.pageNumber = newPageNumber;
     this.loadGenres();
@@ -107,6 +97,21 @@ export class GenreComponent implements OnInit {
 
   onSearch() {
     this.loadGenres();
+  }
+
+  // form add edit genre
+  private fb = inject(FormBuilder);
+  frm: FormGroup = new FormGroup({});
+  isVisibleModal = false;
+  isUpdate = false;
+  validationErrors?: string[];
+  private genreId: number = 0;
+
+  initGenreForm() {
+    this.frm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+    });
   }
 
   showModal(id?: number) {
@@ -170,6 +175,7 @@ export class GenreComponent implements OnInit {
     }
   }
 
+  //delete popup
   showDeleteConfirm(id: number) {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this task?',
