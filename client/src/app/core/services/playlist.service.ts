@@ -15,7 +15,7 @@ export class PlaylistService {
     Playlist[]
   >();
 
-  getPlaylist(prm: PlaylistParams) {
+  getPlaylists(prm: PlaylistParams) {
     let params = new HttpParams();
     params = params.append('pageNumber', prm.pageNumber);
     params = params.append('pageSize', prm.pageSize);
@@ -44,7 +44,15 @@ export class PlaylistService {
       );
   }
 
+  getPlaylist(id: number) {
+    return this.http.get<Playlist>(this.baseUrl + `playlist/${id}`);
+  }
+
   addPlaylist(frmDt: FormData) {
     return this.http.post<Playlist>(this.baseUrl + 'playlist', frmDt);
+  }
+
+  updatePlaylist(id: number, frmDt: FormData) {
+    return this.http.put<Playlist>(this.baseUrl + `playlist/${id}`, frmDt);
   }
 }

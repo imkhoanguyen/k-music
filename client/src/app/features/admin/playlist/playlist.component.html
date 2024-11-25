@@ -17,9 +17,7 @@
       <button nz-button nzType="primary" (click)="openNomarlAddModal()">
         Thêm thủ công
       </button>
-      <button nz-button nzType="primary" (click)="showModal()">
-        Thêm tự động
-      </button>
+      <button nz-button nzType="primary">Thêm tự động</button>
     </div>
   </ng-template>
 
@@ -96,20 +94,20 @@
             </nz-tag>
           </ng-template>
         </td>
-        <!-- <td>
+        <td>
           <div class="d-flex gap-2 justify-content-center align-items-center">
-            <button class="btn btn-sm fs-6" (click)="showModal(genre.id)">
+            <button
+              class="btn btn-sm fs-6"
+              (click)="openUpdateModal(playlist.id)"
+            >
               <i class="bi bi-pencil-square"></i>
             </button>
 
-            <button
-              class="btn btn-sm fs-6"
-              (click)="showDeleteConfirm(genre.id || 0)"
-            >
+            <button class="btn btn-sm fs-6">
               <i class="bi bi-trash"></i>
             </button>
           </div>
-        </td> -->
+        </td>
       </tr>
       }
     </tbody>
@@ -133,73 +131,11 @@
   <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
 </div>
 
-<!-- modal edit playlist -->
-<nz-modal
-  [(nzVisible)]="isVisibleModal"
-  nzTitle="Thêm thể loại"
-  [nzFooter]="null"
-  (nzOnCancel)="closeModal()"
->
-  <form
-    [formGroup]="frm"
-    (ngSubmit)="onSubmit()"
-    autocomplete="off"
-    *nzModalContent
-  >
-    <div
-      *ngIf="validationErrors && validationErrors.length > 0"
-      class="mx-auto mb-4 bg-danger text-white rounded"
-    >
-      <ul class="list-unstyled p-3">
-        <li *ngFor="let error of validationErrors; let i = index" class="mb-2">
-          {{ error }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="">Thể loại</label>
-      <input
-        nz-input
-        placeholder="Nhập thể loại"
-        type="text"
-        formControlName="name"
-      />
-      @if(frm.get('name')?.errors && frm.get('name')?.touched) {
-      <span class="text-danger">Vui lòng nhập thể loại</span>
-      }
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="">Mô tả</label>
-      <textarea
-        rows="4"
-        nz-input
-        placeholder="Nhập mô tả"
-        formControlName="description"
-      ></textarea>
-      @if(frm.get('description')?.errors && frm.get('description')?.touched) {
-      <span class="text-danger">Vui lòng nhập mô tả</span>
-      }
-    </div>
-
-    <hr class="my-3" />
-
-    <div class="d-flex gap-2 justify-content-end align-items-center">
-      <button nz-button nzType="default" type="button" (click)="closeModal()">
-        Đóng
-      </button>
-      <button
-        nz-button
-        nzType="primary"
-        type="submit"
-        [disabled]="frm.invalid || !frm.dirty"
-      >
-        Lưu
-      </button>
-    </div>
-  </form>
-</nz-modal>
-
 <!-- normal add playlist modal -->
 <app-add-playlist (playlistAdded)="addNewPlaylist($event)"></app-add-playlist>
+
+<!-- update playlist modal  -->
+<app-update-playlist
+  #updatePlaylistModal
+  (playlistUpdated)="updatePlaylist($event)"
+></app-update-playlist>

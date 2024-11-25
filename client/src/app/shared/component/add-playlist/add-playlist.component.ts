@@ -52,7 +52,6 @@ export class AddPlaylistComponent implements OnInit {
   private messageService = inject(MessageService);
   private playlistService = inject(PlaylistService);
   ultilService = inject(UtilityService);
-  radioValue = false;
 
   ngOnInit(): void {
     this.initForm();
@@ -68,6 +67,7 @@ export class AddPlaylistComponent implements OnInit {
     this.frm = this.fb.group({
       name: ['', Validators.required],
       imgFile: ['', Validators.required],
+      isPublic: [false],
     });
   }
 
@@ -84,7 +84,7 @@ export class AddPlaylistComponent implements OnInit {
   onSubmit() {
     const formData = new FormData();
     formData.append('name', this.frm.value.name);
-    formData.append('isPublic', this.radioValue.toString());
+    formData.append('isPublic', this.frm.value.isPublic.toString());
     if (this.currentSongList && this.currentSongList.length > 0) {
       this.currentSongList.forEach((song: Song) => {
         formData.append('songList', song.id.toString());
@@ -102,6 +102,7 @@ export class AddPlaylistComponent implements OnInit {
         this.closeModal();
       },
       error: (er) => {
+        this.validationErrors = er;
         console.log(er);
       },
     });

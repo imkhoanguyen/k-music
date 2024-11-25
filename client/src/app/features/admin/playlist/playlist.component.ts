@@ -22,6 +22,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { AddPlaylistComponent } from '../../../shared/component/add-playlist/add-playlist.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { UpdatePlaylistComponent } from '../../../shared/component/update-playlist/update-playlist.component';
 
 @Component({
   selector: 'app-playlist',
@@ -40,6 +41,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
     NzPopoverModule,
     AddPlaylistComponent,
     NzImageModule,
+    UpdatePlaylistComponent,
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
@@ -53,7 +55,6 @@ export class PlaylistComponent {
 
   ngOnInit(): void {
     this.loadPaylists();
-    this.initUpdateForm();
   }
 
   // *********************************************************************
@@ -68,7 +69,7 @@ export class PlaylistComponent {
   };
 
   loadPaylists() {
-    this.playlistService.getPlaylist(this.prm).subscribe({
+    this.playlistService.getPlaylists(this.prm).subscribe({
       next: (response) => {
         this.playlists = response.result as Playlist[];
         this.pagination = response.pagination as Pagination;
@@ -108,44 +109,23 @@ export class PlaylistComponent {
 
   // *********************************************************************
   // update form
-  private fb = inject(FormBuilder);
-  frm: FormGroup = new FormGroup({});
-  isVisibleModal = false;
-  validationErrors?: string[];
-
-  initUpdateForm() {
-    this.frm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-    });
+  @ViewChild(UpdatePlaylistComponent)
+  updatePlaylistComponent!: UpdatePlaylistComponent;
+  openUpdateModal(playlistId: number) {
+    if (this.updatePlaylistComponent) {
+      this.updatePlaylistComponent.playlistId = playlistId;
+      this.updatePlaylistComponent.showModal();
+    } else {
+      console.error('UpdatePlaylistComponent is not initialized yet');
+    }
   }
 
-  showModal(id?: number) {
-    this.isVisibleModal = true;
-  }
-
-  closeModal() {
-    this.isVisibleModal = false;
-    this.validationErrors = [];
-    this.frm.reset();
-  }
-
-  onSubmit() {
-    // add
-    const playlist = {
-      name: this.frm.value.name,
-    };
-
-    // this.genreServices.addGenre(genreAdd).subscribe({
-    //   next: (response) => {
-    //     this.genres.unshift(response);
-    //     this.messageServies.showSuccess('Thêm thể loại thành công');
-    //     this.closeModal();
-    //   },
-    //   error: (er) => {
-    //     console.log(er);
-    //   },
-    // });
+  updatePlaylist(playlist: any) {
+    const index = this.playlists.findIndex((p) => p.id === playlist.id);
+    if (index !== -1) {
+      this.playlists[index] = playlist as Playlist;
+    }
+    console.log(index);
   }
 
   // *********************************************************************
