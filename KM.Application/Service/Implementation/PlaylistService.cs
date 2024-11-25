@@ -129,6 +129,16 @@ namespace KM.Application.Service.Implementation
             return new PagedList<PlaylistDto>(playlistDtos, pagedList.TotalCount, pagedList.CurrentPage, pagedList.PageSize);
         }
 
+        public async Task<PlaylistDto> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
+        {
+            var playlist  = await _unit.Playlist.GetAsync(expression, tracked);
+            if (playlist == null)
+            {
+                throw new NotFoundException("Không tìm thấy bài hát");
+            }
+            return PlaylistMapper.EntityToPlaylistDto(playlist);
+        }
+
         public async Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto)
         {
             if(playlistId != dto.Id)
@@ -163,6 +173,7 @@ namespace KM.Application.Service.Implementation
             }
 
             playlist.Name = dto.Name;
+            playlist.IsPublic = dto.IsPublic;
 
             if(await _unit.CompleteAsync())
             {

@@ -14,5 +14,6 @@ namespace KM.Application.Service.Abstract
         Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto);
         Task DeleteAsync(Expression<Func<Playlist, bool>> expression);
         Task DeleteSongAsync(int playlistId, List<int> songIdList);
+        Task<PlaylistDto> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false);
     }
 }

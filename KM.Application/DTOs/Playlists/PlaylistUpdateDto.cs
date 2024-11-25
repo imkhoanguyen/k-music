@@ -12,5 +12,6 @@ namespace KM.Application.DTOs.Playlists
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg", ".webp" })]
         [MaxFileResolution(1, ErrorMessage = "Kích thước file ảnh tối đa là 1 MB.")]
         public IFormFile? ImgFile { get; set; } = null;
+        public bool IsPublic { get; set; } = false;
     }
 }

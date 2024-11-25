@@ -25,6 +25,12 @@ namespace API.Controllers
             return Ok(pagedList);
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PlaylistDto>> GetPlaylist(int id)
+        {
+            return await _playlistService.GetAsync(p => p.Id == id, false);
+        }
+
         [HttpPost]
         public async Task<ActionResult<PlaylistDto>> CreatePlaylist([FromForm] PlaylistCreateDto dto)
         {
@@ -45,9 +51,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<PlaylistDto>> UpdatePlaylist(int id, [FromForm] PlaylistUpdateDto dto)
+        public async Task<ActionResult<PlaylistDto>> UpdatePlaylist([FromRoute]int id, [FromForm] PlaylistUpdateDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
