@@ -18,9 +18,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { MessageService } from '../../../core/services/message.service';
-import { PlaylistService } from '../../../core/services/playlist.service';
-import { UtilityService } from '../../../core/services/utility.service';
+import { MessageService } from '../../../../core/services/message.service';
+import { PlaylistService } from '../../../../core/services/playlist.service';
+import { UtilityService } from '../../../../core/services/utility.service';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 
