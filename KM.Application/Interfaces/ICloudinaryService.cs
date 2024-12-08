@@ -1,7 +1,7 @@
 ﻿using KM.Application.DTOs.Cloudinary;
 using Microsoft.AspNetCore.Http;
 
-namespace KM.Application.Service.Abstract
+namespace KM.Application.Interfaces
 {
     public interface ICloudinaryService
     {

@@ -1,4 +1,5 @@
 ﻿using KM.Application.DTOs.Playlists;
+using KM.Application.Interfaces;
 using KM.Application.Mappers;
 using KM.Application.Parameters;
 using KM.Application.Repositories;
@@ -174,6 +175,7 @@ namespace KM.Application.Service.Implementation
 
             playlist.Name = dto.Name;
             playlist.IsPublic = dto.IsPublic;
+            playlist.Updated = DateTime.Now;
 
             if(await _unit.CompleteAsync())
             {

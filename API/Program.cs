@@ -1,6 +1,7 @@
 ﻿using API.Middleware;
 using API.Service.Abstract;
 using API.Service.Implementation;
+using KM.Application.Interfaces;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
 using KM.Application.Service.Implementation;

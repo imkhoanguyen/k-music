@@ -1,7 +1,7 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using KM.Application.DTOs.Cloudinary;
-using KM.Application.Service.Abstract;
+using KM.Application.Interfaces;
 using KM.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
