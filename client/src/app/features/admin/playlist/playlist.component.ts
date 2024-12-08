@@ -20,9 +20,10 @@ import { Pagination } from '../../../shared/models/pagination';
 import { UtilityService } from '../../../core/services/utility.service';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { AddPlaylistComponent } from '../../../shared/component/add-playlist/add-playlist.component';
+import { AddPlaylistComponent } from '../../../shared/component/playlists/add-playlist/add-playlist.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { UpdatePlaylistComponent } from '../../../shared/component/update-playlist/update-playlist.component';
+import { UpdatePlaylistComponent } from '../../../shared/component/playlists/update-playlist/update-playlist.component';
+import { MutiAddPlaylistComponent } from '../../../shared/component/playlists/muti-add-playlist/muti-add-playlist.component';
 
 @Component({
   selector: 'app-playlist',
@@ -42,6 +43,7 @@ import { UpdatePlaylistComponent } from '../../../shared/component/update-playli
     AddPlaylistComponent,
     NzImageModule,
     UpdatePlaylistComponent,
+    MutiAddPlaylistComponent,
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
@@ -141,5 +143,17 @@ export class PlaylistComponent {
 
   addNewPlaylist(playlist: any) {
     this.playlists.unshift(playlist);
+  }
+
+  // *********************************************************************
+  // muti add form
+  @ViewChild(MutiAddPlaylistComponent)
+  mutiAddPlaylistComponent!: MutiAddPlaylistComponent;
+  openMutiAddModal() {
+    if (this.mutiAddPlaylistComponent) {
+      this.mutiAddPlaylistComponent.showModal();
+    } else {
+      console.error('MutiAddPlaylistComponent is not initialized yet');
+    }
   }
 }

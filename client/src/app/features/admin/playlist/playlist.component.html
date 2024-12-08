@@ -17,7 +17,9 @@
       <button nz-button nzType="primary" (click)="openNomarlAddModal()">
         Thêm thủ công
       </button>
-      <button nz-button nzType="primary">Thêm tự động</button>
+      <button nz-button nzType="primary" (click)="openMutiAddModal()">
+        Thêm tự động
+      </button>
     </div>
   </ng-template>
 
@@ -81,16 +83,16 @@
         <td>{{ ultilSerivce.getFormattedDate(playlist.created) }}</td>
         <td>{{ ultilSerivce.getFormattedDate(playlist.updated) }}</td>
         <td>{{ playlist.playCount }}</td>
-        <td class="fw-bold">
+        <td class="fw-bold text-center">
           <nz-tag
             *ngIf="playlist.isPublic === true; else draftStatus"
-            [nzColor]="ultilSerivce.publicStatus"
+            [nzColor]="ultilSerivce.PUBLIC_STATUS_COLOR"
           >
-            {{ ultilSerivce.publicStatusString }}
+            {{ ultilSerivce.PUBLIC_STATUS_STRING }}
           </nz-tag>
           <ng-template #draftStatus>
-            <nz-tag [nzColor]="ultilSerivce.privateStatus">
-              {{ ultilSerivce.privateStatusString }}
+            <nz-tag [nzColor]="ultilSerivce.PRIVATE_STATUS_COLOR">
+              {{ ultilSerivce.PRIVATE_STATUS_STRING }}
             </nz-tag>
           </ng-template>
         </td>
@@ -139,3 +141,5 @@
   #updatePlaylistModal
   (playlistUpdated)="updatePlaylist($event)"
 ></app-update-playlist>
+
+<app-muti-add-playlist></app-muti-add-playlist>

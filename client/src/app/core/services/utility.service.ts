@@ -8,10 +8,10 @@ import { Singer } from '../../shared/models/singer';
 })
 export class UtilityService {
   // Constants
-  public readonly publicStatus = '#38d9a9';
-  public readonly privateStatus = '#ffa94d';
-  public readonly publicStatusString = 'Public';
-  public readonly privateStatusString = 'Private';
+  public readonly PUBLIC_STATUS_COLOR = '#38d9a9';
+  public readonly PRIVATE_STATUS_COLOR = '#ffa94d';
+  public readonly PUBLIC_STATUS_STRING = 'Public';
+  public readonly PRIVATE_STATUS_STRING = 'Private';
 
   // format date vietnam
   private readonly defaultDate = '0001-01-01T00:00:00';
