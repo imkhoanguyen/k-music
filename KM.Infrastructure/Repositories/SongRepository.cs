@@ -126,5 +126,13 @@ namespace KM.Infrastructure.Repositories
                 songFromDb.IsVip = vip;
             }
         }
+
+        public async Task<IEnumerable<Song>> GetAllAsync(bool tracked)
+        {
+            var query = tracked ? _context.Songs.AsQueryable() : _context.Songs.AsNoTracking().AsQueryable();
+
+            return await query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
+                    .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre).ToListAsync();
+        }
     }
 }

@@ -106,6 +106,12 @@ namespace KM.Application.Service.Implementation
             return new PagedList<SongDto>(songDtos, songs.TotalCount, songs.CurrentPage, songs.PageSize);
         }
 
+        public async Task<IEnumerable<SongDto>> GetAllAsync()
+        {
+            var songs = await _unit.Song.GetAllAsync(false);
+            return songs.Select(SongMapper.EntityToSongDto);
+        }
+
         public async Task<SongDto> GetAsync(Expression<Func<Song, bool>> expression, bool tracked = false)
         {
             var song = await _unit.Song.GetAsync(expression, tracked);

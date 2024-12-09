@@ -6,6 +6,7 @@ using KM.Infrastructure.DataAccess;
 using KM.Infrastructure.Ultilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
 
 namespace KM.Infrastructure.Repositories
 {
@@ -22,6 +23,8 @@ namespace KM.Infrastructure.Repositories
         {
             var query = tracked ? _context.Playlist.AsQueryable() : 
                 _context.Playlist.AsNoTracking().AsQueryable();
+
+            query = query.Include(p => p.AppUser);
 
             if(!prm.UserId.IsNullOrEmpty())
             {
@@ -48,6 +51,13 @@ namespace KM.Infrastructure.Repositories
             }
 
             return await query.ApplyPaginationAsync(prm.PageNumber, prm.PageSize);
+        }
+
+        public override Task<Playlist?> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
+        {
+            var query = tracked ? _context.Playlist.AsQueryable() :
+                _context.Playlist.AsNoTracking().AsQueryable();
+            return base.GetAsync(expression, tracked);
         }
     }
 }

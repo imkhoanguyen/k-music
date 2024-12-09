@@ -14,5 +14,6 @@ namespace KM.Application.Service.Abstract
         Task<SongDto> UpdateAsync(int songId, SongUpdateDto songUpdateDto);
         Task DeleteAsync(Expression<Func<Song, bool>> expression);
         Task UpdateVipAsync(int songId, bool vip);
+        Task<IEnumerable<SongDto>> GetAllAsync();
     }
 }

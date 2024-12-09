@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241123040131_initDb")]
+    [Migration("20241208163204_initDb")]
     partial class initDb
     {
         /// <inheritdoc />

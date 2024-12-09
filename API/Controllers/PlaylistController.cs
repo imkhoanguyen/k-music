@@ -41,13 +41,30 @@ namespace API.Controllers
             }
 
             var playlistDto = await _playlistService.CreateAsync(dto);
+            playlistDto.UserName = User.GetUsername();
+            return Ok(playlistDto);
+        }
+
+        [HttpPost("add-auto")]
+        public async Task<ActionResult<PlaylistDto>> CreatePlaylistAuto([FromForm] PlaylistCreateAutoDto dto)
+        {
+            dto.UserId = User.GetUserId();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var playlistDto = await _playlistService.CreateAutoAsync(dto);
+            playlistDto.UserName = User.GetUsername();
             return Ok(playlistDto);
         }
 
         [HttpPost("{playlistId:int}/add-song")]
         public async Task<ActionResult<PlaylistDto>> AddSongToPlaylist([FromRoute] int playlistId, [FromBody] List<int> songIdList)
         {
-            return await _playlistService.AddSongAsync(playlistId, songIdList);
+            var playlistDto = await _playlistService.AddSongAsync(playlistId, songIdList);
+            playlistDto.UserName = User.GetUsername();
+            return Ok(playlistDto);
         }
 
         [HttpPut("{id:int}")]
@@ -58,7 +75,9 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            return await _playlistService.UpdateAsync(id, dto);
+            var playlistDto = await _playlistService.UpdateAsync(id, dto);
+            playlistDto.UserName = User.GetUsername();
+            return Ok(playlistDto);
         }
 
         [HttpDelete("{id:int}")]

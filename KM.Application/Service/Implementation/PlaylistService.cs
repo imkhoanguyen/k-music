@@ -78,6 +78,65 @@ namespace KM.Application.Service.Implementation
             throw new BadRequestException("Có lỗi xảy ra khi thêm danh sách phát");
         }
 
+        public async Task<PlaylistDto> CreateAutoAsync(PlaylistCreateAutoDto dto)
+        {
+            if(dto.Count < 1)
+            {
+                throw new BadRequestException("Số lượng bài hát phải lớn hơn hoặc bằng 1");
+            }
+
+            var songList = await _unit.Song.GetAllAsync(false);
+
+            // select 
+            if (dto.SelectedGenres.Count > 0)
+            {
+                songList = songList.Where(s => s.SongGenres.Any(sg => dto.SelectedGenres.Contains(sg.GenreId)));
+            }
+
+            // select 
+            if(dto.SelectedSingers.Count > 0)
+            {
+                songList = songList.Where(s => s.SongSingers.Any(ss => dto.SelectedSingers.Contains(ss.SingerId)));
+            }
+
+
+            // get ramdom song
+            var ramdomSongs = songList.OrderBy(_ => Guid.NewGuid())
+                .Take(dto.Count).ToList();
+
+
+            // upload img
+            var result = await _cloudinaryService.AddImageAsync(dto.ImgFile);
+            if (result.Error != null)
+            {
+                throw new BadRequestException(result.Error);
+            }
+
+            // define new playlist
+            var playlist = new Playlist
+            {
+                Name = dto.Name,
+                UserId = dto.UserId,
+            };
+
+            // path value to playlist
+            playlist.ImgUrl = result.Url;
+            playlist.PublicId = result.PublicId;
+
+            // define playlistsongs
+            var playlistSongs = ramdomSongs.Select(s => new PlaylistSong(playlist.Id, s.Id));
+            playlist.PlaylistSongs.AddRange(playlistSongs);
+
+            await _unit.Playlist.AddAsync(playlist);
+
+            if(await _unit.CompleteAsync())
+            {
+               return PlaylistMapper.EntityToPlaylistDto(playlist);
+            }
+
+            throw new BadRequestException("Xảy ra lỗi khi tạo danh sách phát tự động");
+        }
+
         public async Task DeleteAsync(Expression<Func<Playlist, bool>> expression)
         {
             var playlist = await _unit.Playlist.GetAsync(expression);
