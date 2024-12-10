@@ -10,7 +10,7 @@ namespace KM.Application.Service.Abstract
     {
         Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm);
         Task<PlaylistDto> CreateAsync(PlaylistCreateDto dto);
-        Task<PlaylistDto> AddSongAsync(int playlistId, List<int> songIdList);
+        Task<PlaylistDetailDto> AddSongAsync(int playlistId, List<int> songIdList);
         Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto);
         Task DeleteAsync(Expression<Func<Playlist, bool>> expression);
         Task DeleteSongAsync(int playlistId, List<int> songIdList);

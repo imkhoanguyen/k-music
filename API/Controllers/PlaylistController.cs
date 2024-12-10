@@ -58,11 +58,10 @@ namespace API.Controllers
         }
 
         [HttpPost("{playlistId:int}/add-song")]
-        public async Task<ActionResult<PlaylistDto>> AddSongToPlaylist([FromRoute] int playlistId, [FromBody] List<int> songIdList)
+        public async Task<ActionResult<PlaylistDetailDto>> AddSongToPlaylist([FromRoute] int playlistId, [FromBody] List<int> songIdList)
         {
-            var playlistDto = await _playlistService.AddSongAsync(playlistId, songIdList);
-            playlistDto.UserName = User.GetUsername();
-            return Ok(playlistDto);
+            var playlistDetailDto = await _playlistService.AddSongAsync(playlistId, songIdList);
+            return Ok(playlistDetailDto);
         }
 
         [HttpPut("{id:int}")]

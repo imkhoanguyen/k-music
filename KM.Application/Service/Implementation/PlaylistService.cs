@@ -22,7 +22,7 @@ namespace KM.Application.Service.Implementation
             _cloudinaryService = cloudinaryService;
         }
 
-        public async Task<PlaylistDto> AddSongAsync(int playlistId, List<int> songIdList)
+        public async Task<PlaylistDetailDto> AddSongAsync(int playlistId, List<int> songIdList)
         {
             if (!await _unit.Playlist.ExistsAsync(p => p.Id == playlistId))
             {
@@ -42,8 +42,19 @@ namespace KM.Application.Service.Implementation
 
             if (await _unit.CompleteAsync())
             {
-                var playList = await _unit.Playlist.GetAsync(p => p.Id == playlistId);
-                return PlaylistMapper.EntityToPlaylistDto(playList!);
+                var playlist = await _unit.Playlist.GetDetailAsync(p => p.Id == playlistId);
+                return new PlaylistDetailDto
+                {
+                    Id = playlist.Id,
+                    Name = playlist.Name,
+                    Created = playlist.Created,
+                    Updated = playlist.Updated,
+                    ImgUrl = playlist.ImgUrl,
+                    PlayCount = playlist.PlayCount,
+                    IsPublic = playlist.IsPublic,
+                    UserName = playlist.AppUser?.UserName ?? string.Empty,
+                    SongList = playlist.PlaylistSongs.Select(ps => SongMapper.EntityToSongDto(ps.Song!)).ToList(),
+                };
             }
 
             throw new BadRequestException("Xảy ra lỗi khi thêm bài hát vào danh sách phát");
