@@ -1,0 +1,64 @@
+@if(song !== undefined) {
+<div class="d-flex flex-column flex-md-row gap-5">
+  <!-- img song -->
+  <div class="img-container flex-shrink-0">
+    <img
+      nz-image
+      class="song-img img-fluid"
+      nzSrc="{{ song.imgUrl }}"
+      alt="{{ song.name }}"
+    />
+  </div>
+
+  <!-- info song -->
+  <div class="d-flex flex-column gap-2">
+    <h2 class="p-0 mb-3 d-flex gap-2 align-items-center">
+      {{ song.name }}
+      @if(song.isVip) {
+      <img src="img/vip-badge.png" alt="vip-badge" />
+      }
+    </h2>
+    <div>
+      <strong>Thể loại:</strong> {{ utilService.getGenresString(song) }}
+    </div>
+    <div><strong>Ca sĩ:</strong> {{ utilService.getSingersString(song) }}</div>
+    <div>
+      <strong>Ngày tạo:</strong>
+      {{ utilService.getFormattedDate(song.created) }}
+    </div>
+    <div>
+      <strong>Lần cập nhật gần nhất:</strong>
+      {{ utilService.getFormattedDate(song.updated) }}
+    </div>
+    <audio controls class="mt-3 w-100">
+      <source [src]="song.songUrl" type="audio/mp3" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+</div>
+
+<!-- lyric & introduction -->
+<div class="row mt-5">
+  <!-- lyric -->
+  <div class="col-12 col-md-6">
+    <div class="mb-2 fw-bold">Lyric:</div>
+    <div
+      class="long-text"
+      nz-typography
+      nzEllipsis
+      nzExpandable
+      [nzEllipsisRows]="3"
+    >
+      {{ song.lyric }}
+    </div>
+  </div>
+
+  <!-- introduction -->
+  <div class="col-12 col-md-6">
+    <div class="mb-2 fw-bold">Giới thiệu:</div>
+    <div class="long-text">
+      {{ song.introduction }}
+    </div>
+  </div>
+</div>
+}

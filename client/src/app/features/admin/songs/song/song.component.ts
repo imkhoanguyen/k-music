@@ -18,14 +18,14 @@ import {
   NzUploadFile,
   NzUploadModule,
 } from 'ng-zorro-antd/upload';
-import { SongService } from '../../../core/services/song.service';
-import { MessageService } from '../../../core/services/message.service';
-import { Song, SongParams } from '../../../shared/models/song';
-import { GenreService } from '../../../core/services/genre.service';
-import { Genre } from '../../../shared/models/genre';
-import { Pagination } from '../../../shared/models/pagination';
-import { SingerService } from '../../../core/services/singer.service';
-import { Singer } from '../../../shared/models/singer';
+import { SongService } from '../../../../core/services/song.service';
+import { MessageService } from '../../../../core/services/message.service';
+import { Song, SongParams } from '../../../../shared/models/song';
+import { GenreService } from '../../../../core/services/genre.service';
+import { Genre } from '../../../../shared/models/genre';
+import { Pagination } from '../../../../shared/models/pagination';
+import { SingerService } from '../../../../core/services/singer.service';
+import { Singer } from '../../../../shared/models/singer';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { Router } from '@angular/router';
 import { NzImageModule } from 'ng-zorro-antd/image';
