@@ -8,13 +8,13 @@ namespace KM.Application.Service.Abstract
 {
     public interface IPlaylistService
     {
-        Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm, bool tracked = false);
+        Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm);
         Task<PlaylistDto> CreateAsync(PlaylistCreateDto dto);
         Task<PlaylistDto> AddSongAsync(int playlistId, List<int> songIdList);
         Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto);
         Task DeleteAsync(Expression<Func<Playlist, bool>> expression);
         Task DeleteSongAsync(int playlistId, List<int> songIdList);
-        Task<PlaylistDto> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false);
+        Task<PlaylistDetailDto> GetAsync(Expression<Func<Playlist, bool>> expression);
         Task<PlaylistDto> CreateAutoAsync(PlaylistCreateAutoDto dto);
     }
 }

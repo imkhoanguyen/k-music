@@ -4,6 +4,6 @@ namespace KM.Application.DTOs.Playlists
 {
     public class PlaylistDetailDto : PlaylistDto
     {
-        IEnumerable<SongDto> SongList { get; set; } = [];
+        public List<SongDto> SongList { get; set; } = [];
     }
 }

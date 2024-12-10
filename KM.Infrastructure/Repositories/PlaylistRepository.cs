@@ -53,11 +53,29 @@ namespace KM.Infrastructure.Repositories
             return await query.ApplyPaginationAsync(prm.PageNumber, prm.PageSize);
         }
 
-        public override Task<Playlist?> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
+        public async Task<Playlist?> GetDetailAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
         {
             var query = tracked ? _context.Playlist.AsQueryable() :
                 _context.Playlist.AsNoTracking().AsQueryable();
-            return base.GetAsync(expression, tracked);
+
+            query = query
+                .Include(p => p.AppUser)
+                .Include(p => p.LikePlaylists)
+                .Include(p => p.PlaylistSongs).ThenInclude(ps => ps.Song)
+                .ThenInclude(s => s.SongGenres).ThenInclude(sg => sg.Genre)
+                .Include(p => p.PlaylistSongs).ThenInclude(ps => ps.Song)
+                .ThenInclude(s => s.SongSingers).ThenInclude(ss => ss.Singer);
+
+            return await query.FirstOrDefaultAsync(expression);
+        }
+
+        public override async Task<Playlist?> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
+        {
+            var query = tracked ? _context.Playlist.AsQueryable() :
+                _context.Playlist.AsNoTracking().AsQueryable();
+
+            query = query.Include(p => p.AppUser);
+            return await query.FirstOrDefaultAsync(expression);
         }
     }
 }

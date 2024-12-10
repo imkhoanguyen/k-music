@@ -381,17 +381,17 @@ namespace KM.Infrastructure.Migrations
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PlayCount = table.Column<int>(type: "int", nullable: false),
                     IsPublic = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Playlist", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Playlist_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Playlist_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -579,9 +579,9 @@ namespace KM.Infrastructure.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Playlist_AppUserId",
+                name: "IX_Playlist_UserId",
                 table: "Playlist",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaylistSongs_SongId",

@@ -73,7 +73,8 @@ namespace KM.Application.Service.Implementation
             await _unit.Playlist.AddAsync(playlist);
             if (await _unit.CompleteAsync())
             {
-                return PlaylistMapper.EntityToPlaylistDto(playlist);
+                var playlistToReturn = await _unit.Playlist.GetAsync(p => p.Id == playlist.Id);
+                return PlaylistMapper.EntityToPlaylistDto(playlistToReturn!);
             }
             throw new BadRequestException("Có lỗi xảy ra khi thêm danh sách phát");
         }
@@ -131,7 +132,8 @@ namespace KM.Application.Service.Implementation
 
             if(await _unit.CompleteAsync())
             {
-               return PlaylistMapper.EntityToPlaylistDto(playlist);
+                var playlistToReturn = await _unit.Playlist.GetAsync(p => p.Id == playlist.Id);
+                return PlaylistMapper.EntityToPlaylistDto(playlistToReturn!);
             }
 
             throw new BadRequestException("Xảy ra lỗi khi tạo danh sách phát tự động");
@@ -180,23 +182,35 @@ namespace KM.Application.Service.Implementation
             }
         }
 
-        public async Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm, bool tracked = false)
+        public async Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm)
         {
-            var pagedList = await _unit.Playlist.GetAllAsync(prm, tracked);
+            var pagedList = await _unit.Playlist.GetAllAsync(prm, false);
 
             var playlistDtos = pagedList.Select(PlaylistMapper.EntityToPlaylistDto).ToList();
 
             return new PagedList<PlaylistDto>(playlistDtos, pagedList.TotalCount, pagedList.CurrentPage, pagedList.PageSize);
         }
 
-        public async Task<PlaylistDto> GetAsync(Expression<Func<Playlist, bool>> expression, bool tracked = false)
+        public async Task<PlaylistDetailDto> GetAsync(Expression<Func<Playlist, bool>> expression)
         {
-            var playlist  = await _unit.Playlist.GetAsync(expression, tracked);
+            var playlist  = await _unit.Playlist.GetDetailAsync(expression, false);
             if (playlist == null)
             {
                 throw new NotFoundException("Không tìm thấy bài hát");
             }
-            return PlaylistMapper.EntityToPlaylistDto(playlist);
+
+            return new PlaylistDetailDto
+            {
+                Id = playlist.Id,
+                Name = playlist.Name,
+                Created = playlist.Created,
+                Updated = playlist.Updated,
+                ImgUrl = playlist.ImgUrl,
+                PlayCount = playlist.PlayCount,
+                IsPublic = playlist.IsPublic,
+                UserName = playlist.AppUser?.UserName ?? string.Empty,
+                SongList = playlist.PlaylistSongs.Select(ps => SongMapper.EntityToSongDto(ps.Song!)).ToList(),
+            };
         }
 
         public async Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto)
@@ -238,7 +252,8 @@ namespace KM.Application.Service.Implementation
 
             if(await _unit.CompleteAsync())
             {
-                return PlaylistMapper.EntityToPlaylistDto(playlist);
+                var playlistToReturn = await _unit.Playlist.GetAsync(p => p.Id == playlist.Id);
+                return PlaylistMapper.EntityToPlaylistDto(playlistToReturn!);
             }
 
             throw new BadRequestException("Xảy ra lỗi khi cập nhật danh sách phát");

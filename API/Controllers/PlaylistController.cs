@@ -19,16 +19,16 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<PlaylistDto>>> GetPlaylists([FromQuery] PlaylistParams prm)
         {
-            var pagedList = await _playlistService.GetAllAsync(prm, false);
+            var pagedList = await _playlistService.GetAllAsync(prm);
             Response.AddPaginationHeader(pagedList);
 
             return Ok(pagedList);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<PlaylistDto>> GetPlaylist(int id)
+        public async Task<ActionResult<PlaylistDetailDto>> GetPlaylist(int id)
         {
-            return await _playlistService.GetAsync(p => p.Id == id, false);
+            return await _playlistService.GetAsync(p => p.Id == id);
         }
 
         [HttpPost]
@@ -41,7 +41,6 @@ namespace API.Controllers
             }
 
             var playlistDto = await _playlistService.CreateAsync(dto);
-            playlistDto.UserName = User.GetUsername();
             return Ok(playlistDto);
         }
 
@@ -55,7 +54,6 @@ namespace API.Controllers
             }
 
             var playlistDto = await _playlistService.CreateAutoAsync(dto);
-            playlistDto.UserName = User.GetUsername();
             return Ok(playlistDto);
         }
 

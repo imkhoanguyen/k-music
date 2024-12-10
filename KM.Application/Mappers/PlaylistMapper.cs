@@ -16,6 +16,7 @@ namespace KM.Application.Mappers
                 Updated = playlist.Updated,
                 PlayCount = playlist.PlayCount,
                 IsPublic = playlist.IsPublic,
+                UserName = playlist.AppUser?.UserName ?? string.Empty
             };
         }
 

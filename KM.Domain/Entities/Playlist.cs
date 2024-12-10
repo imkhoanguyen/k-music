@@ -1,4 +1,6 @@
-﻿namespace KM.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace KM.Domain.Entities
 {
     public class Playlist : BaseEntity
     {
@@ -11,6 +13,7 @@
         public bool IsPublic { get; set; } = true;
         // nav
         public string UserId { get; set; } = "";
+        [ForeignKey("UserId")]
         public AppUser? AppUser { get; set; }
         public List<PlaylistSong> PlaylistSongs { get; set; } = [];
         public List<LikePlaylist> LikePlaylists { get; set; } = [];
