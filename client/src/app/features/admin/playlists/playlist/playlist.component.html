@@ -28,7 +28,7 @@
       <input
         type="text"
         nz-input
-        placeholder="Nhập thể loại"
+        placeholder="Nhập tên danh sách phát"
         [(ngModel)]="prm.searchTerm"
         name="searchTerm"
       />
@@ -60,6 +60,7 @@
         <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
           Tên danh sách phát
         </th>
+        <th>Người đăng</th>
         <th>Ngày tạo</th>
         <th>Ngày cập nhật</th>
         <th>Lượt nghe</th>
@@ -80,6 +81,7 @@
           />
         </td>
         <td>{{ playlist.name }}</td>
+        <td>{{ playlist.userName }}</td>
         <td>{{ ultilSerivce.getFormattedDate(playlist.created) }}</td>
         <td>{{ ultilSerivce.getFormattedDate(playlist.updated) }}</td>
         <td>{{ playlist.playCount }}</td>
@@ -98,6 +100,9 @@
         </td>
         <td>
           <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-5" (click)="onGoDetail(playlist.id)">
+              <i class="bi bi-eye"></i>
+            </button>
             <button
               class="btn btn-sm fs-6"
               (click)="openUpdateModal(playlist.id)"
@@ -105,7 +110,10 @@
               <i class="bi bi-pencil-square"></i>
             </button>
 
-            <button class="btn btn-sm fs-6">
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(playlist.id || 0)"
+            >
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -142,4 +150,6 @@
   (playlistUpdated)="updatePlaylist($event)"
 ></app-update-playlist>
 
-<app-muti-add-playlist></app-muti-add-playlist>
+<app-muti-add-playlist
+  (playlistAdded)="handleEventAutoAddPlaylist($event)"
+></app-muti-add-playlist>

@@ -8,9 +8,16 @@
 /* Style for table cells with long content */
 .fixed-height-box {
   height: 100px;
+  max-height: 100px;
   overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung quá dài */
   white-space: pre-wrap; /* Bảo toàn định dạng xuống dòng trong văn bản */
   text-overflow: ellipsis;
+  text-indent: -0.5ch;
+  scrollbar-width: none; /* Ẩn thanh cuộn trong Firefox */
+}
+
+.fixed-height-box::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn trong Chrome, Edge và Safari */
 }
 
 /* For larger screens, let the table take full width without scroll */

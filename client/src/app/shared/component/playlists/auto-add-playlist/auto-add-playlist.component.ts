@@ -14,7 +14,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
-import { SongService } from '../../../../core/services/song.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { UtilityService } from '../../../../core/services/utility.service';
@@ -40,13 +39,12 @@ import { Singer } from '../../../models/singer';
     NzRadioModule,
     NzSelectModule,
   ],
-  templateUrl: './muti-add-playlist.component.html',
-  styleUrl: './muti-add-playlist.component.css',
+  templateUrl: './auto-add-playlist.component.html',
+  styleUrl: './auto-add-playlist.component.css',
 })
 export class MutiAddPlaylistComponent implements OnInit {
   // init
   @Output() playlistAdded = new EventEmitter<any>();
-  private songService = inject(SongService);
   private messageService = inject(MessageService);
   private playlistService = inject(PlaylistService);
   private genreService = inject(GenreService);
@@ -75,9 +73,9 @@ export class MutiAddPlaylistComponent implements OnInit {
       name: ['', Validators.required],
       imgFile: ['', Validators.required],
       isPublic: [false],
-      selectedGenre: [[]],
-      selectedSinger: [[]],
       count: [0],
+      selectedGenres: [],
+      selectedSingers: [],
     });
   }
 
@@ -114,12 +112,31 @@ export class MutiAddPlaylistComponent implements OnInit {
     const formData = new FormData();
     formData.append('name', this.frm.value.name);
     formData.append('isPublic', this.frm.value.isPublic.toString());
+    formData.append('count', this.frm.value.count.toString());
 
     if (this.frm.value.imgFile) {
       formData.append('imgFile', this.frm.value.imgFile);
     }
 
-    this.playlistService.addPlaylist(formData).subscribe({
+    if (
+      this.frm.value.selectedGenres &&
+      this.frm.value.selectedGenres.length > 0
+    ) {
+      this.frm.value.selectedGenres.forEach((genreId: number) => {
+        formData.append('selectedGenres', genreId.toString());
+      });
+    }
+
+    if (
+      this.frm.value.selectedSingers &&
+      this.frm.value.selectedSingers.length > 0
+    ) {
+      this.frm.value.selectedSingers.forEach((singerId: number) => {
+        formData.append('selectedSingers', singerId.toString());
+      });
+    }
+
+    this.playlistService.addAutoPlaylist(formData).subscribe({
       next: (response) => {
         this.playlistAdded.emit(response);
         this.messageService.showSuccess('Thêm danh sách phát thành công');

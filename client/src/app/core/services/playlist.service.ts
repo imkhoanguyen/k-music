@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Playlist, PlaylistParams } from '../../shared/models/playlist';
+import {
+  Playlist,
+  PlaylistDetail,
+  PlaylistParams,
+} from '../../shared/models/playlist';
 import { PaginatedResult } from '../../shared/models/pagination';
 import { map } from 'rxjs';
 
@@ -21,7 +25,6 @@ export class PlaylistService {
     params = params.append('pageSize', prm.pageSize);
     params = params.append('orderBy', prm.orderBy);
 
-    // quan trọng mất là lỗi liền :)
     if (prm.searchTerm) {
       params = params.append('search', prm.searchTerm);
     }
@@ -45,7 +48,7 @@ export class PlaylistService {
   }
 
   getPlaylist(id: number) {
-    return this.http.get<Playlist>(this.baseUrl + `playlist/${id}`);
+    return this.http.get<PlaylistDetail>(this.baseUrl + `playlist/${id}`);
   }
 
   addPlaylist(frmDt: FormData) {
@@ -54,5 +57,29 @@ export class PlaylistService {
 
   updatePlaylist(id: number, frmDt: FormData) {
     return this.http.put<Playlist>(this.baseUrl + `playlist/${id}`, frmDt);
+  }
+
+  addAutoPlaylist(frmDt: FormData) {
+    return this.http.post<Playlist>(this.baseUrl + 'playlist/add-auto', frmDt);
+  }
+
+  deleteSongs(playlistId: number, songIdList: number[]) {
+    return this.http.delete(
+      this.baseUrl + `playlist/${playlistId}/delete-song`,
+      {
+        body: songIdList,
+      }
+    );
+  }
+
+  addSongs(playlistId: number, songIdList: number[]) {
+    return this.http.post<PlaylistDetail>(
+      `${this.baseUrl}playlist/${playlistId}/add-song`,
+      songIdList
+    );
+  }
+
+  deletePlaylist(playlistId: number) {
+    return this.http.delete(this.baseUrl + `playlist/${playlistId}`);
   }
 }

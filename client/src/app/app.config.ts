@@ -20,11 +20,20 @@ import { provideNzIcons } from 'ng-zorro-antd/icon';
 import {
   EyeOutline,
   EyeInvisibleOutline,
+  PlusCircleOutline,
+  MinusCircleOutline,
+  PlaySquareOutline,
 } from '@ant-design/icons-angular/icons';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 // Define icons array
-const icons = [EyeOutline, EyeInvisibleOutline];
+const icons = [
+  EyeOutline,
+  EyeInvisibleOutline,
+  PlusCircleOutline,
+  MinusCircleOutline,
+  PlaySquareOutline,
+];
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {

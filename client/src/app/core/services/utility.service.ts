@@ -15,22 +15,32 @@ export class UtilityService {
 
   // format date vietnam
   private readonly defaultDate = '0001-01-01T00:00:00';
-  getFormattedDate(date: string | null): string {
-    if (!date || date === this.defaultDate) {
+
+  getFormattedDate(date: string | null | undefined): string {
+    // Kiểm tra và xử lý khi giá trị không hợp lệ
+    if (!date || date === this.defaultDate || isNaN(Date.parse(date))) {
       return 'Chưa cập nhật';
     }
 
-    const options: Intl.DateTimeFormatOptions = {
+    const dateObj = new Date(date);
+
+    // Format ngày
+    const formattedDate = dateObj.toLocaleDateString('vi-VN', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
+    });
+
+    // Format giờ
+    const formattedTime = dateObj.toLocaleTimeString('vi-VN', {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-    };
+    });
 
-    return new Date(date).toLocaleString('vi-VN', options);
+    // Trả về chuỗi ngày trước giờ
+    return `${formattedDate} ${formattedTime}`;
   }
 
   // get genre and song string
@@ -40,5 +50,12 @@ export class UtilityService {
 
   getSingersString(song: Song) {
     return song.singers.map((s: Singer) => s.name).join(', ');
+  }
+
+  // format duration
+  formatDuration(duration: number): string {
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 }

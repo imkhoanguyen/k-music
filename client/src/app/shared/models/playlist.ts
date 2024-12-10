@@ -1,4 +1,5 @@
 import { BaseParams } from './base-params';
+import { Song } from './song';
 
 export interface Playlist {
   id: number;
@@ -7,8 +8,12 @@ export interface Playlist {
   updated: string;
   imgUrl: string;
   playCount: number;
-  userId: string;
+  userName: string;
   isPublic: boolean;
+}
+
+export interface PlaylistDetail extends Playlist {
+  songList: Song[];
 }
 
 export class PlaylistParams extends BaseParams {

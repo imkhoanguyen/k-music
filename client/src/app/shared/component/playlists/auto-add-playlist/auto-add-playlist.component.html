@@ -49,7 +49,7 @@
               [nzMaxTagPlaceholder]="tagPlaceHolder"
               nzMode="multiple"
               nzPlaceHolder="Chọn thể loại"
-              formControlName="selectedGenre"
+              formControlName="selectedGenres"
             >
               @for (item of genreList; track item.id) {
               <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
@@ -68,7 +68,7 @@
               [nzMaxTagPlaceholder]="tagPlaceHolder"
               nzMode="multiple"
               nzPlaceHolder="Chọn ca sĩ"
-              formControlName="selectedSinger"
+              formControlName="selectedSingers"
             >
               @for (item of singerList; track item.id) {
               <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
