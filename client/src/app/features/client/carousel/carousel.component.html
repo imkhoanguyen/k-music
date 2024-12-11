@@ -1,0 +1,25 @@
+<div class="container-carousel">
+  <div
+    class="blur-background"
+    [ngStyle]="{ 'background-image': 'url(' + currentBackground + ')' }"
+  ></div>
+
+  <nz-carousel
+    #carousel
+    nzAutoPlay
+    [nzAutoPlaySpeed]="30000"
+    class="carousel-content w-100"
+    (nzAfterChange)="updateBackground($event)"
+  >
+    <div *ngFor="let item of array" nz-carousel-content>
+      <img src="{{ item }}" alt="movie poster" class="carousel-image" />
+    </div>
+  </nz-carousel>
+
+  <button class="carousel-btn prev-btn" (click)="goToPrevSlide(carousel)">
+    &#10094;
+  </button>
+  <button class="carousel-btn next-btn" (click)="goToNextSlide(carousel)">
+    &#10095;
+  </button>
+</div>

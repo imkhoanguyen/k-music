@@ -1,0 +1,28 @@
+.ant-layout {
+  background-color: #fff !important;
+}
+
+.logo {
+  float: left;
+  margin-right: 16px;
+}
+
+[nz-menu] {
+  line-height: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-content {
+  padding: 0 50px;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.inner-content {
+  min-height: 100vh;
+}
