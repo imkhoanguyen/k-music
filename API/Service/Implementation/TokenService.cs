@@ -36,7 +36,7 @@ namespace API.Service.Implementation
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(userClaims),
-                Expires = DateTime.UtcNow.AddDays(int.Parse(_config["JWTSetting:ExpiresInDays"])),
+                Expires = DateTime.Now.AddSeconds(30),
                 SigningCredentials = creadentials,
                 Issuer = _config["JWTSetting:Issuer"]
             };
