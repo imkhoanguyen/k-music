@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CarouselComponent } from '../carousel/carousel.component';
-import { PlaylistListComponent } from "../playlist-list/playlist-list.component";
+import { PlaylistListComponent } from '../playlist/playlist-list/playlist-list.component';
 
 @Component({
   selector: 'app-home',

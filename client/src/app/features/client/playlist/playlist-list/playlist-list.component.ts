@@ -1,11 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
-import { ClientService } from '../../../core/services/client.service';
-import { Playlist, PlaylistParams } from '../../../shared/models/playlist';
-import { Pagination } from '../../../shared/models/pagination';
+import { ClientService } from '../../../../core/services/client.service';
+import { Playlist, PlaylistParams } from '../../../../shared/models/playlist';
+import { Pagination } from '../../../../shared/models/pagination';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-list',
@@ -17,6 +18,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 export class PlaylistListComponent {
   @Input() orderBy = 'id_desc';
   private clientService = inject(ClientService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadPaylists();
@@ -67,5 +69,9 @@ export class PlaylistListComponent {
       this.prm.orderBy = sortBy;
     }
     this.loadPaylists();
+  }
+
+  openPlaylistDetail(playlistId: number) {
+    this.router.navigate(['/playlist', playlistId]);
   }
 }
