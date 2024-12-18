@@ -1,0 +1,18 @@
+.logo {
+  float: left;
+  margin-right: 16px;
+}
+
+[nz-menu] {
+  line-height: 64px;
+}
+
+li.active,
+.text-link:hover {
+  color: #3fa9ff;
+}
+
+.text-link {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+}

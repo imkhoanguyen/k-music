@@ -2,19 +2,6 @@
   background-color: #fff !important;
 }
 
-.logo {
-  float: left;
-  margin-right: 16px;
-}
-
-[nz-menu] {
-  line-height: 64px;
-}
-
-nz-breadcrumb {
-  margin: 16px 0;
-}
-
 nz-content {
   padding: 0 50px;
 }
@@ -25,9 +12,4 @@ nz-footer {
 
 .inner-content {
   min-height: 100vh;
-}
-
-li.active {
-  background-color: #3fa9ff;
-  font-weight: bold;
 }
