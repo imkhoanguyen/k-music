@@ -1,0 +1,117 @@
+@if(singer !== undefined) {
+<div class="d-flex flex-column flex-md-row gap-5">
+  <!-- img song -->
+  <div class="img-container flex-shrink-0">
+    <img
+      nz-image
+      class="song-img img-fluid"
+      nzSrc="{{ singer.imgUrl }}"
+      alt="{{ singer.name }}"
+    />
+  </div>
+
+  <!-- info singer -->
+  <div class="d-flex flex-column gap-2">
+    <h2 class="p-0 mb-3 d-flex gap-2 align-items-center">
+      {{ singer.name }}
+    </h2>
+    <div>
+      <p nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="4">
+        {{ singer.introduction }}
+      </p>
+    </div>
+    <div class="d-flex gap-3 align-items-center mt-2">
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center gap-1"
+      >
+        <i class="bi bi-play-fill" style="font-size: 20px"></i>
+        <span>Play</span>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span nz-icon nzType="heart" nzTheme="outline"></span>
+        <span>Thích</span>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span nz-icon nzType="comment" nzTheme="outline"></span>
+        <span>Bình luận</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <nz-table #nzTable [nzData]="singer.songList" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th nzWidth="100px">Ảnh bìa</th>
+        <th>Bài hát</th>
+        <th>Ca sĩ</th>
+        <th nzWidth="120px">Thời gian</th>
+        <th nzWidth="150px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let song of nzTable.data; let index = index">
+        <audio
+          controls
+          hidden
+          (loadedmetadata)="onMetadataLoaded($event, song.id)"
+        >
+          <source [src]="song.songUrl" type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+        <td>{{ index + 1 }}</td>
+        <td class="image-column">
+          <img
+            nz-image
+            [nzSrc]="song.imgUrl"
+            [alt]="song.name"
+            class="img-table-mini"
+          />
+        </td>
+        <td>{{ song.name }}</td>
+        <td>{{ utilService.getSingersString(song) }}</td>
+        <td>
+          <span *ngIf="audioDurations[song.id]">
+            {{ audioDurations[song.id] }}
+          </span>
+          <span *ngIf="!audioDurations[song.id]">Loading...</span>
+        </td>
+        <td>
+          <button class="btn btn-sm fs-6">
+            <div class="d-flex">
+              <div
+                class="container-btn d-flex gap-2 justify-content-center align-items-center"
+              >
+                <button class="btn-icon">
+                  <i class="bi bi-play"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+                <button class="btn-icon">
+                  <span nz-icon nzType="heart" nzTheme="outline"></span>
+                </button>
+              </div>
+            </div>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+}

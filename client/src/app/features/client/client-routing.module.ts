@@ -5,6 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { PlaylistDetailComponent } from './playlist/playlist-detail/playlist-detail.component';
 import { SongListComponent } from './song/song-list/song-list.component';
 import { SongDetailComponent } from './song/song-detail/song-detail.component';
+import { SingerListComponent } from './singer/singer-list/singer-list.component';
+import { SingerDetailComponent } from './singer/singer-detail/singer-detail.component';
 
 const routes: Routes = [
   {
@@ -15,6 +17,8 @@ const routes: Routes = [
       { path: 'playlist/:id', component: PlaylistDetailComponent },
       { path: 'song', component: SongListComponent },
       { path: 'song/:id', component: SongDetailComponent },
+      { path: 'singer', component: SingerListComponent },
+      { path: 'singer/:id', component: SingerDetailComponent },
     ],
   },
 ];
