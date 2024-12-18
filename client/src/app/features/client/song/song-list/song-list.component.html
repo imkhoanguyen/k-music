@@ -1,6 +1,21 @@
+<ul
+  *ngIf="genres && genres.length > 0"
+  class="d-flex gap-3 align-items-center mb-4"
+>
+  <li (click)="selectGenre(0)" [class.active]="selectedGenre === 0">Tất cả</li>
+  @for (item of genres; track item.id) {
+  <li
+    (click)="selectGenre(item.id || 0)"
+    [class.active]="selectedGenre === item.id"
+  >
+    {{ item.name }}
+  </li>
+  }
+</ul>
+
 <nz-list nzGrid>
   <div nz-row [nzGutter]="16" class="justify-content-center">
-    @for (item of playlists; track item) {
+    @for (item of songs; track item) {
     <div
       nz-col
       [nzXXl]="5"
@@ -10,7 +25,7 @@
       [nzSm]="12"
       [nzXs]="24"
     >
-      <nz-list-item (click)="openPlaylistDetail(item.id)">
+      <nz-list-item (click)="openSongDetail(item.id)">
         <nz-card nzHoverable style="width: 250px" [nzCover]="coverTemplate">
           <nz-card-meta nzTitle="{{ item.name }}"></nz-card-meta>
         </nz-card>

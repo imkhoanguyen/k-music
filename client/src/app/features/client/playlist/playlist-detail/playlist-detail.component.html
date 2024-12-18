@@ -26,8 +26,32 @@
       {{ utilService.getFormattedDate(playlist.updated) }}
     </div>
     <div class="d-flex gap-3 align-items-center mt-2">
-      <button nz-button nzType="primary" nzSize="large">
-        <i class="bi bi-plus-circle me-2"></i> <span>Play</span>
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center gap-1"
+      >
+        <i class="bi bi-play-fill" style="font-size: 20px"></i>
+        <span>Play</span>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span nz-icon nzType="heart" nzTheme="outline"></span>
+        <span>Thích</span>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span nz-icon nzType="comment" nzTheme="outline"></span>
+        <span>Bình luận</span>
       </button>
     </div>
   </div>
@@ -42,7 +66,7 @@
         <th>Bài hát</th>
         <th>Ca sĩ</th>
         <th nzWidth="120px">Thời gian</th>
-        <th nzWidth="120px"></th>
+        <th nzWidth="150px"></th>
       </tr>
     </thead>
     <tbody>
@@ -64,7 +88,7 @@
             class="img-table-mini"
           />
         </td>
-        <td></td>
+        <td>{{ song.name }}</td>
         <td>{{ utilService.getSingersString(song) }}</td>
         <td>
           <span *ngIf="audioDurations[song.id]">
@@ -75,20 +99,19 @@
         <td>
           <button class="btn btn-sm fs-6">
             <div class="d-flex">
-              <span>{{ song.name }}</span>
               <div
                 class="container-btn d-flex gap-2 justify-content-center align-items-center"
               >
-                <button>
+                <button class="btn-icon">
                   <i class="bi bi-play"></i>
                 </button>
-                <button>
-                  <i class="bi bi-plus-circle"></i>
+                <button class="btn-icon">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+                <button class="btn-icon">
+                  <span nz-icon nzType="heart" nzTheme="outline"></span>
                 </button>
               </div>
-              <button>
-                <span nz-icon nzType="heart" nzTheme="outline"></span>
-              </button>
             </div>
           </button>
         </td>

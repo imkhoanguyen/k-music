@@ -1,16 +1,17 @@
+<div class="d-flex align-items-center"></div>
 <nz-layout>
   <nz-header>
-    <div class="logo">
+    <a routerLink="/" class="logo">
       <img
         src="img/logo-no-background.png"
         alt="k music logo"
         width="150"
         height="auto"
       />
-    </div>
+    </a>
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item>Trang chủ</li>
-      <li nz-menu-item>Danh sách phát</li>
+      <li routerLink="/" routerLinkActive="active" nz-menu-item>Trang chủ</li>
+      <li routerLink="/song" routerLinkActive="active" nz-menu-item>Bài hát</li>
       <li nz-menu-item>Ca sĩ</li>
     </ul>
   </nz-header>

@@ -26,3 +26,8 @@ nz-footer {
 .inner-content {
   min-height: 100vh;
 }
+
+li.active {
+  background-color: #3fa9ff;
+  font-weight: bold;
+}
