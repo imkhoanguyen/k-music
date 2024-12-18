@@ -328,14 +328,14 @@ yù niǎn xiāng chē huí bù qù cóngqián",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
-                        new SongSinger(6,8),
+                        new SongSinger(5,8),
                     },
 
                     SongGenres = new List<SongGenre>
                     {
                         // song, genre
-                        new SongGenre(6,2),
-                        new SongGenre(6,3),
+                        new SongGenre(5,2),
+                        new SongGenre(5,3),
                     }
                 },
 
@@ -390,16 +390,16 @@ mèng yǔ xǐng lúnhúi",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
-                        new SongSinger(7,10),
-                        new SongSinger(7,9),
+                        new SongSinger(6,10),
+                        new SongSinger(6,9),
 
                     },
 
                     SongGenres = new List<SongGenre>
                     {
                         // song, genre
-                        new SongGenre(7,2),
-                        new SongGenre(7,3),
+                        new SongGenre(6,2),
+                        new SongGenre(6,3),
                     }
                 },
 
@@ -414,16 +414,16 @@ mèng yǔ xǐng lúnhúi",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
-                        new SongSinger(8,6),
-                        new SongSinger(8,11),
+                        new SongSinger(7,6),
+                        new SongSinger(7,11),
 
                     },
 
                     SongGenres = new List<SongGenre>
                     {
                         // song, genre
-                        new SongGenre(8,2),
-                        new SongGenre(8,3),
+                        new SongGenre(7,2),
+                        new SongGenre(7,3),
                     }
                 },
 
@@ -501,16 +501,16 @@ yīng shì lǜféi hóng shòu
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
-                        new SongSinger(9,12),
-                        new SongSinger(9,13),
+                        new SongSinger(8,12),
+                        new SongSinger(8,13),
 
                     },
 
                     SongGenres = new List<SongGenre>
                     {
                         // song, genre
-                        new SongGenre(9,2),
-                        new SongGenre(9,3),
+                        new SongGenre(8,2),
+                        new SongGenre(8,3),
                     }
                 },
 
@@ -590,7 +590,36 @@ bù gān de gān yuàn",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
-                        new SongSinger(10,15),
+                        new SongSinger(9,15),
+
+                    },
+
+                    SongGenres = new List<SongGenre>
+                    {
+                        // song, genre
+                        new SongGenre(9,2),
+                        new SongGenre(9,3),
+                    }
+                },
+
+
+             new Song
+                {
+                    Name = @"Chỉ hỏi nàng có bằng lòng?/只问你肯不肯",
+                    ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1734444508/chihoinangcobanglong_goi5he.jpg",
+                    SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1733652340/y2mate.com_-_Vietsubpinyin_Ch%E1%BB%89_h%E1%BB%8Fi_n%C3%A0ng_c%C3%B3_b%E1%BA%B1ng_l%C3%B2ng_H%E1%BB%93_H%E1%BA%A1Minh_Lan_truy%E1%BB%87n_OST_%E5%8F%AA%E9%97%AE%E4%BD%A0%E8%82%AF%E4%B8%8D%E8%82%AF_%E8%83%A1%E5%A4%8F%E7%9F%A5%E5%90%A6%E7%9F%A5%E5%90%A6%E5%BA%94%E6%98%AF%E7%BB%BF%E8%82%A5%E7%BA%A2%E7%98%A6%E6%A6%82%E5%BF%B5%E6%9B%B2_cevypx.mp3",
+                    Introduction = @"Chỉ hỏi nàng có bằng lòng?
+Nhạc phim Minh Lan truyện aka Thật ư thật ư phải là hồng phai xanh thắm
+Lời: Trương Tịnh Di
+Nhạc: Lưu Huyền Đậu
+Biên khúc: Lưu Huyền Đậu
+Biểu diễn: Hồ Hạ",
+                    Lyric = @"Tạm chưa có",
+
+                    SongSingers = new List<SongSinger>
+                    {
+                        // song, singer
+                        new SongSinger(10,16),
 
                     },
 
@@ -599,6 +628,95 @@ bù gān de gān yuàn",
                         // song, genre
                         new SongGenre(10,2),
                         new SongGenre(10,3),
+                    }
+                },
+
+             new Song
+                {
+                    Name = @"Dữ Quân Quy/与君归",
+                    ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1734479713/duquanquy_bcomxh.jpg",
+                    SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1734479256/D%E1%BB%AF_Qu%C3%A2n_Quy_-_%C4%90%C3%A0n_Ki%E1%BB%87n_Th%E1%BB%A9_L%E1%BA%A1c_Ti%E1%BB%83u_%C4%90%C3%A0o_bz7gaj.mp3",
+                    Introduction = @"Tạm chưa có",
+                    Lyric = @"𝑝𝑖𝑛𝑦𝑖𝑛
+jiāng suìyuè dù chéng yī yè piāoyáo de zhōu
+yóuyìguò xiōngyǒng yòu wān yán de líchóu
+pà wǎngshì bèi yíngmiàn ér lái de hán fēng chuī zhòu
+jiǎo sàn chéng yīpiàn jiāngshuǐ yōuyōu
+yòng zhǐ jiān mósāguò pòliè de quēkǒu
+bù gǎn kàn jìng zhōng de cāng yán yǔ hàoshǒu
+duōnián hòu sīniàn què yīrán hái fēnglì rú jiù
+qīng jiǎnle yīlù rényǐng xiāoshòu
+jiāng huíyì yán chéng mòjī
+xiě yī zhǐ línlí
+jìng yǔ rén jù qù
+hé chù kě wèn guīqī
+tóng jìng pòsuìle biélí
+xiāngsī zǒng nán jì
+qiān wàn lǐ
+xiào cǐshēng míng lù rónghuá
+huàn zuò jìng zhōng huā
+nán dǐ nǐ shǒuzhōng yī zhǎn qīngchá
+ruò néng jǔ bēi gòng qí méi
+jiāng qiánchén yǐn xià
+xiāngyī xiāngbàn bù shě zhāoxì
+xiāngbàn gòng zhāoxì
+língdīng zài shānhé tiānyá
+shuāng bái é qián fā
+fàng yǎn wàng rénjiān héyǐ wéi jiā
+yuàn qīng shuāng yìng míngyuè
+zhào jìng zhōng rényǐng chéng shuāng
+yǔ jūn guī qù
+kuí kuòle bànshēng fēngyǔ
+
+lóu zhōng shù bǐ
+liú shàng línquánfù
+yǎn juǎn liǎng shēng
+shì yǔ jūn tóng guī
+
+jiāng huíyì yán chéng mòjī
+xiě yī zhǐ línlí
+jìng yǔ rén jù qù
+hé chù kě wèn guīqī
+tóng jìng pòsuìle biélí
+xiāngsī zǒng nán jì
+qiān wàn lǐ
+xiào cǐshēng míng lù rónghuá
+huàn zuò jìng zhōng huā
+nán dǐ nǐ shǒuzhōng yī zhǎn qīngchá
+ruò néng jǔ bēi gòng qí méi
+jiāng qiánchén yǐn xià
+xiāngyī xiāngbàn bù shě zhāoxì
+xiāngbàn gòng zhāoxì
+língdīng zài shānhé tiānyá
+shuāng bái é qián fā
+fàng yǎn wàng rénjiān héyǐ wéi jiā
+yuàn qīng shuāng yìng míngyuè
+zhào jìng zhōng rényǐng chéng shuāng
+yǔ jūn guī qù
+kuí kuòle bànshēng fēngyǔ
+jiāng suìyuè dù chéng yī yè bù xì zhī zhōu
+yóuyìguò xiōngyǒng yòu wān yán de jiāng liú
+wǎngshì bèi yī céng céng yàng kāi liàn yàn zài xīntóu
+míngmiè de yuè sè yōuyōu
+míngmiè de yuè sè yōuyōu
+
+shí fāng bù zài
+sìhǎi wú cún
+nǎi gǎn yǔ ěr jué",
+
+                    SongSingers = new List<SongSinger>
+                    {
+                        // song, singer
+                        new SongSinger(11,17),
+
+                    },
+
+                    SongGenres = new List<SongGenre>
+                    {
+                        // song, genre
+                        new SongGenre(11,2),
+                        new SongGenre(11,3),
+                        new SongGenre(11,4),
                     }
                 },
             };

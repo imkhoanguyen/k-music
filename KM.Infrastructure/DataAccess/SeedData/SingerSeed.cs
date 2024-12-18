@@ -296,8 +296,6 @@ Tác phẩm tiêu biểu: phim “20 Again”; album “Reloaded”; ca khúc �
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1733669395/15-locham_s7t2vq.webp",
                 },
 
-
-
                        new Singer
                 {
                     Name = @"Ngô Thanh Phong/吴青峰",
@@ -320,10 +318,45 @@ Tác phẩm tiêu biểu: album ""Spaceman"", đĩa đơn ""Everybody Woohoo"", 
                     Location = "Trung quốc",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1733674754/14-ngothanhphong_bl3tfq.webp",
                 },
+
+                       new Singer
+                {
+                    Name = @"Hồ Hạ/胡夏",
+                    Gender = Gender.Male,
+                    Introduction = @"Tên nước ngoài: Hồ Hạ
+
+Bí danh: Hồ Hiểu Hạ, Hạ Hạ, Tiểu Hạ, Thanh Tuyền vương
+
+Quốc tịch: Trung Quốc
+
+Nơi sinh: Khu tự trị dân tộc Choang Quảng Tây
+
+Ngày sinh: 1 tháng 3 năm 1990
+
+Nghề nghiệp: Ca sĩ, diễn viên
+
+Các tác phẩm tiêu biểu: “Những Năm Đó”, “Mùa Hè Tình Yêu”, “Randian”, “Khi Em Lắng Nghe Anh”, “Truyện Cổ Buồn”, “Kính Gọng Đen”, “Tĩnh Điện”...
+
+Thành tích chính: Nhà vô địch Super Avenue of Stars Đài Loan lần thứ 6, Giải thưởng Nghệ sĩ mới xuất sắc nhất Giải Giai điệu vàng Singapore lần thứ 17, Giải Bài hát được yêu thích nhất của Giới âm nhạc Hồng Kông, Giải thưởng Người mới xuất sắc nhất của năm tại Liên hoan CCTV-MTV tại Trung Quốc đại lục, Bảng xếp hạng âm nhạc lần thứ 12 Giải thưởng người mới xuất sắc nhất
+
+Giới thiệu ngắn gọn: Hu Xia, sinh ngày 1 tháng 3 năm 1990 tại quận Xixiangtang, thành phố Nam Ninh, Khu tự trị dân tộc Choang Quảng Tây, là một ca sĩ và diễn viên.",
+                    Location = "Trung quốc",
+                    ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1734448656/16-hoha_cix3pp.webp",
+                },
+
+                       new Singer
+                {
+                    Name = @"Lạc Tiểu Đào/乐小桃",
+                    Gender = Gender.Female,
+                    Introduction = @"Cảm ơn mọi người đã lắng nghe❤",
+                    Location = "Trung quốc",
+                    ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1734479562/17-lactieudao_c0vyca.webp",
+                },
             };
 
             context.Singers.AddRange(singers);
             await context.SaveChangesAsync();
+
         }
     }
 }

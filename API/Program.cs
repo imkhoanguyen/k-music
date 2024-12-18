@@ -112,6 +112,8 @@ try
     await GenreSeed.SeedAsync(context);
     await SingerSeed.SeedAsync(context);
     await SongSeed.SeedAsync(context);
+    await PlaylistSeed.SeedAsync(context, userManager);
+    await context.SaveChangesAsync();
 } catch(Exception ex)
 {
     Console.WriteLine(ex);
