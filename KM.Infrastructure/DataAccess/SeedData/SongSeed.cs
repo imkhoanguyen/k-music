@@ -708,7 +708,7 @@ nǎi gǎn yǔ ěr jué",
                     {
                         // song, singer
                         new SongSinger(11,17),
-
+                        new SongSinger(11,4),
                     },
 
                     SongGenres = new List<SongGenre>

@@ -19,12 +19,15 @@ namespace KM.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<PagedList<Song>> GetAllAsync(SongParams prm, bool tracked = false)
+        public async Task<PagedList<Song>> GetAllAsync(SongParams prm, Expression<Func<Song, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.Songs.AsQueryable() : _context.Songs.AsNoTracking().AsQueryable();
 
             query = query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
                     .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre);
+
+            if(expression != null)
+                query = query.Where(expression);
 
             if (!prm.Search.IsNullOrEmpty()) // search with song name and singer name
             {
@@ -127,9 +130,13 @@ namespace KM.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Song>> GetAllAsync(bool tracked)
+
+        public async Task<IEnumerable<Song>> GetAllAsync(Expression<Func<Song, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.Songs.AsQueryable() : _context.Songs.AsNoTracking().AsQueryable();
+
+            if(expression != null)
+                query = query.Where(expression);
 
             return await query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
                     .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre).ToListAsync();

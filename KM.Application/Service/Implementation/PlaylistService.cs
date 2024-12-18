@@ -97,7 +97,7 @@ namespace KM.Application.Service.Implementation
                 throw new BadRequestException("Số lượng bài hát phải lớn hơn hoặc bằng 1");
             }
 
-            var songList = await _unit.Song.GetAllAsync(false);
+            var songList = await _unit.Song.GetAllAsync();
 
             // select 
             if (dto.SelectedGenres.Count > 0)

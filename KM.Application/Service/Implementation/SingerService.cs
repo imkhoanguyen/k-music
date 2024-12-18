@@ -1,4 +1,5 @@
 ﻿using KM.Application.DTOs.Singers;
+using KM.Application.DTOs.Songs;
 using KM.Application.Interfaces;
 using KM.Application.Mappers;
 using KM.Application.Parameters;
@@ -61,23 +62,23 @@ namespace KM.Application.Service.Implementation
             }
         }
 
-        public async Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm, bool tracked = false)
+        public async Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm)
         {
-            var singers = await _unit.Singer.GetAllAsync(prm, tracked);
+            var singers = await _unit.Singer.GetAllAsync(prm);
 
             var singerDtos = singers.Select(SingerMapper.EntityToSingerDto);
 
             return new PagedList<SingerDto>(singerDtos, singers.TotalCount, singers.CurrentPage, singers.PageSize);
         }
 
-        public async Task<IEnumerable<SingerDto>> GetAllAsync(bool tracked = false)
+        public async Task<IEnumerable<SingerDto>> GetAllAsync()
         {
-            var singers = await _unit.Singer.GetAllWithoutPagingAsync(tracked);
+            var singers = await _unit.Singer.GetAllWithoutPagingAsync();
 
             return singers.Select(SingerMapper.EntityToSingerDto);
         }
 
-        public async Task<SingerDto> GetAsync(Expression<Func<Singer, bool>> expression, bool tracked = false)
+        public async Task<SingerDto> GetAsync(Expression<Func<Singer, bool>> expression)
         {
             var singer = await _unit.Singer.GetAsync(expression);
 
@@ -90,6 +91,25 @@ namespace KM.Application.Service.Implementation
         {
             var locations = await _unit.Singer.GetLocationsAsync();
             return locations;
+        }
+
+        public async Task<SingerDetailDto> GetSingerDetail(Expression<Func<Singer, bool>> expression, SongParams prm)
+        {
+            var singer = await _unit.Singer.GetAsync(expression);
+            if (singer == null)
+                throw new NotFoundException("Không tìm thấy ca sĩ");
+            var songs = await _unit.Song.GetAllAsync(prm, s => s.SongSingers.Any(sg => sg.SingerId == singer.Id));
+            var songDtos = songs.Select(SongMapper.EntityToSongDto);
+            return new SingerDetailDto
+            {
+                Id = singer.Id,
+                Name = singer.Name,
+                Gender = singer.Gender.ToString(),
+                Introduction = singer.Introduction,
+                Location = singer.Location,
+                ImgUrl = singer.ImgUrl,
+                SongList = new PagedList<SongDto>(songDtos, songs.TotalCount, songs.CurrentPage, songs.PageSize)
+            };
         }
 
         public async Task<SingerDto> UpdateSingerAsync(int id, SingerUpdateDto singerUpdateDto)

@@ -21,7 +21,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SongDto>>> GetSongs([FromQuery] SongParams prm)
         {
-            var song = await _songService.GetAllAsync(prm, false);
+            var song = await _songService.GetAllAsync(prm);
 
             Response.AddPaginationHeader(song);
 

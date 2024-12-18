@@ -57,12 +57,11 @@ namespace KM.Application.Service.Implementation
             // add song to db
             await _unit.Song.AddAsync(song);
 
-            // save to db
             if (await _unit.CompleteAsync())
             {
-               // get new song because current song have not song list and genre list
+              
                var songToReturn = await _unit.Song.GetAsync(s => s.Id == song.Id);
-               return SongMapper.EntityToSongDto(songToReturn); // map song to songDto
+               return SongMapper.EntityToSongDto(songToReturn); 
             }
 
             throw new BadRequestException("Xảy ra lỗi khi thêm bài hát");
@@ -97,9 +96,9 @@ namespace KM.Application.Service.Implementation
                 throw new BadRequestException("Xảy ra lỗi khi xóa bài hát");
         }
 
-        public async Task<PagedList<SongDto>> GetAllAsync(SongParams prm, bool tracked = false)
+        public async Task<PagedList<SongDto>> GetAllAsync(SongParams prm)
         {
-            var songs = await _unit.Song.GetAllAsync(prm, tracked);
+            var songs = await _unit.Song.GetAllAsync(prm);
 
             var songDtos = songs.Select(SongMapper.EntityToSongDto); // map
 
@@ -108,13 +107,13 @@ namespace KM.Application.Service.Implementation
 
         public async Task<IEnumerable<SongDto>> GetAllAsync()
         {
-            var songs = await _unit.Song.GetAllAsync(false);
+            var songs = await _unit.Song.GetAllAsync();
             return songs.Select(SongMapper.EntityToSongDto);
         }
 
-        public async Task<SongDto> GetAsync(Expression<Func<Song, bool>> expression, bool tracked = false)
+        public async Task<SongDto> GetAsync(Expression<Func<Song, bool>> expression)
         {
-            var song = await _unit.Song.GetAsync(expression, tracked);
+            var song = await _unit.Song.GetAsync(expression, false);
             if (song == null)
             {
                 throw new NotFoundException("Không tìm thấy bài hát");

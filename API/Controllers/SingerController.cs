@@ -33,9 +33,10 @@ namespace API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<SingerDto>> GetSinger(int id)
+        public async Task<ActionResult<SingerDto>> GetSinger(int id, [FromQuery] SongParams prm)
         {
-            var singer = await _singerService.GetAsync(s => s.Id == id);
+            var singer = await _singerService.GetSingerDetail(s => s.Id == id, prm);
+            Response.AddPaginationHeader(singer.SongList);
             return Ok(singer);
         }
 
