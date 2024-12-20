@@ -8,6 +8,7 @@ import { SongComponent } from './songs/song/song.component';
 import { PlaylistComponent } from './playlists/playlist/playlist.component';
 import { SongDetailComponent } from './songs/song-detail/song-detail.component';
 import { PlaylistDetailComponent } from './playlists/playlist-detail/playlist-detail.component';
+import { RoleComponent } from './role/role.component';
 
 // chú ý thứ tự để routing
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     children: [
+      { path: 'role', component: RoleComponent },
       { path: 'playlist', component: PlaylistComponent },
       { path: 'playlist/:id', component: PlaylistDetailComponent },
       { path: 'song', component: SongComponent },

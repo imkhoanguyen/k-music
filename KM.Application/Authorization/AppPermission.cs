@@ -34,6 +34,8 @@ namespace KM.Application.Authorization
         public const string Role_Edit = nameof(Role_Edit);
         public const string Role_Delete = nameof(Role_Delete);
         public const string Role_Read = nameof(Role_Read);
+        public const string Role_ChangePermission = nameof(Role_ChangePermission);
+
 
         public const string Access_Admin = nameof(Access_Admin);
 
@@ -78,6 +80,8 @@ namespace KM.Application.Authorization
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_Edit},
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_Delete},
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_Read},
+            new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_ChangePermission},
+
 
 
             // access admin page

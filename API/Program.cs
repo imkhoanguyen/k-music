@@ -114,7 +114,6 @@ try
     await SongSeed.SeedAsync(context);
     await PlaylistSeed.SeedAsync(context, userManager);
     await RoleClaimSeed.SeedAsync(context, roleManager);
-    await context.SaveChangesAsync();
 } catch(Exception ex)
 {
     Console.WriteLine(ex);

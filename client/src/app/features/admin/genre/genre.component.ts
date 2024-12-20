@@ -48,7 +48,6 @@ export class GenreComponent implements OnInit {
     this.initGenreForm();
   }
 
-
   //load genre
   genres: Genre[] = [];
   genreParams = new GenreParams();
