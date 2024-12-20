@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241220043600_initDb")]
+    [Migration("20241220151403_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -57,9 +57,6 @@ namespace KM.Infrastructure.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsVip")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -96,12 +93,6 @@ namespace KM.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime?>("VipExpiryDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("VipPlanId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -111,8 +102,6 @@ namespace KM.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("VipPlanId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -445,34 +434,43 @@ namespace KM.Infrastructure.Migrations
                     b.ToTable("SongSingers");
                 });
 
-            modelBuilder.Entity("KM.Domain.Entities.Transaction", b =>
+            modelBuilder.Entity("KM.Domain.Entities.UserVipSubscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("TransactionDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VipPlanName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("VipPackageId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("VipPackageId");
 
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("KM.Domain.Entities.VipPlan", b =>
+            modelBuilder.Entity("KM.Domain.Entities.VipPackage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -480,7 +478,11 @@ namespace KM.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Duration")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DurationDay")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDelete")
@@ -654,15 +656,6 @@ namespace KM.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("AppRole");
                 });
 
-            modelBuilder.Entity("KM.Domain.Entities.AppUser", b =>
-                {
-                    b.HasOne("KM.Domain.Entities.VipPlan", "VipPlan")
-                        .WithMany()
-                        .HasForeignKey("VipPlanId");
-
-                    b.Navigation("VipPlan");
-                });
-
             modelBuilder.Entity("KM.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("KM.Domain.Entities.Playlist", "Playlist")
@@ -824,6 +817,23 @@ namespace KM.Infrastructure.Migrations
                     b.Navigation("Singer");
 
                     b.Navigation("Song");
+                });
+
+            modelBuilder.Entity("KM.Domain.Entities.UserVipSubscription", b =>
+                {
+                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("KM.Domain.Entities.VipPackage", "VipPackage")
+                        .WithMany()
+                        .HasForeignKey("VipPackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("VipPackage");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
