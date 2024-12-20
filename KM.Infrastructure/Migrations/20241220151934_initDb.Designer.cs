@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241220151612_initDb")]
+    [Migration("20241220151934_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -442,9 +442,6 @@ namespace KM.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -456,14 +453,14 @@ namespace KM.Infrastructure.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("VipPackageId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VipPackageId");
 
@@ -823,7 +820,9 @@ namespace KM.Infrastructure.Migrations
                 {
                     b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("KM.Domain.Entities.VipPackage", "VipPackage")
                         .WithMany()

@@ -9,6 +9,7 @@
         ISongSingerRepository SongSinger { get; }
         IPlaylistRepository Playlist { get; }
         IPlaylistSongRepository PlaylistSong { get; }
+        IVipPackageRepository VipPackage { get; }
         Task<bool> CompleteAsync();
     }
 }

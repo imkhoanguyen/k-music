@@ -380,18 +380,18 @@ namespace KM.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     VipPackageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserVipSubscriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserVipSubscriptions_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_UserVipSubscriptions_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserVipSubscriptions_VipPackages_VipPackageId",
                         column: x => x.VipPackageId,
@@ -610,9 +610,9 @@ namespace KM.Infrastructure.Migrations
                 column: "SingerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserVipSubscriptions_AppUserId",
+                name: "IX_UserVipSubscriptions_UserId",
                 table: "UserVipSubscriptions",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserVipSubscriptions_VipPackageId",
