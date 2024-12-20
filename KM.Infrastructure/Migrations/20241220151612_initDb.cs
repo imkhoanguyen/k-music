@@ -126,7 +126,7 @@ namespace KM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VipPlans",
+                name: "VipPackages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -140,7 +140,7 @@ namespace KM.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VipPlans", x => x.Id);
+                    table.PrimaryKey("PK_VipPackages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,7 +372,7 @@ namespace KM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transactions",
+                name: "UserVipSubscriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -386,16 +386,16 @@ namespace KM.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.PrimaryKey("PK_UserVipSubscriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transactions_AspNetUsers_AppUserId",
+                        name: "FK_UserVipSubscriptions_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Transactions_VipPlans_VipPackageId",
+                        name: "FK_UserVipSubscriptions_VipPackages_VipPackageId",
                         column: x => x.VipPackageId,
-                        principalTable: "VipPlans",
+                        principalTable: "VipPackages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -610,13 +610,13 @@ namespace KM.Infrastructure.Migrations
                 column: "SingerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AppUserId",
-                table: "Transactions",
+                name: "IX_UserVipSubscriptions_AppUserId",
+                table: "UserVipSubscriptions",
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_VipPackageId",
-                table: "Transactions",
+                name: "IX_UserVipSubscriptions_VipPackageId",
+                table: "UserVipSubscriptions",
                 column: "VipPackageId");
         }
 
@@ -666,7 +666,7 @@ namespace KM.Infrastructure.Migrations
                 name: "SongSingers");
 
             migrationBuilder.DropTable(
-                name: "Transactions");
+                name: "UserVipSubscriptions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -684,7 +684,7 @@ namespace KM.Infrastructure.Migrations
                 name: "Songs");
 
             migrationBuilder.DropTable(
-                name: "VipPlans");
+                name: "VipPackages");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

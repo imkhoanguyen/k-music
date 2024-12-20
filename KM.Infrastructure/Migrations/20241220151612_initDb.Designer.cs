@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241220151403_initDb")]
+    [Migration("20241220151612_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -467,7 +467,7 @@ namespace KM.Infrastructure.Migrations
 
                     b.HasIndex("VipPackageId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("UserVipSubscriptions");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.VipPackage", b =>
@@ -500,7 +500,7 @@ namespace KM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VipPlans");
+                    b.ToTable("VipPackages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

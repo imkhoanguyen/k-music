@@ -464,7 +464,7 @@ namespace KM.Infrastructure.Migrations
 
                     b.HasIndex("VipPackageId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("UserVipSubscriptions");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.VipPackage", b =>
@@ -497,7 +497,7 @@ namespace KM.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VipPlans");
+                    b.ToTable("VipPackages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
