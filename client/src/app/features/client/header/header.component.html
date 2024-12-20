@@ -60,7 +60,13 @@
         <li nz-menu-item>Danh sách phát</li>
         <li nz-menu-item>Bài hát đã thích</li>
         <li nz-menu-item>Ca sĩ đã thích</li>
-        <li routerLink="/admin" nz-menu-item>Admin</li>
+        <li
+          *ngIf="authService.hasClaim('Access_Admin')"
+          routerLink="/admin"
+          nz-menu-item
+        >
+          Admin
+        </li>
         <li nz-menu-divider></li>
         <li class="fw-bold" (click)="logout()" nz-menu-item>Đăng xuất</li>
       </ul>

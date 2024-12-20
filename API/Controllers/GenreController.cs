@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using KM.Application.Authorization;
 using KM.Application.DTOs.Genres;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
@@ -41,6 +42,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.Genre_Create)]
         public async Task<ActionResult<GenreDto>> CreateGenre(GenreCreateDto genreCreateDto)
         {
             if (!ModelState.IsValid)

@@ -1,4 +1,5 @@
-﻿using API.Middleware;
+﻿using API.Authorization;
+using API.Middleware;
 using API.Service.Abstract;
 using API.Service.Implementation;
 using KM.Application.Interfaces;
@@ -12,6 +13,7 @@ using KM.Infrastructure.DataAccess.SeedData;
 using KM.Infrastructure.Repositories;
 using KM.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -74,6 +76,9 @@ builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 
+// register policy
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
 var app = builder.Build();
 
 
@@ -93,6 +98,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

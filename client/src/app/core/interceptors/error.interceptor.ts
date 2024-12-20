@@ -31,6 +31,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               error.error.statusCode + ' - ' + error.error.message
             );
             break;
+          case 403:
+            messageService.showError(
+              '403' + ' - ' + 'Bạn không có quyền thực hiện chức năng này'
+            );
+            break;
           case 404:
             messageService.showError(
               error.error.statusCode + ' - ' + error.error.message
