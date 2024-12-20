@@ -9,6 +9,7 @@ import { PlaylistComponent } from './playlists/playlist/playlist.component';
 import { SongDetailComponent } from './songs/song-detail/song-detail.component';
 import { PlaylistDetailComponent } from './playlists/playlist-detail/playlist-detail.component';
 import { RoleComponent } from './role/role.component';
+import { RolePermissionComponent } from './role-permission/role-permission.component';
 
 // chú ý thứ tự để routing
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     children: [
+      { path: 'role/permission/:id', component: RolePermissionComponent },
       { path: 'role', component: RoleComponent },
       { path: 'playlist', component: PlaylistComponent },
       { path: 'playlist/:id', component: PlaylistDetailComponent },

@@ -17,6 +17,7 @@ import { RoleService } from '../../../core/services/role.service';
 import { MessageService } from '../../../core/services/message.service';
 import { Role, RoleParams } from '../../../shared/models/role';
 import { Pagination } from '../../../shared/models/pagination';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-role',
@@ -40,6 +41,7 @@ export class RoleComponent implements OnInit {
   private roleService = inject(RoleService);
   private messageServies = inject(MessageService);
   private modal = inject(NzModalService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadRoles();
@@ -198,5 +200,10 @@ export class RoleComponent implements OnInit {
       nzCancelText: 'No',
       nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
     });
+  }
+
+  onGoRolePermission(roleId?: string) {
+    if (roleId) this.router.navigate(['/admin/role/permission', roleId]);
+    else this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau');
   }
 }

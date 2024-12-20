@@ -1,0 +1,4 @@
+::ng-deep .form-check-input:checked {
+  background-color: #3fa9ff;
+  border-color: #3fa9ff;
+}
