@@ -7,6 +7,7 @@ import { SongListComponent } from './song/song-list/song-list.component';
 import { SongDetailComponent } from './song/song-detail/song-detail.component';
 import { SingerListComponent } from './singer/singer-list/singer-list.component';
 import { SingerDetailComponent } from './singer/singer-detail/singer-detail.component';
+import { VipPackageComponent } from './vip-package/vip-package.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      { path: 'vip-package', component: VipPackageComponent },
       { path: 'playlist/:id', component: PlaylistDetailComponent },
       { path: 'song', component: SongListComponent },
       { path: 'song/:id', component: SongDetailComponent },

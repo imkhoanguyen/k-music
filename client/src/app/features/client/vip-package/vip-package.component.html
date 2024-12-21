@@ -1,0 +1,36 @@
+<div class="ctn-pack p-5">
+  <h1 class="text-center mb-5 fw-bold">Đăng ký hội viên</h1>
+  <nz-list nzGrid>
+    <div nz-row [nzGutter]="16">
+      @for (item of vipPackages; track item) {
+      <div nz-col [nzSpan]="8">
+        <nz-list-item>
+          <nz-ribbon
+            [nzText]="getDiscountPercent(item.price, item.priceSell)"
+            nzColor="red"
+          >
+            <nz-card>
+              <h2>{{ item.name }}</h2>
+              <strong style="display: block; font-size: 2rem" class="mb-3"
+                >Chỉ từ {{ item.priceSell }}đ /
+                {{ item.durationDay }} ngày</strong
+              >
+              <button
+                nz-button
+                nzSize="large"
+                nzType="primary"
+                class="w-100 text-uppercase fw-bold"
+              >
+                Đăng ký ngay!
+              </button>
+              <nz-divider></nz-divider>
+              <strong>Đặc quyền đặt biệt:</strong>
+              <div class="long-text">{{ item.description }}</div>
+            </nz-card>
+          </nz-ribbon>
+        </nz-list-item>
+      </div>
+      }
+    </div>
+  </nz-list>
+</div>
