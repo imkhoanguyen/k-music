@@ -21,7 +21,7 @@ namespace API.Controllers
             return Ok(list);
         }
 
-        [HttpGet("{int:id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<VipPackage>> GetVipPackage(int id)
         {
             return await _vipPackageService.GetAsync(vp => vp.Id == id);
@@ -39,7 +39,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetVipPackage), new { id = vipPackage.Id }, vipPackage);
         }
 
-        [HttpPut("{int:id}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<VipPackage>> Update(int id, VipPackage entity)
         {
             if(!ModelState.IsValid)
@@ -51,7 +51,7 @@ namespace API.Controllers
             return Ok(vipPackage);
         }
 
-        [HttpDelete("{int:id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _vipPackageService.DeleteAsync(vp => vp.Id == id);

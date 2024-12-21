@@ -18,9 +18,9 @@ namespace KM.Application.Service.Implementation
 
         public async Task<VipPackage> CreateAsync(VipPackageCreateDto dto)
         {
-            if (dto.PriceSell <= dto.Price)
+            if (dto.PriceSell >= dto.Price)
             {
-                throw new BadRequestException("Giá sau khi giảm phải nhỏ hơn giá bán");
+                throw new BadRequestException("Giá bán sau khi giảm phải nhỏ hơn giá bán ban đầu");
             }
 
             var entity = new VipPackage
@@ -44,12 +44,12 @@ namespace KM.Application.Service.Implementation
 
         public async Task DeleteAsync(Expression<Func<VipPackage, bool>> expression)
         {
-            var entity = await _unit.VipPackage.GetAsync(expression);
+            var entity = await _unit.VipPackage.GetAsync(expression, true);
             if (entity == null)
                 throw new NotFoundException("Gói đăng ký không tồn tại");
 
-
-            _unit.VipPackage.Remove(entity);
+            entity.IsDelete = true;
+            
             if (!await _unit.CompleteAsync())
             {
                 throw new Exception("Đã xảy ra lỗi khi xóa gói đăng ký");
@@ -68,9 +68,9 @@ namespace KM.Application.Service.Implementation
 
         public async Task<VipPackage> UpdateAsync(int vipPackageId, VipPackage entity)
         {
-            if (entity.PriceSell <= entity.Price)
+            if (entity.PriceSell >= entity.Price)
             {
-                throw new BadRequestException("Giá sau khi giảm phải nhỏ hơn giá bán");
+                throw new BadRequestException("Giá bán sau khi giảm phải nhỏ hơn giá bán ban đầu");
             }
 
             if (vipPackageId != entity.Id)

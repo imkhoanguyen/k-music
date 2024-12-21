@@ -75,6 +75,8 @@ builder.Services.AddScoped<ISingerService, SingerService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPlaylistService, PlaylistService>();
+builder.Services.AddScoped<IVipPackageService, VipPackageService>();
+
 
 // register policy
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();

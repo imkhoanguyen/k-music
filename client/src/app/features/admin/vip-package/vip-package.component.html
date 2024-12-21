@@ -1,0 +1,175 @@
+<h1 class="mb-4">Quản lý gói đăng ký</h1>
+
+<!-- search & add btn -->
+<div class="d-flex gap-2 mb-3">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <i class="bi bi-plus-circle me-2"></i> <span> Thêm gói đăng ký </span>
+  </button>
+  <form (ngSubmit)="onSearch()" autocomplete="off">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="Nhập tên gói"
+        [(ngModel)]="search"
+        name="searchTerm"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </form>
+</div>
+
+<!-- table vip package -->
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="vipPackages"
+    nzTableLayout="auto"
+    [nzFrontPagination]="true"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th style="width: 5%">Id</th>
+        <th>Tên gói</th>
+        <th>Giá bán ban đầu (VNĐ)</th>
+        <th>Giá bán đã giảm (VNĐ)</th>
+        <th>Thời gian (ngày)</th>
+        <th>Mô tả</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of vipPackages; track item.id) {
+      <tr>
+        <td class="text-center">{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.priceSell }}</td>
+        <td>{{ item.durationDay }}</td>
+        <td>
+          <div class="fixed-height-box">
+            {{ item.description }}
+          </div>
+        </td>
+        <td>
+          <div class="d-flex gap-2 justify-content-center align-items-center">
+            <button class="btn btn-sm fs-6" (click)="showModal(item.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button
+              class="btn btn-sm fs-6"
+              (click)="showDeleteConfirm(item.id || 0)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- modal create & edit -->
+<nz-modal
+  [(nzVisible)]="isVisibleModal"
+  [nzTitle]="isUpdate ? 'Sửa gói đăng ký' : 'Thêm gói đăng ký'"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <form
+    [formGroup]="frm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    *nzModalContent
+  >
+    <div
+      *ngIf="validationErrors && validationErrors.length > 0"
+      class="mx-auto mb-4 bg-danger text-white rounded"
+    >
+      <ul class="list-unstyled p-3">
+        <li *ngFor="let error of validationErrors; let i = index" class="mb-2">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="">Tên gói</label>
+      <input
+        nz-input
+        placeholder="Nhập tên gói"
+        type="text"
+        formControlName="name"
+      />
+      @if(frm.get('name')?.errors && frm.get('name')?.touched) {
+      <span class="text-danger">Vui lòng nhập tên gói</span>
+      }
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-4">
+        <label class="form-label" for="price">Giá bán ban đầu</label>
+        <input
+          id="price"
+          nz-input
+          placeholder="Nhập giá bán bân đầu (VNĐ)"
+          type="number"
+          formControlName="price"
+        />
+      </div>
+      <div class="col-4">
+        <label class="form-label" for="priceSell">Giá bán sau khi giảm</label>
+        <input
+          id="priceSell"
+          nz-input
+          placeholder="Nhập giá bán sau khi giảm (VNĐ)"
+          type="number"
+          formControlName="priceSell"
+        />
+      </div>
+      <div class="col-4">
+        <label class="form-label" for="durationDay">Thời gian (ngày)</label>
+        <input
+          id="durationDay"
+          nz-input
+          placeholder="Nhập thời gian (ngày)"
+          type="number"
+          formControlName="durationDay"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="">Mô tả</label>
+      <textarea
+        rows="4"
+        nz-input
+        placeholder="Nhập mô tả"
+        formControlName="description"
+      ></textarea>
+      @if(frm.get('description')?.errors && frm.get('description')?.touched) {
+      <span class="text-danger">Vui lòng nhập mô tả</span>
+      }
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="frm.invalid || !frm.dirty"
+      >
+        Lưu
+      </button>
+    </div>
+  </form>
+</nz-modal>
