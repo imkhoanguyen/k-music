@@ -10,6 +10,7 @@
         IPlaylistRepository Playlist { get; }
         IPlaylistSongRepository PlaylistSong { get; }
         IVipPackageRepository VipPackage { get; }
+        IUserVipSubscriptionRepository UserVipSubscription { get; }
         Task<bool> CompleteAsync();
     }
 }

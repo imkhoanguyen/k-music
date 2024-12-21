@@ -66,7 +66,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 // register DI
-builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection(CloudinaryConfig.ConfigName));
+builder.Services.Configure<VNPayConfig>(
+                builder.Configuration.GetSection(VNPayConfig.ConfigName));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenreService, GenreService>();
@@ -76,6 +78,9 @@ builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 builder.Services.AddScoped<IVipPackageService, VipPackageService>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
+
 
 
 // register policy

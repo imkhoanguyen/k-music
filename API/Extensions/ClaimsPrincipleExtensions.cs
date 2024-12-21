@@ -16,7 +16,7 @@ namespace API.Extensions
         public static string GetUserId(this ClaimsPrincipal user)
         {
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)
-                ?? throw new BadRequestException("Cannot get username from token");
+                ?? throw new BadRequestException("Cannot get userId from token");
 
             return userId;
         }

@@ -9,7 +9,7 @@
             [nzText]="getDiscountPercent(item.price, item.priceSell)"
             nzColor="red"
           >
-            <nz-card>
+            <nz-card (click)="goPayment(item)">
               <h2>{{ item.name }}</h2>
               <strong style="display: block; font-size: 2rem" class="mb-3"
                 >Chỉ từ {{ item.priceSell }}đ /

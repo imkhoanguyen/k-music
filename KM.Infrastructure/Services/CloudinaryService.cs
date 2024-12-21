@@ -11,7 +11,7 @@ namespace KM.Infrastructure.Services
     public class CloudinaryService : ICloudinaryService
     {
         private readonly Cloudinary _cloudinary;
-        public CloudinaryService(IOptions<CloudinarySettings> config)
+        public CloudinaryService(IOptions<CloudinaryConfig> config)
         {
             var acc = new Account(config.Value.CloudName, config.Value.ApiKey, config.Value.ApiSecret);
             _cloudinary = new Cloudinary(acc);

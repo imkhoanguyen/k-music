@@ -7,6 +7,7 @@ import { VipPackage } from '../../../shared/models/vip-package';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { PaymentService } from '../../../core/services/payment.service';
 @Component({
   selector: 'app-vip-package',
   standalone: true,
@@ -23,6 +24,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 })
 export class VipPackageComponent implements OnInit {
   private vipPackageService = inject(VipPackageService);
+  private paymentService = inject(PaymentService);
   vipPackages: VipPackage[] = [];
   ngOnInit(): void {
     this.loadVipPackages();
@@ -41,5 +43,18 @@ export class VipPackageComponent implements OnInit {
   getDiscountPercent(price: number, priceSell: number): string {
     const discount = ((price - priceSell) / price) * 100;
     return `${Math.round(discount)}%`;
+  }
+
+  goPayment(vipPackage: VipPackage) {
+    this.paymentService.getPaymentUrl(vipPackage).subscribe({
+      next: (res) => {
+        if (res) {
+          window.location.href = res;
+        }
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
   }
 }
