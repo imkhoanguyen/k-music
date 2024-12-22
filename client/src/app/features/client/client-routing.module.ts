@@ -9,6 +9,9 @@ import { SingerListComponent } from './singer/singer-list/singer-list.component'
 import { SingerDetailComponent } from './singer/singer-detail/singer-detail.component';
 import { VipPackageComponent } from './vip-package/vip-package.component';
 import { PaymentReturnComponent } from './payments/payment-return/payment-return.component';
+import { PaymentSuccessComponent } from './payments/payment-success/payment-success.component';
+import { paymentSuccessGuard } from '../../core/guards/payment-success.guard';
+import { paymentProcessingGuard } from '../../core/guards/payment-processing.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +19,16 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'payment/return', component: PaymentReturnComponent },
+      {
+        path: 'payment-success',
+        component: PaymentSuccessComponent,
+        canActivate: [paymentSuccessGuard],
+      },
+      {
+        path: 'payment-return',
+        component: PaymentReturnComponent,
+        canActivate: [paymentProcessingGuard],
+      },
       { path: 'vip-package', component: VipPackageComponent },
       { path: 'playlist/:id', component: PlaylistDetailComponent },
       { path: 'song', component: SongListComponent },

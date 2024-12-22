@@ -8,6 +8,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { PaymentService } from '../../../core/services/payment.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-vip-package',
   standalone: true,
@@ -25,6 +26,7 @@ import { PaymentService } from '../../../core/services/payment.service';
 export class VipPackageComponent implements OnInit {
   private vipPackageService = inject(VipPackageService);
   private paymentService = inject(PaymentService);
+  private router = inject(Router);
   vipPackages: VipPackage[] = [];
   ngOnInit(): void {
     this.loadVipPackages();
@@ -49,7 +51,8 @@ export class VipPackageComponent implements OnInit {
     this.paymentService.getPaymentUrl(vipPackage).subscribe({
       next: (res) => {
         if (res) {
-          window.location.href = res;
+          localStorage.setItem('paymentProcessing', 'true');
+          window.location.replace(res);
         }
       },
       error: (er) => {
