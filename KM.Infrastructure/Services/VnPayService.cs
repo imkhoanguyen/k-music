@@ -66,11 +66,26 @@ namespace KM.Infrastructure.Services
             if(res.ResponseCode == "00")
             {
                 var vipPackage = await _vipPackageService.GetAsync(vp => vp.Id == res.OrderInfo);
+                var userSubscriptions = await _unit.UserVipSubscription.GetAllAsync(uvs => uvs.UserId == res.UserId);
+
+                DateTime newEndDate;
+
+                // get những gói vip chưa hết hạn
+                var activeSubscriptions = userSubscriptions.Where(uvs => uvs.EndDate >= DateTime.Now).ToList();
+
+                if(activeSubscriptions.Any())
+                {
+                    newEndDate = activeSubscriptions.Max(uvs => uvs.EndDate).AddDays(vipPackage.DurationDay);
+                } else
+                {
+                    newEndDate = DateTime.Now.AddDays(vipPackage.DurationDay);
+                }
+
                 var userVipScription = new UserVipSubscription
                 {
                     UserId = res.UserId,
                     StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(vipPackage.DurationDay),
+                    EndDate = newEndDate,
                     Price = vipPackage.PriceSell,
                     VipPackageId = vipPackage.Id
                 };
