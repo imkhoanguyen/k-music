@@ -12,6 +12,8 @@ import { PaymentReturnComponent } from './payments/payment-return/payment-return
 import { PaymentSuccessComponent } from './payments/payment-success/payment-success.component';
 import { paymentSuccessGuard } from '../../core/guards/payment-success.guard';
 import { paymentProcessingGuard } from '../../core/guards/payment-processing.guard';
+import { PaymentFailComponent } from './payments/payment-fail/payment-fail.component';
+import { paymentFailedGuard } from '../../core/guards/payment-failed.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +21,11 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      {
+        path: 'payment-fail',
+        component: PaymentFailComponent,
+        canActivate: [paymentFailedGuard],
+      },
       {
         path: 'payment-success',
         component: PaymentSuccessComponent,

@@ -23,19 +23,24 @@ export class PaymentReturnComponent implements OnInit, OnDestroy {
     };
     this.paymentService.getPaymentReturn(paymentRequest).subscribe({
       next: (res) => {
-        this.paymentService.paymentSuccessed = true;
-        this.router.navigate(['/payment-success'], {
-          queryParams: {
-            name: res.vipPackage.name,
-            startDate: res.startDate,
-            endDate: res.endDate,
-            userName: res.appUser.userName,
-            price: res.price,
-            id: res.id,
-            durationDay: res.durationDay,
-            description: res.description,
-          },
-        });
+        if (res != null) {
+          this.paymentService.paymentSuccessed = true;
+          this.router.navigate(['/payment-success'], {
+            queryParams: {
+              name: res.vipPackage.name,
+              startDate: res.startDate,
+              endDate: res.endDate,
+              userName: res.appUser.userName,
+              price: res.price,
+              id: res.id,
+              durationDay: res.durationDay,
+              description: res.description,
+            },
+          });
+        } else {
+          this.paymentService.paymentFailed = true;
+          this.router.navigate(['/payment-fail']);
+        }
       },
       error: (er) => {
         console.log(er);
