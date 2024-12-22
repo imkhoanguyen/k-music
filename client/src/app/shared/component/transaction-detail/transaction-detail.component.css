@@ -1,0 +1,5 @@
+.long-text {
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  text-indent: -0.5ch;
+}

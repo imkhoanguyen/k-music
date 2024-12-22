@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -14,6 +14,7 @@ import {
 import { Pagination } from '../../../shared/models/pagination';
 import { UtilityService } from '../../../core/services/utility.service';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { TransactionDetailComponent } from '../../../shared/component/transaction-detail/transaction-detail.component';
 
 @Component({
   selector: 'app-transaction',
@@ -27,7 +28,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     FormsModule,
     CommonModule,
     NzDatePickerModule,
-  ],
+    TransactionDetailComponent
+],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css',
 })
@@ -103,5 +105,16 @@ export class TransactionComponent {
     this.prm.startDate = '';
     this.prm.endDate = '';
     this.loadTransactions();
+  }
+
+  @ViewChild(TransactionDetailComponent)
+  transactionDetailComponent!: TransactionDetailComponent;
+  openDetail(id: number) {
+    if (this.transactionDetailComponent) {
+      this.transactionDetailComponent.userVipSubcriptionId = id;
+      this.transactionDetailComponent.showModal();
+    } else {
+      console.error('TransactionDetailComponent is not initialized yet');
+    }
   }
 }

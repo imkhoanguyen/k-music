@@ -91,7 +91,10 @@
         </td>
         <td>
           <div class="d-flex gap-2 justify-content-center align-items-center">
-            <button class="btn btn-sm fs-6">
+            <button
+              class="btn btn-sm fs-6"
+              (click)="openDetail(transaction.id)"
+            >
               <i class="bi bi-eye"></i>
             </button>
           </div>
@@ -118,3 +121,5 @@
   ></nz-pagination>
   <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
 </div>
+
+<app-transaction-detail></app-transaction-detail>

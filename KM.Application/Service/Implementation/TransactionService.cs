@@ -7,6 +7,7 @@ using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
+using KM.Domain.Exceptions;
 
 namespace KM.Application.Service.Implementation
 {
@@ -35,6 +36,12 @@ namespace KM.Application.Service.Implementation
             });
 
             return new PagedList<TransactionDto>(transactionDtos, pagedList.TotalCount, pagedList.CurrentPage, pagedList.PageSize);
+        }
+
+        public async Task<UserVipSubscription> GetAsync(Expression<Func<UserVipSubscription, bool>> expression)
+        {
+            var entity = await _unit.UserVipSubscription.GetAsync(expression);
+            return entity ?? throw new NotFoundException("Không tìm thấy đơn hàng");
         }
     }
 }

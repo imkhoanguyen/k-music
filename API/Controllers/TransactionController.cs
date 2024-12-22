@@ -2,6 +2,7 @@
 using KM.Application.DTOs.Transactions;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using KM.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -22,5 +23,12 @@ namespace API.Controllers
             Response.AddPaginationHeader(pagedList);
             return Ok(pagedList);
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<UserVipSubscription>> Get(int id)
+        {
+            var entity = await _transactionService.GetAsync(t => t.Id == id);
+            return Ok(entity);
+        } 
     }
 }

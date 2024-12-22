@@ -1,0 +1,39 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Chi tiết đơn hàng"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="null"
+  [nzStyle]="{ top: '20px', width: '1000px' }"
+>
+  <ng-container *nzModalContent>
+    <nz-descriptions [nzTitle]="title" nzBordered>
+      <nz-descriptions-item nzTitle="Tên gói">{{
+        userVipSubcription.vipPackage.name
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Giá">{{
+        userVipSubcription.price
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Ngày sử dụng">{{
+        userVipSubcription.vipPackage.durationDay
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Thời gian đặt gói">{{
+        utilService.getFormattedDate(userVipSubcription.startDate)
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Thời gian hết hạn gói" [nzSpan]="2">
+        {{ utilService.getFormattedDate(userVipSubcription.endDate) }}
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Họ tên" [nzSpan]="3">
+        {{ userVipSubcription.appUser.fullName }}
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Người mua" [nzSpan]="3">
+        {{ userVipSubcription.appUser.userName }}
+      </nz-descriptions-item>
+
+      <nz-descriptions-item nzTitle="Mô tả gói">
+        <div class="long-text">
+          {{ userVipSubcription.vipPackage.description }}
+        </div>
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </ng-container>
+</nz-modal>

@@ -1,4 +1,6 @@
 import { BaseParams } from './base-params';
+import { AppUser } from './user';
+import { VipPackage } from './vip-package';
 
 export interface Transaction {
   id: number;
@@ -9,6 +11,17 @@ export interface Transaction {
   userName: string;
   startDate: string;
   endDate: string;
+}
+
+export interface UserVipSubcription {
+  id: number;
+  vipPackage: VipPackage;
+  price: number;
+  startDate: string;
+  endDate: string;
+  appUser: AppUser;
+  userId: string;
+  vipPackageId: number;
 }
 
 export class TransactionParams extends BaseParams {

@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import {
   Transaction,
   TransactionParams,
+  UserVipSubcription,
 } from '../../shared/models/transaction';
 import { PaginatedResult } from '../../shared/models/pagination';
 import { map } from 'rxjs';
@@ -49,5 +50,11 @@ export class TransactionService {
           return paginationResult;
         })
       );
+  }
+
+  get(id: number) {
+    return this.http.get<UserVipSubcription>(
+      this.baseUrl + `transaction/${id}`
+    );
   }
 }
