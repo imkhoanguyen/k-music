@@ -1,3 +1,5 @@
+import { BaseParams } from './base-params';
+
 export interface Transaction {
   id: number;
   name: string;
@@ -7,4 +9,10 @@ export interface Transaction {
   userName: string;
   startDate: string;
   endDate: string;
+}
+
+export class TransactionParams extends BaseParams {
+  orderBy = 'id_desc';
+  startDate = '';
+  endDate = '';
 }
