@@ -18,6 +18,7 @@ import {
   VipPackage,
   VipPackageCreate,
 } from '../../../shared/models/vip-package';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'app-vip-package',
@@ -40,6 +41,7 @@ export class VipPackageComponent implements OnInit {
   private vipPackageService = inject(VipPackageService);
   private messageServies = inject(MessageService);
   private modal = inject(NzModalService);
+  utilService = inject(UtilityService);
   originalVipPackages: VipPackage[] = [];
 
   ngOnInit(): void {

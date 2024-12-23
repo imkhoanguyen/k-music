@@ -9,6 +9,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { PaymentService } from '../../../core/services/payment.service';
 import { Router } from '@angular/router';
+import { UtilityService } from '../../../core/services/utility.service';
 @Component({
   selector: 'app-vip-package',
   standalone: true,
@@ -26,7 +27,7 @@ import { Router } from '@angular/router';
 export class VipPackageComponent implements OnInit {
   private vipPackageService = inject(VipPackageService);
   private paymentService = inject(PaymentService);
-  private router = inject(Router);
+  utilService = inject(UtilityService);
   vipPackages: VipPackage[] = [];
   ngOnInit(): void {
     this.loadVipPackages();

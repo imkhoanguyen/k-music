@@ -43,7 +43,7 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
 
       this.title = `Thanh toán thành công gói ${
         this.transaction.name
-      } với giá ${this.transaction.price.toLocaleString()}đ!`;
+      } với giá ${this.utilService.formatCurrency(this.transaction.price)}!`;
       this.subTitle = `Cảm ơn bạn đã đăng ký gói. Thời hạn sử dụng gói đến hết ${this.utilService.getFormattedDate(
         this.transaction.endDate
       )}.`;

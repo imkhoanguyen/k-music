@@ -45,8 +45,8 @@
       <tr>
         <td class="text-center">{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.price }}</td>
-        <td>{{ item.priceSell }}</td>
+        <td>{{ utilService.formatCurrency(item.price) }}</td>
+        <td>{{ utilService.formatCurrency(item.priceSell) }}</td>
         <td>{{ item.durationDay }}</td>
         <td>
           <div class="fixed-height-box">

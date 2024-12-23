@@ -68,4 +68,8 @@ export class UtilityService {
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
+
+  formatCurrency(num: number): string {
+    return num.toLocaleString('vi-VN') + 'đ';
+  }
 }

@@ -81,7 +81,7 @@
         <td class="text-center">{{ transaction.id }}</td>
         <td>{{ transaction.name }}</td>
         <td>{{ transaction.userName }}</td>
-        <td>{{ transaction.price }}</td>
+        <td>{{ utilService.formatCurrency(transaction.price) }}</td>
         <td>{{ utilService.getFormattedDate(transaction.startDate) }}</td>
         <td>{{ utilService.getFormattedDate(transaction.endDate) }}</td>
         <td>
