@@ -3,12 +3,12 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { ClientService } from '../../../../core/services/client.service';
 import { Router } from '@angular/router';
 import { Song, SongParams } from '../../../../shared/models/song';
 import { Pagination } from '../../../../shared/models/pagination';
 import { Genre } from '../../../../shared/models/genre';
 import { CommonModule } from '@angular/common';
+import { SongService } from '../../../../core/services/song.service';
 
 @Component({
   selector: 'app-song-list',
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './song-list.component.css',
 })
 export class SongListComponent implements OnInit {
-  private clientService = inject(ClientService);
+  private songService = inject(SongService);
   private router = inject(Router);
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class SongListComponent implements OnInit {
 
   loadSongs() {
     this.prm.pageSize = 4;
-    this.clientService.getSongs(this.prm).subscribe({
+    this.songService.getSongs(this.prm).subscribe({
       next: (response) => {
         this.songs = response.result as Song[];
         this.pagination = response.pagination as Pagination;
