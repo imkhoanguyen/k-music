@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SingerService } from '../../../../core/services/singer.service';
 import { MessageService } from '../../../../core/services/message.service';
@@ -28,7 +28,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   styleUrl: './singer-detail.component.css',
 })
 export class SingerDetailComponent implements OnInit {
-  @Input() singerId: number = 0;
+  singerId: number = 0;
   private route = inject(ActivatedRoute);
   private singerService = inject(SingerService);
   private messageServie = inject(MessageService);
@@ -63,8 +63,10 @@ export class SingerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.singerId = +this.route.snapshot.paramMap.get('id')!;
-    this.loadSinger();
+    this.route.params.subscribe((params) => {
+      this.singerId = +params['id']; // Lấy lại singerId từ route
+      this.loadSinger(); // Gọi lại hàm loadSinger khi tham số route thay đổi
+    });
   }
 
   loadSinger() {

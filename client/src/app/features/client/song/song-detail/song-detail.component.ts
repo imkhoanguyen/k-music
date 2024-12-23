@@ -9,6 +9,7 @@ import { UtilityService } from '../../../../core/services/utility.service';
 import { Song } from '../../../../shared/models/song';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { MusicPlayerService } from '../../../../core/services/music-player.service';
 
 @Component({
   selector: 'app-song-detail',
@@ -29,6 +30,7 @@ export class SongDetailComponent {
   private songServices = inject(SongService);
   private messageServies = inject(MessageService);
   utilService = inject(UtilityService);
+  private musicPlayerService = inject(MusicPlayerService);
   song: Song | undefined;
 
   ngOnInit(): void {
@@ -43,5 +45,11 @@ export class SongDetailComponent {
       },
       error: (er) => this.messageServies.showError(er),
     });
+  }
+
+  playSong() {
+    if (this.song) {
+      this.musicPlayerService.playSong(this.song);
+    }
   }
 }

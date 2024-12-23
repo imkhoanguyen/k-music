@@ -1,11 +1,28 @@
 <div class="music-player">
   <div class="music-player__info">
     <div class="img-container">
-      <img [src]="songImage" alt="" id="song-img" />
+      <img
+        [src]="currentSong()?.imgUrl ?? songImageDefault"
+        alt=""
+        id="song-img"
+      />
     </div>
     <div class="info-container">
-      <div>{{ songName }}</div>
-      <strong>{{ songSinger }}</strong>
+      <div>{{ currentSong()?.name ?? songNameDefault }}</div>
+      @if(currentSong()?.singers) {
+      <strong>
+        <div *ngIf="singers.length > 0">
+          <ng-container *ngFor="let singer of singers; let i = index">
+            <a (click)="goSingerDetail(singer)">{{ singer.name }}</a>
+            <span *ngIf="i < singers.length - 1">, </span>
+          </ng-container>
+        </div>
+      </strong>
+      } @else {
+      <strong>
+        {{ songSingerDefault }}
+      </strong>
+      }
     </div>
   </div>
   <div class="music-player__controller">
@@ -17,8 +34,8 @@
         <i class="bi bi-skip-start-fill icon-24"></i>
       </div>
       <button class="play-btn" (click)="togglePlay()">
-        <i *ngIf="!isPlaying" class="bi bi-play-circle-fill icon-30"></i>
-        <i *ngIf="isPlaying" class="bi bi-pause-circle-fill icon-30"></i>
+        <i *ngIf="!isPlaying()" class="bi bi-play-circle-fill icon-30"></i>
+        <i *ngIf="isPlaying()" class="bi bi-pause-circle-fill icon-30"></i>
       </button>
 
       <div class="next-btn">
@@ -32,6 +49,7 @@
       <span id="current-time">0:00</span>
       <div class="progress-bar">
         <input
+          #timeline
           type="range"
           class="timeline"
           max="100"
@@ -50,6 +68,7 @@
     </button>
     <div class="volume-slider">
       <input
+        #volumeRange
         type="range"
         class="volume-range"
         min="0"
@@ -64,10 +83,4 @@
     </button>
   </div>
 </div>
-<audio
-  id="audio_player"
-  [src]="songUrl"
-  [volume]="volume"
-  controls
-  hidden
-></audio>
+<audio id="audio_player" #audioPlayer [volume]="volume" controls></audio>
