@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 })
 export class RoleService {
   private http = inject(HttpClient);
-  baseUrl = environment.apiUrl;
+  baseUrl = `${environment.apiUrl}admin/`;
   paginatedResult: PaginatedResult<Role[]> = new PaginatedResult<Role[]>();
 
   getRoles(prm: RoleParams) {

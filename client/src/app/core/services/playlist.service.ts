@@ -13,7 +13,7 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class PlaylistService {
-  private baseUrl = environment.apiUrl;
+  private baseUrl = `${environment.apiUrl}admin/`;
   private http = inject(HttpClient);
   private paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
     Playlist[]

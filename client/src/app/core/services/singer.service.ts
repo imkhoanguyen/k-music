@@ -10,7 +10,7 @@ import { Song, SongParams } from '../../shared/models/song';
   providedIn: 'root',
 })
 export class SingerService {
-  private baseUrl = environment.apiUrl;
+  private baseUrl = `${environment.apiUrl}admin/`;
   private http = inject(HttpClient);
   private paginationResult: PaginatedResult<Singer[]> = new PaginatedResult<
     Singer[]

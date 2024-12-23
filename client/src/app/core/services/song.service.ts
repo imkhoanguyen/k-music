@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 })
 export class SongService {
   private http = inject(HttpClient);
-  private baseUrl = environment.apiUrl;
+  private baseUrl = `${environment.apiUrl}admin/`;
   private paginationResult: PaginatedResult<Song[]> = new PaginatedResult<
     Song[]
   >();

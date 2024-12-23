@@ -9,7 +9,7 @@ import { PaginatedResult } from '../../shared/models/pagination';
   providedIn: 'root',
 })
 export class GenreService {
-  private baseUrl = environment.apiUrl;
+  private baseUrl = `${environment.apiUrl}admin/`;
   private http = inject(HttpClient);
   private paginationResult: PaginatedResult<Genre[]> = new PaginatedResult<
     Genre[]

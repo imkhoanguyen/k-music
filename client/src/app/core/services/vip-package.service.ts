@@ -8,7 +8,7 @@ import { VipPackage, VipPackageCreate } from '../../shared/models/vip-package';
 })
 export class VipPackageService {
   private http = inject(HttpClient);
-  baseUrl = environment.apiUrl;
+  baseUrl = `${environment.apiUrl}admin/`;
 
   getAll() {
     return this.http.get<VipPackage[]>(this.baseUrl + 'vippackage');

@@ -14,7 +14,7 @@ import { map } from 'rxjs';
 })
 export class TransactionService {
   private http = inject(HttpClient);
-  private baseUrl = environment.apiUrl;
+  private baseUrl = `${environment.apiUrl}admin/`;
 
   getAll(prm: TransactionParams) {
     let paginationResult: PaginatedResult<Transaction[]> = new PaginatedResult<
