@@ -1,4 +1,5 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.Authorization;
 using KM.Application.DTOs.Auth;
 using KM.Application.DTOs.Roles;
@@ -12,9 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class RoleController : BaseApiController
+    public class RoleController : BaseAdminApiController
     {
         private readonly RoleManager<AppRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;

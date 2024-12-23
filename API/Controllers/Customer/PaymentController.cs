@@ -1,10 +1,11 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.DTOs.Payment;
 using KM.Application.Interfaces;
 using KM.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Customer
 {
     public class PaymentController : BaseApiController
     {
@@ -21,7 +22,7 @@ namespace API.Controllers
             var paymentDto = new PaymentDto
             {
                 SelectedPackage = entity,
-                UserId = ClaimsPrincipleExtensions.GetUserId(User)
+                UserId = User.GetUserId()
             };
 
             var url = _vnPayService.CreatePaymentUrl(paymentDto, HttpContext);
@@ -32,7 +33,7 @@ namespace API.Controllers
         [HttpPost("return")]
         public async Task<ActionResult<UserVipSubscription>> PaymentReturn(PaymentResponse res)
         {
-            res.UserId = ClaimsPrincipleExtensions.GetUserId(User);
+            res.UserId = User.GetUserId();
             var entity = await _vnPayService.HandlePayment(res);
 
             return Ok(entity);

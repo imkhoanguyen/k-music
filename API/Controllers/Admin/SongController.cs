@@ -1,13 +1,14 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.DTOs.Songs;
 using KM.Application.Interfaces;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class SongController : BaseApiController
+    public class SongController : BaseAdminApiController
     {
         private readonly ISongService _songService;
         private readonly ICloudinaryService _cloudinaryService;

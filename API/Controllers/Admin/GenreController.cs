@@ -1,15 +1,15 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.Authorization;
 using KM.Application.DTOs.Genres;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class GenreController : BaseApiController
+    public class GenreController : BaseAdminApiController
     {
         private readonly IGenreService _genreService;
 

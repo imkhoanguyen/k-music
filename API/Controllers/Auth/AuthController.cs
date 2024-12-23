@@ -1,4 +1,5 @@
-﻿using API.Service.Abstract;
+﻿using API.Controllers.Base;
+using API.Service.Abstract;
 using KM.Application.DTOs.Auth;
 using KM.Domain.Entities;
 using KM.Domain.Enum;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers
+namespace API.Controllers.Auth
 {
     public class AuthController : BaseApiController
     {
@@ -41,12 +42,12 @@ namespace API.Controllers
 
             return Ok(new
             {
-                Id = user.Id,
-                UserName = user.UserName,
-                FullName = user.FullName,
-                Email = user.Email,
+                user.Id,
+                user.UserName,
+                user.FullName,
+                user.Email,
                 Gender = user.Gender.ToString(),
-                ImgUrl = user.ImgUrl,
+                user.ImgUrl,
                 Token = await _tokenService.CreateTokenAsync(user),
             });
         }
@@ -59,12 +60,12 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if(await CheckEmailExistAsync(dto.Email))
+            if (await CheckEmailExistAsync(dto.Email))
             {
                 throw new BadRequestException("Email đã tồn tại");
             }
 
-            if(await CheckUserNameExistAsync(dto.UserName))
+            if (await CheckUserNameExistAsync(dto.UserName))
             {
                 throw new BadRequestException("UserName đã tồn tại");
             }
@@ -78,7 +79,7 @@ namespace API.Controllers
             };
 
             var result = await _userManager.CreateAsync(userToAdd, dto.Password);
-            if(!result.Succeeded)
+            if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
             return Ok("Đăng ký tài khoản thành công");

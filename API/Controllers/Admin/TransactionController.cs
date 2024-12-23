@@ -1,13 +1,14 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.DTOs.Transactions;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class TransactionController : BaseApiController
+    public class TransactionController : BaseAdminApiController
     {
         private readonly ITransactionService _transactionService;
 
@@ -17,7 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetAll([FromQuery]TransactionParams prm)
+        public async Task<ActionResult<IEnumerable<TransactionDto>>> GetAll([FromQuery] TransactionParams prm)
         {
             var pagedList = await _transactionService.GetAllAsync(prm, null, false);
             Response.AddPaginationHeader(pagedList);
@@ -29,6 +30,6 @@ namespace API.Controllers
         {
             var entity = await _transactionService.GetAsync(t => t.Id == id);
             return Ok(entity);
-        } 
+        }
     }
 }

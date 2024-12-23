@@ -1,11 +1,12 @@
-﻿using KM.Application.DTOs.VipPackages;
+﻿using API.Controllers.Base;
+using KM.Application.DTOs.VipPackages;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class VipPackageController : BaseApiController
+    public class VipPackageController : BaseAdminApiController
     {
         private readonly IVipPackageService _vipPackageService;
 
@@ -30,7 +31,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<VipPackage>> Create(VipPackageCreateDto dto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -42,7 +43,7 @@ namespace API.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<VipPackage>> Update(int id, VipPackage entity)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

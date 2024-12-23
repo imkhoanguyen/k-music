@@ -1,13 +1,14 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.DTOs.Playlists;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using KM.Application.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class PlaylistController : BaseApiController
+    public class PlaylistController : BaseAdminApiController
     {
         private readonly IPlaylistService _playlistService;
 
@@ -65,7 +66,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<PlaylistDto>> UpdatePlaylist([FromRoute]int id, [FromForm] PlaylistUpdateDto dto)
+        public async Task<ActionResult<PlaylistDto>> UpdatePlaylist([FromRoute] int id, [FromForm] PlaylistUpdateDto dto)
         {
             if (!ModelState.IsValid)
             {

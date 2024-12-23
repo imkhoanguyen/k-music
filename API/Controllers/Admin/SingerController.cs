@@ -1,12 +1,13 @@
-﻿using API.Extensions;
+﻿using API.Controllers.Base;
+using API.Extensions;
 using KM.Application.DTOs.Singers;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Admin
 {
-    public class SingerController : BaseApiController
+    public class SingerController : BaseAdminApiController
     {
         private readonly ISingerService _singerService;
 
