@@ -1,0 +1,73 @@
+<div class="music-player">
+  <div class="music-player__info">
+    <div class="img-container">
+      <img [src]="songImage" alt="" id="song-img" />
+    </div>
+    <div class="info-container">
+      <div>{{ songName }}</div>
+      <strong>{{ songSinger }}</strong>
+    </div>
+  </div>
+  <div class="music-player__controller">
+    <div class="control-btn">
+      <div class="repeat-btn">
+        <i class="bi bi-repeat icon-20"></i>
+      </div>
+      <div class="prev-btn">
+        <i class="bi bi-skip-start-fill icon-24"></i>
+      </div>
+      <button class="play-btn" (click)="togglePlay()">
+        <i *ngIf="!isPlaying" class="bi bi-play-circle-fill icon-30"></i>
+        <i *ngIf="isPlaying" class="bi bi-pause-circle-fill icon-30"></i>
+      </button>
+
+      <div class="next-btn">
+        <i class="bi bi-skip-end-fill icon-24"></i>
+      </div>
+      <div class="shuffle-btn">
+        <i class="bi bi-shuffle icon-20"></i>
+      </div>
+    </div>
+    <div class="progress-container">
+      <span id="current-time">0:00</span>
+      <div class="progress-bar">
+        <input
+          type="range"
+          class="timeline"
+          max="100"
+          value="0"
+          step="0.1"
+          class="timeline"
+        />
+      </div>
+      <div class="progress-button"></div>
+      <span id="total-time">0:00</span>
+    </div>
+  </div>
+  <div class="music-player__other" id="volume-control">
+    <button class="sound-btn">
+      <i class="bi bi-volume-up-fill icon-24"></i>
+    </button>
+    <div class="volume-slider">
+      <input
+        type="range"
+        class="volume-range"
+        min="0"
+        max="1"
+        step="0.1"
+        value="1"
+      />
+    </div>
+
+    <button type="button" class="download-btn">
+      <span nz-icon nzType="download" nzTheme="outline" class="icon-24"></span>
+    </button>
+  </div>
+</div>
+<audio
+  id="audio_player"
+  [src]="songUrl"
+  [volume]="volume"
+  controls
+  hidden
+></audio>

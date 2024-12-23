@@ -1,0 +1,161 @@
+.icon-24 {
+  font-size: 24px;
+}
+
+.icon-30 {
+  font-size: 30px;
+}
+
+.icon-20 {
+  font-size: 20px;
+}
+
+i,
+.timeline,
+.song-container img,
+.volume-range {
+  cursor: pointer;
+}
+
+.music-player {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.music-player__info {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.img-container {
+  max-width: 55px;
+  min-width: 55px;
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.music-player__controller {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  padding-top: 10px;
+}
+
+.progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1em;
+}
+
+.progress-bar {
+  display: inline-block;
+  width: 100%;
+}
+
+.music-player__other {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 8px;
+  gap: 16px;
+}
+
+.volume-slider {
+  display: block;
+  margin-left: -13px;
+}
+
+.volume-range,
+.timeline {
+  width: 100%;
+  height: 4px;
+  background-color: #ccc;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+/* Xoa thuoc tinh mac dinh cua btn */
+.play-btn,
+.download-btn,
+.sound-btn {
+  border: none;
+  outline: none;
+  background: none;
+  transition: none;
+}
+
+/* reponsive */
+
+@media only screen and (max-width: 600px) {
+  .music-player {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .music-player__info {
+    display: block;
+  }
+  .img-container img {
+    display: none;
+  }
+  .info-container {
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  #song-channel {
+    display: none;
+  }
+
+  .music-player__other {
+    justify-content: center;
+  }
+
+  #songsList {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #songsList div {
+    width: 100%;
+  }
+
+  #download-all-btn {
+    width: 125px;
+  }
+
+  .reset-offset-1 {
+    margin-left: 0;
+  }
+
+  .w-80 {
+    width: 80%;
+  }
+}

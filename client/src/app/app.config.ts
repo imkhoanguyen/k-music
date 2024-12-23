@@ -27,6 +27,7 @@ import {
   CommentOutline,
   KeyOutline,
   RetweetOutline,
+  DownloadOutline,
 } from '@ant-design/icons-angular/icons';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 
@@ -40,7 +41,8 @@ const icons = [
   HeartOutline,
   CommentOutline,
   KeyOutline,
-  RetweetOutline
+  RetweetOutline,
+  DownloadOutline,
 ];
 registerLocaleData(en);
 
