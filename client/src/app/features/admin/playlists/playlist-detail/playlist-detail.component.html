@@ -66,7 +66,14 @@
             class="img-table-mini"
           />
         </td>
-        <td>{{ song.name }}</td>
+        <td>
+          <div class="d-flex gap-2 align-items-center">
+            {{ song.name }}
+            @if(song.isVip) {
+            <img src="img/vip-badge.png" alt="vip-badge" />
+            }
+          </div>
+        </td>
         <td>{{ utilService.getSingersString(song) }}</td>
         <td>
           <span *ngIf="audioDurations[song.id]">

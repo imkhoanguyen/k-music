@@ -11,7 +11,7 @@
         userVipSubcription.vipPackage.name
       }}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="Giá">{{
-        userVipSubcription.price
+        utilService.formatCurrency(userVipSubcription.price)
       }}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="Ngày sử dụng">{{
         userVipSubcription.vipPackage.durationDay
