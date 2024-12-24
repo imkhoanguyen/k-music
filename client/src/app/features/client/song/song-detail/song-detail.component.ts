@@ -34,8 +34,10 @@ export class SongDetailComponent {
   song: Song | undefined;
 
   ngOnInit(): void {
-    this.songId = +this.route.snapshot.paramMap.get('id')!;
-    this.loadSong();
+    this.route.params.subscribe((params) => {
+      this.songId = +params['id'];
+      this.loadSong();
+    });
   }
 
   loadSong() {

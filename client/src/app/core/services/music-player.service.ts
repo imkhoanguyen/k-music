@@ -10,15 +10,37 @@ export class MusicPlayerService {
 
   playSong(song: Song) {
     this.currentSong.set(song);
+    this.saveCurrentSong(song);
     this.isPlaying.set(true);
 
+    this.saveSongUrlToAudioTag(song.songUrl);
+    const audioPlayer = document.getElementById(
+      'audio_player'
+    ) as HTMLAudioElement;
+    audioPlayer.play();
+  }
+
+  saveSongUrlToAudioTag(url: string) {
     const audioPlayer = document.getElementById(
       'audio_player'
     ) as HTMLAudioElement;
     if (audioPlayer) {
-      audioPlayer.src = song.songUrl;
-      audioPlayer.play();
+      audioPlayer.src = url;
     }
+  }
+
+  saveCurrentSong(song: Song) {
+    localStorage.setItem('currentSong', JSON.stringify(song));
+  }
+
+  loadCurrentSong() {
+    const savedSong = localStorage.getItem('currentSong');
+    if (savedSong) {
+      const song = JSON.parse(savedSong);
+      this.currentSong.set(song);
+      this.saveSongUrlToAudioTag(song.songUrl);
+    }
+    console.log('vao load currentSong');
   }
 
   pauseSong() {

@@ -8,7 +8,9 @@
       />
     </div>
     <div class="info-container">
-      <div>{{ currentSong()?.name ?? songNameDefault }}</div>
+      <a (click)="goSongDetail(currentSong()?.id ?? 0)">
+        {{ currentSong()?.name ?? songNameDefault }}
+      </a>
       @if(currentSong()?.singers) {
       <strong>
         <div *ngIf="singers.length > 0">
@@ -64,7 +66,8 @@
   </div>
   <div class="music-player__other" id="volume-control">
     <button class="sound-btn">
-      <i class="bi bi-volume-up-fill icon-24"></i>
+      <i *ngIf="!isMute" class="bi bi-volume-up-fill icon-24"></i>
+      <i *ngIf="isMute" class="bi bi-volume-mute-fill icon-24"></i>
     </button>
     <div class="volume-slider">
       <input
@@ -83,4 +86,9 @@
     </button>
   </div>
 </div>
-<audio id="audio_player" #audioPlayer [volume]="volume" controls></audio>
+<audio
+  id="audio_player"
+  #audioPlayer
+  controls
+  (loadedmetadata)="onMetadataLoaded($event)"
+></audio>
