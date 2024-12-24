@@ -33,7 +33,7 @@ namespace KM.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -275,45 +275,21 @@ namespace KM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Follower",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SingerId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Follower", x => new { x.SingerId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_Follower_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Follower_Singers_SingerId",
-                        column: x => x.SingerId,
-                        principalTable: "Singers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LikeSong",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SongId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SongId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LikeSong", x => new { x.SongId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_LikeSong_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_LikeSong_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LikeSong_Songs_SongId",
                         column: x => x.SongId,
@@ -440,23 +416,23 @@ namespace KM.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PlaylistId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    PlaylistId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LikePlaylist", x => new { x.PlaylistId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_LikePlaylist_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_LikePlaylist_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LikePlaylist_Playlist_PlaylistId",
                         column: x => x.PlaylistId,
                         principalTable: "Playlist",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -479,32 +455,6 @@ namespace KM.Infrastructure.Migrations
                         name: "FK_PlaylistSongs_Songs_SongId",
                         column: x => x.SongId,
                         principalTable: "Songs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RankLists",
-                columns: table => new
-                {
-                    PlaylistId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Score = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RankLists", x => new { x.UserId, x.PlaylistId });
-                    table.ForeignKey(
-                        name: "FK_RankLists_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_RankLists_Playlist_PlaylistId",
-                        column: x => x.PlaylistId,
-                        principalTable: "Playlist",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -564,19 +514,14 @@ namespace KM.Infrastructure.Migrations
                 column: "SongId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Follower_AppUserId",
-                table: "Follower",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LikePlaylist_AppUserId",
+                name: "IX_LikePlaylist_UserId",
                 table: "LikePlaylist",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LikeSong_AppUserId",
+                name: "IX_LikeSong_UserId",
                 table: "LikeSong",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Playlist_UserId",
@@ -587,16 +532,6 @@ namespace KM.Infrastructure.Migrations
                 name: "IX_PlaylistSongs_SongId",
                 table: "PlaylistSongs",
                 column: "SongId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RankLists_AppUserId",
-                table: "RankLists",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RankLists_PlaylistId",
-                table: "RankLists",
-                column: "PlaylistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SongGenres_GenreId",
@@ -644,9 +579,6 @@ namespace KM.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Follower");
-
-            migrationBuilder.DropTable(
                 name: "LikePlaylist");
 
             migrationBuilder.DropTable(
@@ -654,9 +586,6 @@ namespace KM.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlaylistSongs");
-
-            migrationBuilder.DropTable(
-                name: "RankLists");
 
             migrationBuilder.DropTable(
                 name: "SongGenres");

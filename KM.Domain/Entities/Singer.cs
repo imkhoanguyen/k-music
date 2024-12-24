@@ -12,6 +12,5 @@ namespace KM.Domain.Entities
         public string? PublicId { get; set; }
         //nav
         public List<SongSinger> SongSingers { get; set; } = [];
-        public List<Follower> Followers { get; set; } = [];
     }
 }

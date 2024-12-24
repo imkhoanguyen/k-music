@@ -48,8 +48,9 @@ namespace KM.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
@@ -161,24 +162,6 @@ namespace KM.Infrastructure.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("KM.Domain.Entities.Follower", b =>
-                {
-                    b.Property<int>("SingerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SingerId", "UserId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Follower");
-                });
-
             modelBuilder.Entity("KM.Domain.Entities.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -208,12 +191,9 @@ namespace KM.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("PlaylistId", "UserId");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LikePlaylist");
                 });
@@ -226,12 +206,9 @@ namespace KM.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("SongId", "UserId");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LikeSong");
                 });
@@ -288,32 +265,6 @@ namespace KM.Infrastructure.Migrations
                     b.HasIndex("SongId");
 
                     b.ToTable("PlaylistSongs");
-                });
-
-            modelBuilder.Entity("KM.Domain.Entities.RankList", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PlaylistId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "PlaylistId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("PlaylistId");
-
-                    b.ToTable("RankLists");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.Singer", b =>
@@ -674,32 +625,17 @@ namespace KM.Infrastructure.Migrations
                     b.Navigation("Song");
                 });
 
-            modelBuilder.Entity("KM.Domain.Entities.Follower", b =>
-                {
-                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("KM.Domain.Entities.Singer", "Singer")
-                        .WithMany("Followers")
-                        .HasForeignKey("SingerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Singer");
-                });
-
             modelBuilder.Entity("KM.Domain.Entities.LikePlaylist", b =>
                 {
-                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("KM.Domain.Entities.Playlist", "Playlist")
                         .WithMany("LikePlaylists")
                         .HasForeignKey("PlaylistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -710,13 +646,15 @@ namespace KM.Infrastructure.Migrations
 
             modelBuilder.Entity("KM.Domain.Entities.LikeSong", b =>
                 {
-                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("KM.Domain.Entities.Song", "Song")
                         .WithMany("LikeSongs")
                         .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -753,23 +691,6 @@ namespace KM.Infrastructure.Migrations
                     b.Navigation("Playlist");
 
                     b.Navigation("Song");
-                });
-
-            modelBuilder.Entity("KM.Domain.Entities.RankList", b =>
-                {
-                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("KM.Domain.Entities.Playlist", "Playlist")
-                        .WithMany()
-                        .HasForeignKey("PlaylistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.SongGenre", b =>
@@ -894,8 +815,6 @@ namespace KM.Infrastructure.Migrations
 
             modelBuilder.Entity("KM.Domain.Entities.Singer", b =>
                 {
-                    b.Navigation("Followers");
-
                     b.Navigation("SongSingers");
                 });
 
