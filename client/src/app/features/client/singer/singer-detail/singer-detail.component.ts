@@ -12,6 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { MusicPlayerService } from '../../../../core/services/music-player.service';
 
 @Component({
   selector: 'app-singer-detail',
@@ -32,6 +33,7 @@ export class SingerDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private singerService = inject(SingerService);
   private messageServie = inject(MessageService);
+  private musicPlayerService = inject(MusicPlayerService);
   utilService = inject(UtilityService);
   singer: SingerDetail | undefined;
 
@@ -77,5 +79,17 @@ export class SingerDetailComponent implements OnInit {
       },
       error: (er) => this.messageServie.showError(er),
     });
+  }
+
+  playSong(song: Song) {
+    if (song) {
+      this.musicPlayerService.playSong(song);
+    }
+  }
+
+  playList(list: Song[]) {
+    if (list) {
+      this.musicPlayerService.playList(list);
+    }
   }
 }

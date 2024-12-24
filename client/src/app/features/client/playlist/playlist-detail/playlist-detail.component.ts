@@ -9,6 +9,8 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { MusicPlayerService } from '../../../../core/services/music-player.service';
+import { Song } from '../../../../shared/models/song';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -24,10 +26,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   styleUrl: './playlist-detail.component.css',
 })
 export class PlaylistDetailComponent implements OnInit {
-  @Input() playlistId: number = 0;
+  playlistId: number = 0;
   private route = inject(ActivatedRoute);
   private playlistService = inject(PlaylistService);
   private messageServie = inject(MessageService);
+  private musicPlayerService = inject(MusicPlayerService);
   utilService = inject(UtilityService);
   playlist: PlaylistDetail | undefined;
 
@@ -50,8 +53,10 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.playlistId = +this.route.snapshot.paramMap.get('id')!;
-    this.loadPlaylist();
+    this.route.params.subscribe((params) => {
+      this.playlistId = +params['id']; // Lấy lại singerId từ route
+      this.loadPlaylist(); // Gọi lại hàm khi tham số route thay đổi
+    });
   }
 
   loadPlaylist() {
@@ -62,5 +67,17 @@ export class PlaylistDetailComponent implements OnInit {
       },
       error: (er) => this.messageServie.showError(er),
     });
+  }
+
+  playSong(song: Song) {
+    if (song) {
+      this.musicPlayerService.playSong(song);
+    }
+  }
+
+  playList(list: Song[]) {
+    if (list) {
+      this.musicPlayerService.playList(list);
+    }
   }
 }

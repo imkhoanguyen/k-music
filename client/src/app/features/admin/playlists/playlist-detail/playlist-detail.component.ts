@@ -59,7 +59,6 @@ export class PlaylistDetailComponent {
   loadPlaylist() {
     this.playlistService.getPlaylist(this.playlistId).subscribe({
       next: (res) => {
-        console.log(res);
         this.playlist = res;
       },
       error: (er) => this.messageServie.showError(er),

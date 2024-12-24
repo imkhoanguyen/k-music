@@ -27,6 +27,7 @@
     </div>
     <div class="d-flex gap-3 align-items-center mt-2">
       <button
+      (click)="playList(playlist.songList)"
         nz-button
         nzType="primary"
         nzSize="large"
@@ -109,7 +110,7 @@
               <div
                 class="container-btn d-flex gap-2 justify-content-center align-items-center"
               >
-                <button class="btn-icon">
+                <button class="btn-icon" (click)="playSong(song)">
                   <i class="bi bi-play"></i>
                 </button>
                 <button class="btn-icon">

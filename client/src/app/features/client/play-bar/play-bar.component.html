@@ -2,9 +2,10 @@
   <div class="music-player__info">
     <div class="img-container">
       <img
+        style="cursor: pointer"
+        (click)="goSongDetail(currentSong()?.id ?? 0)"
         [src]="currentSong()?.imgUrl ?? songImageDefault"
-        alt=""
-        id="song-img"
+        alt="{{ currentSong()?.name }}"
       />
     </div>
     <div class="info-container">
@@ -29,10 +30,11 @@
   </div>
   <div class="music-player__controller">
     <div class="control-btn">
-      <div class="repeat-btn">
-        <i class="bi bi-repeat icon-20"></i>
+      <div class="repeat-btn" (click)="toggleRepeat()">
+        <i *ngIf="repeatEnable() === false" class="bi bi-repeat icon-20"></i>
+        <i *ngIf="repeatEnable() === true" class="bi bi-repeat-1 icon-20"></i>
       </div>
-      <div class="prev-btn">
+      <div class="prev-btn" (click)="prevSong()">
         <i class="bi bi-skip-start-fill icon-24"></i>
       </div>
       <button class="play-btn" (click)="togglePlay()">
@@ -40,11 +42,16 @@
         <i *ngIf="isPlaying()" class="bi bi-pause-circle-fill icon-30"></i>
       </button>
 
-      <div class="next-btn">
+      <div class="next-btn" (click)="nextSong()">
         <i class="bi bi-skip-end-fill icon-24"></i>
       </div>
-      <div class="shuffle-btn">
-        <i class="bi bi-shuffle icon-20"></i>
+      <div class="shuffle-btn" (click)="toggleShuffle()">
+        <i *ngIf="shuffleEnable() === false" class="bi bi-shuffle icon-20"></i>
+        <i
+          *ngIf="shuffleEnable() === true"
+          class="bi bi-shuffle icon-20"
+          style="color: #3fa9ff"
+        ></i>
       </div>
     </div>
     <div class="progress-container">
@@ -65,7 +72,7 @@
     </div>
   </div>
   <div class="music-player__other" id="volume-control">
-    <button class="sound-btn">
+    <button class="sound-btn" (click)="toggleSound()">
       <i *ngIf="!isMute" class="bi bi-volume-up-fill icon-24"></i>
       <i *ngIf="isMute" class="bi bi-volume-mute-fill icon-24"></i>
     </button>
@@ -82,7 +89,13 @@
     </div>
 
     <button type="button" class="download-btn">
-      <span nz-icon nzType="download" nzTheme="outline" class="icon-24"></span>
+      <span
+        nz-icon
+        nzType="download"
+        nzTheme="outline"
+        class="icon-24"
+        (click)="download()"
+      ></span>
     </button>
   </div>
 </div>
@@ -91,4 +104,5 @@
   #audioPlayer
   controls
   (loadedmetadata)="onMetadataLoaded($event)"
+  hidden
 ></audio>
