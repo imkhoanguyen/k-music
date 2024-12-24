@@ -34,11 +34,13 @@ export class SongDetailComponent {
   utilService = inject(UtilityService);
   private musicPlayerService = inject(MusicPlayerService);
   song: Song | undefined;
+  isLiked = false;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.songId = +params['id'];
       this.loadSong();
+      this.checkLikeSong();
     });
   }
 
@@ -48,6 +50,17 @@ export class SongDetailComponent {
         this.song = data;
       },
       error: (er) => this.messageServies.showError(er),
+    });
+  }
+
+  checkLikeSong() {
+    this.accountService.checkLikeSong(this.songId).subscribe({
+      next: (res) => {
+        this.isLiked = res;
+      },
+      error: (er) => {
+        console.log(er);
+      },
     });
   }
 
@@ -61,6 +74,19 @@ export class SongDetailComponent {
     this.accountService.likeSong(songId).subscribe({
       next: (_) => {
         this.messageServies.showSuccess('Bài hát đã được lưu vào mục thích');
+        this.isLiked = true;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  unLikeSong(songId: number) {
+    this.accountService.unLikeSong(songId).subscribe({
+      next: (_) => {
+        this.messageServies.showSuccess('Bỏ thích bài hát thành công');
+        this.isLiked = false;
       },
       error: (er) => {
         console.log(er);

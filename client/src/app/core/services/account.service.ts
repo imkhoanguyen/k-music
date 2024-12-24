@@ -12,4 +12,14 @@ export class AccountService {
   likeSong(songId: number) {
     return this.http.post(this.baseUrl + 'account/like-song', { songId });
   }
+
+  unLikeSong(songId: number) {
+    return this.http.post(this.baseUrl + 'account/unlike-song', { songId });
+  }
+
+  checkLikeSong(songId: number) {
+    return this.http.post<boolean>(this.baseUrl + 'account/check-like-song', {
+      songId,
+    });
+  }
 }

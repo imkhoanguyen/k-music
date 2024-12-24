@@ -16,11 +16,28 @@ namespace API.Controllers.Customer
         }
 
         [HttpPost("like-song")]
-        public async Task<ActionResult> LikeSong([FromBody]AddLikeSongDto dto)
+        public async Task<ActionResult> LikeSong([FromBody]LikeSongDto dto)
         {
             dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
             await _accountService.LikeSongAsync(dto);
             return NoContent();
         }
+
+        [HttpPost("unlike-song")]
+        public async Task<ActionResult> UnLikeSong([FromBody] LikeSongDto dto)
+        {
+            dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
+            await _accountService.UnlikeSongAsync(dto);
+            return NoContent();
+        }
+
+        [HttpPost("check-like-song")]
+        public async Task<ActionResult<bool>> CheckLikeSong([FromBody] LikeSongDto dto)
+        {
+            dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
+            var result = await _accountService.CheckLikeSongAsync(dto);
+            return Ok(result);
+        }
+
     }
 }
