@@ -9,7 +9,6 @@ namespace KM.Domain.Entities
         public DateTime Updated { get; set; }
         public string ImgUrl { get; set; } = string.Empty;
         public string? PublicId { get; set; }
-        public int PlayCount { get; set; }
         public bool IsPublic { get; set; } = true;
         // nav
         public string UserId { get; set; } = "";

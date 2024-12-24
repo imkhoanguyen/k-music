@@ -44,8 +44,6 @@ namespace KM.Infrastructure.Repositories
                     "id_desc" => query.OrderByDescending(p => p.Id),
                     "name" => query.OrderBy(p => p.Name.ToLower()),
                     "name_desc" => query.OrderByDescending(p => p.Name.ToLower()),
-                    "play" => query.OrderBy(p => p.PlayCount),
-                    "play_desc" => query.OrderByDescending(p => p.PlayCount),
                     _ => query.OrderByDescending(p => p.Id)
                 };
             }

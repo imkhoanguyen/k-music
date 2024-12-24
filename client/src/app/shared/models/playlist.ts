@@ -7,7 +7,6 @@ export interface Playlist {
   created: string;
   updated: string;
   imgUrl: string;
-  playCount: number;
   userName: string;
   isPublic: boolean;
 }

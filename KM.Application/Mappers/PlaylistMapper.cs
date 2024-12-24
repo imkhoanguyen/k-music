@@ -14,7 +14,6 @@ namespace KM.Application.Mappers
                 ImgUrl = playlist.ImgUrl,
                 Created = playlist.Created,
                 Updated = playlist.Updated,
-                PlayCount = playlist.PlayCount,
                 IsPublic = playlist.IsPublic,
                 UserName = playlist.AppUser?.UserName ?? string.Empty
             };

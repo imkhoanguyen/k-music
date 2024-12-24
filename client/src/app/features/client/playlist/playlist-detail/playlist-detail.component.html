@@ -16,7 +16,6 @@
       {{ playlist.name }}
     </h2>
     <div><strong>Người tạo:</strong> {{ playlist.userName }}</div>
-    <div><strong>Số lượt phát:</strong> {{ playlist.playCount }}</div>
     <div>
       <strong>Ngày tạo:</strong>
       {{ utilService.getFormattedDate(playlist.created) }}
@@ -27,7 +26,7 @@
     </div>
     <div class="d-flex gap-3 align-items-center mt-2">
       <button
-      (click)="playList(playlist.songList)"
+        (click)="playList(playlist.songList)"
         nz-button
         nzType="primary"
         nzSize="large"
