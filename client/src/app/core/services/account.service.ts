@@ -22,4 +22,39 @@ export class AccountService {
       songId,
     });
   }
+
+  likeSinger(singerId: number) {
+    return this.http.post(this.baseUrl + 'account/like-singer', { singerId });
+  }
+
+  unLikeSinger(singerId: number) {
+    return this.http.post(this.baseUrl + 'account/unlike-singer', { singerId });
+  }
+
+  checkLikeSinger(singerId: number) {
+    return this.http.post<boolean>(this.baseUrl + 'account/check-like-singer', {
+      singerId,
+    });
+  }
+
+  likePlaylist(playlistId: number) {
+    return this.http.post(this.baseUrl + 'account/like-playlist', {
+      playlistId,
+    });
+  }
+
+  unLikePlaylist(playlistId: number) {
+    return this.http.post(this.baseUrl + 'account/unlike-playlist', {
+      playlistId,
+    });
+  }
+
+  checkLikePlaylist(playlistId: number) {
+    return this.http.post<boolean>(
+      this.baseUrl + 'account/check-like-playlist',
+      {
+        playlistId,
+      }
+    );
+  }
 }

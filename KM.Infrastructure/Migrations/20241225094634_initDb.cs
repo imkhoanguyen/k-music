@@ -275,6 +275,30 @@ namespace KM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LikeSinger",
+                columns: table => new
+                {
+                    SingerId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LikeSinger", x => new { x.SingerId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_LikeSinger_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LikeSinger_Singers_SingerId",
+                        column: x => x.SingerId,
+                        principalTable: "Singers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LikeSong",
                 columns: table => new
                 {
@@ -519,6 +543,11 @@ namespace KM.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LikeSinger_UserId",
+                table: "LikeSinger",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LikeSong_UserId",
                 table: "LikeSong",
                 column: "UserId");
@@ -580,6 +609,9 @@ namespace KM.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "LikePlaylist");
+
+            migrationBuilder.DropTable(
+                name: "LikeSinger");
 
             migrationBuilder.DropTable(
                 name: "LikeSong");

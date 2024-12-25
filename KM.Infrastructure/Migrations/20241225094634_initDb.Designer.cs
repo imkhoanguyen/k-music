@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KM.Infrastructure.Migrations
 {
     [DbContext(typeof(MusicContext))]
-    [Migration("20241224134243_initDb")]
+    [Migration("20241225094634_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -199,6 +199,21 @@ namespace KM.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("LikePlaylist");
+                });
+
+            modelBuilder.Entity("KM.Domain.Entities.LikeSinger", b =>
+                {
+                    b.Property<int>("SingerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("SingerId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LikeSinger");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.LikeSong", b =>
@@ -645,6 +660,25 @@ namespace KM.Infrastructure.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Playlist");
+                });
+
+            modelBuilder.Entity("KM.Domain.Entities.LikeSinger", b =>
+                {
+                    b.HasOne("KM.Domain.Entities.Singer", "Singer")
+                        .WithMany()
+                        .HasForeignKey("SingerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KM.Domain.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Singer");
                 });
 
             modelBuilder.Entity("KM.Domain.Entities.LikeSong", b =>

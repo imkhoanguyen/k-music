@@ -63,7 +63,6 @@
         <th>Người đăng</th>
         <th>Ngày tạo</th>
         <th>Ngày cập nhật</th>
-        <th>Lượt nghe</th>
         <th style="width: 10%">Trạng thái</th>
         <th style="width: 10%"></th>
       </tr>
@@ -84,7 +83,6 @@
         <td>{{ playlist.userName }}</td>
         <td>{{ ultilSerivce.getFormattedDate(playlist.created) }}</td>
         <td>{{ ultilSerivce.getFormattedDate(playlist.updated) }}</td>
-        <td>{{ playlist.playCount }}</td>
         <td class="fw-bold text-center">
           <nz-tag
             *ngIf="playlist.isPublic === true; else draftStatus"

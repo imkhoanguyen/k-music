@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { Song } from '../../../../shared/models/song';
+import { AccountService } from '../../../../core/services/account.service';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -29,10 +30,12 @@ export class PlaylistDetailComponent implements OnInit {
   playlistId: number = 0;
   private route = inject(ActivatedRoute);
   private playlistService = inject(PlaylistService);
-  private messageServie = inject(MessageService);
+  private messageService = inject(MessageService);
   private musicPlayerService = inject(MusicPlayerService);
+  private accountService = inject(AccountService);
   utilService = inject(UtilityService);
   playlist: PlaylistDetail | undefined;
+  isLiked = false;
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
@@ -56,6 +59,7 @@ export class PlaylistDetailComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.playlistId = +params['id']; // Lấy lại singerId từ route
       this.loadPlaylist(); // Gọi lại hàm khi tham số route thay đổi
+      this.checkLikePlaylist();
     });
   }
 
@@ -65,7 +69,7 @@ export class PlaylistDetailComponent implements OnInit {
         console.log(res);
         this.playlist = res;
       },
-      error: (er) => this.messageServie.showError(er),
+      error: (er) => this.messageService.showError(er),
     });
   }
 
@@ -79,5 +83,42 @@ export class PlaylistDetailComponent implements OnInit {
     if (list) {
       this.musicPlayerService.playList(list);
     }
+  }
+
+  checkLikePlaylist() {
+    this.accountService.checkLikePlaylist(this.playlistId).subscribe({
+      next: (res) => {
+        this.isLiked = res;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  likePlaylist(playlistId: number) {
+    this.accountService.likePlaylist(playlistId).subscribe({
+      next: (_) => {
+        this.messageService.showSuccess(
+          'Danh sách phát đã được lưu vào mục thích'
+        );
+        this.isLiked = true;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  unLikePlaylist(playlistId: number) {
+    this.accountService.unLikePlaylist(playlistId).subscribe({
+      next: (_) => {
+        this.messageService.showSuccess('Bỏ thích danh sách phát thành công');
+        this.isLiked = false;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
   }
 }

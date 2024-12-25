@@ -13,6 +13,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
+import { AccountService } from '../../../../core/services/account.service';
 
 @Component({
   selector: 'app-singer-detail',
@@ -34,8 +35,11 @@ export class SingerDetailComponent implements OnInit {
   private singerService = inject(SingerService);
   private messageServie = inject(MessageService);
   private musicPlayerService = inject(MusicPlayerService);
+  private accountService = inject(AccountService);
+  private messageService = inject(MessageService);
   utilService = inject(UtilityService);
   singer: SingerDetail | undefined;
+  isLiked = false;
 
   // song
   prm = new SongParams();
@@ -68,6 +72,7 @@ export class SingerDetailComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.singerId = +params['id']; // Lấy lại singerId từ route
       this.loadSinger(); // Gọi lại hàm loadSinger khi tham số route thay đổi
+      this.checkLikeSinger();
     });
   }
 
@@ -91,5 +96,40 @@ export class SingerDetailComponent implements OnInit {
     if (list) {
       this.musicPlayerService.playList(list);
     }
+  }
+
+  checkLikeSinger() {
+    this.accountService.checkLikeSinger(this.singerId).subscribe({
+      next: (res) => {
+        this.isLiked = res;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  likeSinger(singerId: number) {
+    this.accountService.likeSinger(singerId).subscribe({
+      next: (_) => {
+        this.messageService.showSuccess('Ca sĩ đã được lưu vào mục thích');
+        this.isLiked = true;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  unLikeSinger(songId: number) {
+    this.accountService.unLikeSinger(songId).subscribe({
+      next: (_) => {
+        this.messageService.showSuccess('Bỏ thích ca sĩ thành công');
+        this.isLiked = false;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
   }
 }

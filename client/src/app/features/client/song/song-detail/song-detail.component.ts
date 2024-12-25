@@ -29,7 +29,7 @@ export class SongDetailComponent {
   songId: number = 0;
   private route = inject(ActivatedRoute);
   private songServices = inject(SongService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   private accountService = inject(AccountService);
   utilService = inject(UtilityService);
   private musicPlayerService = inject(MusicPlayerService);
@@ -49,8 +49,14 @@ export class SongDetailComponent {
       next: (data) => {
         this.song = data;
       },
-      error: (er) => this.messageServies.showError(er),
+      error: (er) => this.messageService.showError(er),
     });
+  }
+
+  playSong() {
+    if (this.song) {
+      this.musicPlayerService.playSong(this.song);
+    }
   }
 
   checkLikeSong() {
@@ -64,16 +70,10 @@ export class SongDetailComponent {
     });
   }
 
-  playSong() {
-    if (this.song) {
-      this.musicPlayerService.playSong(this.song);
-    }
-  }
-
   likeSong(songId: number) {
     this.accountService.likeSong(songId).subscribe({
       next: (_) => {
-        this.messageServies.showSuccess('Bài hát đã được lưu vào mục thích');
+        this.messageService.showSuccess('Bài hát đã được lưu vào mục thích');
         this.isLiked = true;
       },
       error: (er) => {
@@ -85,7 +85,7 @@ export class SongDetailComponent {
   unLikeSong(songId: number) {
     this.accountService.unLikeSong(songId).subscribe({
       next: (_) => {
-        this.messageServies.showSuccess('Bỏ thích bài hát thành công');
+        this.messageService.showSuccess('Bỏ thích bài hát thành công');
         this.isLiked = false;
       },
       error: (er) => {

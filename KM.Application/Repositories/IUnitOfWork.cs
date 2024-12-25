@@ -12,6 +12,8 @@
         IVipPackageRepository VipPackage { get; }
         IUserVipSubscriptionRepository UserVipSubscription { get; }
         ILikeSongRepository LikeSong { get; }
+        ILikePlaylistRepository LikePlaylist { get; }
+        ILikeSingerRepository LikeSinger { get; }
         Task<bool> CompleteAsync();
     }
 }

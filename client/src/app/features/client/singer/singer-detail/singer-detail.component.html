@@ -32,6 +32,8 @@
         <span>Play</span>
       </button>
       <button
+        *ngIf="isLiked === false"
+        (click)="likeSinger(singerId)"
         nz-button
         nzType="default"
         nzSize="large"
@@ -39,6 +41,22 @@
       >
         <span nz-icon nzType="heart" nzTheme="outline"></span>
         <span>Thích</span>
+      </button>
+      <button
+        *ngIf="isLiked === true"
+        (click)="unLikeSinger(singerId)"
+        nz-button
+        nzType="default"
+        nzSize="large"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span
+          nz-icon
+          nzType="heart"
+          nzTheme="fill"
+          style="color: #f06868"
+        ></span>
+        <span>Bỏ thích</span>
       </button>
       <button
         nz-button

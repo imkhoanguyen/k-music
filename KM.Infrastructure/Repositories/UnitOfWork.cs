@@ -26,6 +26,10 @@ namespace KM.Infrastructure.Repositories
 
         public ILikeSongRepository LikeSong { get; private set; }
 
+        public ILikePlaylistRepository LikePlaylist { get; private set; }
+
+        public ILikeSingerRepository LikeSinger { get; private set; }
+
         public UnitOfWork(MusicContext context)
         {
             _context = context;
@@ -39,6 +43,8 @@ namespace KM.Infrastructure.Repositories
             VipPackage = new VipPackageRepository(_context);
             UserVipSubscription = new UserVipSubscriptionRepository(_context);
             LikeSong = new LikeSongRepository(_context);
+            LikeSinger = new LikeSingerRepository(_context);
+            LikePlaylist = new LikePlaylistRepository(_context);
         }
 
         public async Task<bool> CompleteAsync()
