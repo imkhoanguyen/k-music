@@ -104,13 +104,24 @@
         </td>
         <td>
           <div class="d-flex gap-2 align-items-center">
-            {{ song.name }}
+            <a class="song-text" (click)="goSongDetail(song.id)">
+              {{ song.name }}
+            </a>
             @if(song.isVip) {
             <img src="img/vip-badge.png" alt="vip-badge" />
             }
           </div>
         </td>
-        <td>{{ utilService.getSingersString(song) }}</td>
+        <td>
+          <div *ngIf="song.singers.length > 0">
+            <ng-container *ngFor="let singer of song.singers; let i = index">
+              <a class="singer-link" (click)="goSingerDetail(singer)">{{
+                singer.name
+              }}</a>
+              <span *ngIf="i < song.singers.length - 1">, </span>
+            </ng-container>
+          </div>
+        </td>
         <td>
           <span *ngIf="audioDurations[song.id]">
             {{ audioDurations[song.id] }}

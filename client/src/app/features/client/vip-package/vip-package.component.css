@@ -1,5 +1,5 @@
 .ctn-pack {
-  height: 100vh;
+  min-height: 100vh;
   margin: -50px;
   object-fit: cover;
   background-image: url("/img/bg-1.png");

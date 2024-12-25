@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SongService } from '../../../../core/services/song.service';
@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { AccountService } from '../../../../core/services/account.service';
+import { Singer } from '../../../../shared/models/singer';
 
 @Component({
   selector: 'app-song-detail',
@@ -31,6 +32,7 @@ export class SongDetailComponent {
   private songServices = inject(SongService);
   private messageService = inject(MessageService);
   private accountService = inject(AccountService);
+  private router = inject(Router);
   utilService = inject(UtilityService);
   private musicPlayerService = inject(MusicPlayerService);
   song: Song | undefined;
@@ -92,5 +94,9 @@ export class SongDetailComponent {
         console.log(er);
       },
     });
+  }
+
+  goSingerDetail(singer: Singer) {
+    this.router.navigate(['/singer', singer.id]);
   }
 }

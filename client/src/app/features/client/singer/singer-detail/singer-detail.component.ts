@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SingerService } from '../../../../core/services/singer.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { UtilityService } from '../../../../core/services/utility.service';
-import { SingerDetail } from '../../../../shared/models/singer';
+import { Singer, SingerDetail } from '../../../../shared/models/singer';
 import { Song, SongParams } from '../../../../shared/models/song';
 import { Pagination } from '../../../../shared/models/pagination';
 import { CommonModule } from '@angular/common';
@@ -37,6 +37,7 @@ export class SingerDetailComponent implements OnInit {
   private musicPlayerService = inject(MusicPlayerService);
   private accountService = inject(AccountService);
   private messageService = inject(MessageService);
+  private router = inject(Router);
   utilService = inject(UtilityService);
   singer: SingerDetail | undefined;
   isLiked = false;
@@ -131,5 +132,13 @@ export class SingerDetailComponent implements OnInit {
         console.log(er);
       },
     });
+  }
+
+  goSingerDetail(singer: Singer) {
+    this.router.navigate(['/singer', singer.id]);
+  }
+
+  goSongDetail(songId: number) {
+    this.router.navigate(['/song', songId]);
   }
 }

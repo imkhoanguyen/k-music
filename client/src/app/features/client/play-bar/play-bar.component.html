@@ -9,14 +9,16 @@
       />
     </div>
     <div class="info-container">
-      <a (click)="goSongDetail(currentSong()?.id ?? 0)">
+      <a class="song-text" (click)="goSongDetail(currentSong()?.id ?? 0)">
         {{ currentSong()?.name ?? songNameDefault }}
       </a>
       @if(currentSong()?.singers) {
       <strong>
         <div *ngIf="singers.length > 0">
           <ng-container *ngFor="let singer of singers; let i = index">
-            <a (click)="goSingerDetail(singer)">{{ singer.name }}</a>
+            <a class="singer-link" (click)="goSingerDetail(singer)">{{
+              singer.name
+            }}</a>
             <span *ngIf="i < singers.length - 1">, </span>
           </ng-container>
         </div>

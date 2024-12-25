@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { UtilityService } from '../../../../core/services/utility.service';
@@ -12,6 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { Song } from '../../../../shared/models/song';
 import { AccountService } from '../../../../core/services/account.service';
+import { Singer } from '../../../../shared/models/singer';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -33,6 +34,7 @@ export class PlaylistDetailComponent implements OnInit {
   private messageService = inject(MessageService);
   private musicPlayerService = inject(MusicPlayerService);
   private accountService = inject(AccountService);
+  private router = inject(Router);
   utilService = inject(UtilityService);
   playlist: PlaylistDetail | undefined;
   isLiked = false;
@@ -120,5 +122,13 @@ export class PlaylistDetailComponent implements OnInit {
         console.log(er);
       },
     });
+  }
+
+  goSingerDetail(singer: Singer) {
+    this.router.navigate(['/singer', singer.id]);
+  }
+
+  goSongDetail(songId: number) {
+    this.router.navigate(['/song', songId]);
   }
 }

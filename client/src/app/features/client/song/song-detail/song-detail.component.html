@@ -21,7 +21,17 @@
     <div>
       <strong>Thể loại:</strong> {{ utilService.getGenresString(song) }}
     </div>
-    <div><strong>Ca sĩ:</strong> {{ utilService.getSingersString(song) }}</div>
+    <div>
+      <strong>Ca sĩ: </strong>
+      <div style="display: inline-block" *ngIf="song.singers.length > 0">
+        <ng-container *ngFor="let singer of song.singers; let i = index">
+          <a class="singer-link" (click)="goSingerDetail(singer)">{{
+            singer.name
+          }}</a>
+          <span *ngIf="i < song.singers.length - 1">, </span>
+        </ng-container>
+      </div>
+    </div>
     <div>
       <strong>Ngày tạo:</strong>
       {{ utilService.getFormattedDate(song.created) }}
