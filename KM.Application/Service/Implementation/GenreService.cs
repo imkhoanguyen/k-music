@@ -61,9 +61,9 @@ namespace KM.Application.Service.Implementation
             return new PagedList<GenreDto>(genreDtos, genres.TotalCount, genres.CurrentPage, genres.PageSize);
         }
 
-        public async Task<IEnumerable<GenreDto>> GetAllAsync(bool tracked)
+        public async Task<IEnumerable<GenreDto>> GetAllAsync(Expression<Func<Genre, bool>>? expression = null)
         {
-            var genres = await _unit.Genre.GetAllAsync(tracked);
+            var genres = await _unit.Genre.GetAllAsync(expression);
             return genres.Select(GenreMapper.EntityToGenreDto); // return list GenreDto
         }
 

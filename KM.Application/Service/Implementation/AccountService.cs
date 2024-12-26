@@ -1,6 +1,9 @@
 ﻿using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Songs;
+using KM.Application.Parameters;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
+using KM.Application.Utilities;
 using KM.Domain.Entities;
 using KM.Domain.Exceptions;
 
@@ -9,10 +12,12 @@ namespace KM.Application.Service.Implementation
     public class AccountService : IAccountService
     {
         private readonly IUnitOfWork _unit;
+        private readonly ISongService _songService;
 
-        public AccountService(IUnitOfWork unit)
+        public AccountService(IUnitOfWork unit, ISongService songService)
         {
             _unit = unit;
+            _songService = songService;
         }
 
         public async Task<bool> CheckLikePlaylistAsync(LikePlaylistDto dto)
@@ -40,6 +45,14 @@ namespace KM.Application.Service.Implementation
                 return true;
             }
             return false;
+        }
+
+        public async Task<PagedList<SongDto>> GetSongLiked(SongParams prm, string userId)
+        {
+            var songLiked = await _unit.LikeSong.GetAllAsync(ls => ls.UserId == userId);
+            var likedSongIds = songLiked.Select(sl => sl.SongId).ToList();
+            var songs = await _songService.GetAllAsync(prm, s => likedSongIds.Contains(s.Id));
+            return songs;
         }
 
         public async Task LikePlaylistAsync(LikePlaylistDto dto)

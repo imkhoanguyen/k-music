@@ -73,7 +73,7 @@ namespace KM.Application.Service.Implementation
 
         public async Task<IEnumerable<SingerDto>> GetAllAsync()
         {
-            var singers = await _unit.Singer.GetAllWithoutPagingAsync();
+            var singers = await _unit.Singer.GetAllAsync();
 
             return singers.Select(SingerMapper.EntityToSingerDto);
         }

@@ -9,6 +9,5 @@ namespace KM.Application.Repositories
         Task<PagedList<Singer>> GetAllAsync(SingerParams prm, bool tracked = false);
         Task UpdateNoPhotoAsync(Singer singer);
         Task<IEnumerable<string>> GetLocationsAsync();
-        Task<IEnumerable<Singer>> GetAllWithoutPagingAsync(bool tracked = false);
     }
 }

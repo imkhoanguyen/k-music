@@ -56,13 +56,6 @@ namespace KM.Infrastructure.Repositories
             return await query.ApplyPaginationAsync(prm.PageNumber, prm.PageSize);
         }
 
-        public async Task<IEnumerable<Singer>> GetAllWithoutPagingAsync(bool tracked = false)
-        {
-            if (tracked)
-                return await _context.Singers.ToListAsync();
-            return await _context.Singers.AsNoTracking().ToListAsync();
-        }
-
         public async Task<IEnumerable<string>> GetLocationsAsync()
         {
             return await _context.Singers.Select(s => s.Location)

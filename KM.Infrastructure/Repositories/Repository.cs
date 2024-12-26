@@ -37,6 +37,17 @@ namespace KM.Infrastructure.Repositories
             return await _context.Set<T>().AnyAsync(predicate);
         }
 
+        public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null, bool tracked = false)
+        {
+            var query = tracked ? _dbSet.AsQueryable() : _dbSet.AsNoTracking().AsQueryable();
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+
+            return await query.ToListAsync();
+        }
+
         public virtual async Task<T?> GetAsync(Expression<Func<T, bool>> expression, bool tracked = false)
         {
             if (tracked)
@@ -47,10 +58,6 @@ namespace KM.Infrastructure.Repositories
             return await _dbSet.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public IQueryable<T> Query()
-        {
-            return _dbSet;
-        }
 
         public void Remove(T entity)
         {

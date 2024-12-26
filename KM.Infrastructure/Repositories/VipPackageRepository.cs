@@ -13,17 +13,5 @@ namespace KM.Infrastructure.Repositories
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<VipPackage>> GetAllAsync(Expression<Func<VipPackage, bool>>? expression = null, bool tracked = false)
-        {
-            var query = tracked ? _context.VipPackages.AsQueryable() : _context.VipPackages.AsNoTracking().AsQueryable();
-
-            if(expression != null)
-            {
-                query = query.Where(expression);
-            }
-
-            return await query.ToListAsync();
-        }
     }
 }

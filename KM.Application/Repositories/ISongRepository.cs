@@ -14,6 +14,5 @@ namespace KM.Application.Repositories
         Task UpdateSongVipAsync(int songId, bool vip);
         Task<IEnumerable<SongGenre>> GetAllGenreBySongIdAsync(int songId);
         Task<IEnumerable<SongSinger>> GetAllSingerBySongIdAsync(int songId);
-        Task<IEnumerable<Song>> GetAllAsync(Expression<Func<Song, bool>>? expression = null, bool tracked = false);
     }
 }

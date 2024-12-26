@@ -1,4 +1,7 @@
 ﻿using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Songs;
+using KM.Application.Parameters;
+using KM.Application.Utilities;
 
 namespace KM.Application.Service.Abstract
 {
@@ -15,5 +18,6 @@ namespace KM.Application.Service.Abstract
         Task LikeSingerAsync(LikeSingerDto dto);
         Task UnlikeSingerAsync(LikeSingerDto dto);
         Task<bool> CheckLikeSingerAsync(LikeSingerDto dto);
+        Task<PagedList<SongDto>> GetSongLiked(SongParams prm, string userId);
     }
 }

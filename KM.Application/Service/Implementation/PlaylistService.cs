@@ -34,7 +34,7 @@ namespace KM.Application.Service.Implementation
                 throw new BadRequestException("Danh sách bài hát phải lớn hơn hoặc bằng 1");
             }
 
-            var currentPlaylistSong = await _unit.PlaylistSong.GetPlaylistSongsAsync(ps => ps.PlaylistId == playlistId);
+            var currentPlaylistSong = await _unit.PlaylistSong.GetAllAsync(ps => ps.PlaylistId == playlistId);
             var songListAdd = songIdList.Select(songId => new PlaylistSong(playlistId, songId))
                 .Except(currentPlaylistSong.Select(ps => new PlaylistSong(ps.PlaylistId, ps.SongId)));
 
@@ -194,7 +194,7 @@ namespace KM.Application.Service.Implementation
 
         public async Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm)
         {
-            var pagedList = await _unit.Playlist.GetAllAsync(prm, false);
+            var pagedList = await _unit.Playlist.GetAllAsync(prm);
 
             var playlistDtos = pagedList.Select(PlaylistMapper.EntityToPlaylistDto).ToList();
 

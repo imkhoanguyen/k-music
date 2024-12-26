@@ -15,7 +15,7 @@ namespace KM.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<PlaylistSong>> GetPlaylistSongsAsync(Expression<Func<PlaylistSong, bool>> expression, bool tracked = false)
+        public override async Task<IEnumerable<PlaylistSong>> GetAllAsync(Expression<Func<PlaylistSong, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.PlaylistSongs.AsQueryable()
                 : _context.PlaylistSongs.AsNoTracking().AsQueryable();

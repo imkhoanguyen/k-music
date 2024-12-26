@@ -96,7 +96,7 @@ namespace KM.Application.Service.Implementation
                 throw new BadRequestException("Xảy ra lỗi khi xóa bài hát");
         }
 
-        public async Task<PagedList<SongDto>> GetAllAsync(SongParams prm)
+        public async Task<PagedList<SongDto>> GetAllAsync(SongParams prm, Expression<Func<Song, bool>>? expression = null)
         {
             var songs = await _unit.Song.GetAllAsync(prm);
 

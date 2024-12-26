@@ -32,7 +32,7 @@ namespace API.Controllers.Admin
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenre()
         {
 
-            return Ok(await _genreService.GetAllAsync(false));
+            return Ok(await _genreService.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]

@@ -39,12 +39,5 @@ namespace KM.Infrastructure.Repositories
 
             return await query.ApplyPaginationAsync(prm.PageNumber, prm.PageSize);
         }
-
-        public async Task<IEnumerable<Genre>> GetAllAsync(bool tracked = false)
-        {
-            if (tracked)
-                return await _context.Genres.ToListAsync();
-            return await _context.Genres.AsNoTracking().ToListAsync();
-        }
     }
 }

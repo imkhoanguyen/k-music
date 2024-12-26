@@ -19,7 +19,7 @@ namespace KM.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserVipSubscription>> GetAllAsync(Expression<Func<UserVipSubscription, bool>>? expression = null, bool tracked = false)
+        public override async Task<IEnumerable<UserVipSubscription>> GetAllAsync(Expression<Func<UserVipSubscription, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.UserVipSubscriptions.AsQueryable() : _context.UserVipSubscriptions.AsNoTracking().AsQueryable();
             query = query.Include(uvs => uvs.AppUser).Include(uvs => uvs.VipPackage);
