@@ -1,4 +1,6 @@
 ﻿using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Playlists;
+using KM.Application.DTOs.Singers;
 using KM.Application.DTOs.Songs;
 using KM.Application.Parameters;
 using KM.Application.Repositories;
@@ -13,11 +15,15 @@ namespace KM.Application.Service.Implementation
     {
         private readonly IUnitOfWork _unit;
         private readonly ISongService _songService;
+        private readonly IPlaylistService _playlistService;
+        private readonly ISingerService _singerService;
 
-        public AccountService(IUnitOfWork unit, ISongService songService)
+        public AccountService(IUnitOfWork unit, ISongService songService, IPlaylistService playlistService, ISingerService singerService)
         {
             _unit = unit;
             _songService = songService;
+            _playlistService = playlistService;
+            _singerService = singerService;
         }
 
         public async Task<bool> CheckLikePlaylistAsync(LikePlaylistDto dto)
@@ -45,6 +51,22 @@ namespace KM.Application.Service.Implementation
                 return true;
             }
             return false;
+        }
+
+        public async Task<PagedList<PlaylistDto>> GetPlaylistLiked(PlaylistParams prm, string userId)
+        {
+            var playlistLiked = await _unit.LikePlaylist.GetAllAsync(lp => lp.UserId == userId);
+            var likedPlaylistIds = playlistLiked.Select(lp => lp.PlaylistId).ToList();
+            var playlists = await _playlistService.GetAllAsync(prm, p => likedPlaylistIds.Contains(p.Id));
+            return playlists;
+        }
+
+        public async Task<PagedList<SingerDto>> GetSingerLiked(SingerParams prm, string userId)
+        {
+            var singerLiked = await _unit.LikeSinger.GetAllAsync(ls => ls.UserId == userId);
+            var likedSingerIds = singerLiked.Select(sl => sl.SingerId).ToList();
+            var singers = await _singerService.GetAllAsync(prm, s => likedSingerIds.Contains(s.Id));
+            return singers;
         }
 
         public async Task<PagedList<SongDto>> GetSongLiked(SongParams prm, string userId)

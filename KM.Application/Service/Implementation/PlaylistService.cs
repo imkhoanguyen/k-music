@@ -192,9 +192,9 @@ namespace KM.Application.Service.Implementation
             }
         }
 
-        public async Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm)
+        public async Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm, Expression<Func<Playlist, bool>>? expression = null)
         {
-            var pagedList = await _unit.Playlist.GetAllAsync(prm);
+            var pagedList = await _unit.Playlist.GetAllAsync(prm, expression);
 
             var playlistDtos = pagedList.Select(PlaylistMapper.EntityToPlaylistDto).ToList();
 

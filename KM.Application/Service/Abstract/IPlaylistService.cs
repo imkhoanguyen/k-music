@@ -8,7 +8,7 @@ namespace KM.Application.Service.Abstract
 {
     public interface IPlaylistService
     {
-        Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm);
+        Task<PagedList<PlaylistDto>> GetAllAsync(PlaylistParams prm, Expression<Func<Playlist, bool>>? expression = null);
         Task<PlaylistDto> CreateAsync(PlaylistCreateDto dto);
         Task<PlaylistDetailDto> AddSongAsync(int playlistId, List<int> songIdList);
         Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto);

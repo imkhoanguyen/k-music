@@ -8,7 +8,7 @@ namespace KM.Application.Service.Abstract
 {
     public interface ISingerService
     {
-        Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm);
+        Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm, Expression<Func<Singer, bool>>? expression = null);
         Task<IEnumerable<SingerDto>> GetAllAsync();
         Task<SingerDto> GetAsync(Expression<Func<Singer, bool>> expression);
         Task<SingerDto> CreateSingerAsync(SingerCreateDto singerCreateDto);

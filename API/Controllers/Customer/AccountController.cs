@@ -98,5 +98,23 @@ namespace API.Controllers.Customer
             return Ok(pagedList);
         }
 
+        [HttpGet("get-singer-liked")]
+        public async Task<ActionResult<IEnumerable<SongDto>>> GetSingerLiked([FromQuery] SingerParams prm)
+        {
+            string userId = ClaimsPrincipleExtensions.GetUserId(User);
+            var pagedList = await _accountService.GetSingerLiked(prm, userId);
+            Response.AddPaginationHeader(pagedList);
+            return Ok(pagedList);
+        }
+
+        [HttpGet("get-playlist-liked")]
+        public async Task<ActionResult<IEnumerable<SongDto>>> GetPlaylistLiked([FromQuery] PlaylistParams prm)
+        {
+            string userId = ClaimsPrincipleExtensions.GetUserId(User);
+            var pagedList = await _accountService.GetPlaylistLiked(prm, userId);
+            Response.AddPaginationHeader(pagedList);
+            return Ok(pagedList);
+        }
+
     }
 }

@@ -19,12 +19,17 @@ namespace KM.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<PagedList<Playlist>> GetAllAsync(PlaylistParams prm, bool tracked = false)
+        public async Task<PagedList<Playlist>> GetAllAsync(PlaylistParams prm, Expression<Func<Playlist, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.Playlist.AsQueryable() : 
                 _context.Playlist.AsNoTracking().AsQueryable();
 
             query = query.Include(p => p.AppUser);
+
+            if(expression != null)
+            {
+                query = query.Where(expression);
+            }
 
             if(!prm.UserId.IsNullOrEmpty())
             {

@@ -62,9 +62,9 @@ namespace KM.Application.Service.Implementation
             }
         }
 
-        public async Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm)
+        public async Task<PagedList<SingerDto>> GetAllAsync(SingerParams prm, Expression<Func<Singer, bool>>? expression = null)
         {
-            var singers = await _unit.Singer.GetAllAsync(prm);
+            var singers = await _unit.Singer.GetAllAsync(prm, expression);
 
             var singerDtos = singers.Select(SingerMapper.EntityToSingerDto);
 

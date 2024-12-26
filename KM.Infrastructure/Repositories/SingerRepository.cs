@@ -1,4 +1,5 @@
-﻿using KM.Application.Parameters;
+﻿using System.Linq.Expressions;
+using KM.Application.Parameters;
 using KM.Application.Repositories;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
@@ -19,9 +20,14 @@ namespace KM.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<PagedList<Singer>> GetAllAsync(SingerParams prm, bool tracked = false)
+        public async Task<PagedList<Singer>> GetAllAsync(SingerParams prm, Expression<Func<Singer, bool>>? expression = null, bool tracked = false)
         {
             var query = tracked ? _context.Singers.AsQueryable() : _context.Singers.AsNoTracking().AsQueryable();
+
+            if(expression != null)
+            {
+                query = query.Where(expression);
+            }
 
             if (!prm.Search.IsNullOrEmpty())
                 query = query.Where(s => s.Name.ToLower().Contains(prm.Search.ToLower()));
