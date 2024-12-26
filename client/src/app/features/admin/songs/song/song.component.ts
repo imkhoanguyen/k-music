@@ -17,6 +17,7 @@ import {
   NzUploadChangeParam,
   NzUploadFile,
   NzUploadModule,
+  NzUploadXHRArgs,
 } from 'ng-zorro-antd/upload';
 import { SongService } from '../../../../core/services/song.service';
 import { MessageService } from '../../../../core/services/message.service';
@@ -29,6 +30,7 @@ import { Singer } from '../../../../shared/models/singer';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { Router } from '@angular/router';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-song',

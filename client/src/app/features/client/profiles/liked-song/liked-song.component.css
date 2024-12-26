@@ -31,7 +31,3 @@ td {
   color: #3fa9ff;
   border: 2px solid #3fa9ff;
 }
-
-::ng-deep .ant-table-pagination-right {
-  justify-content: center !important;
-}

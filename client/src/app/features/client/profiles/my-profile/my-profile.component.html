@@ -1,0 +1,55 @@
+<div class="profile">
+  <img
+    style="border-radius: 50%; border: 3px solid #fff"
+    class="img-table"
+    src="{{ authService.currentUser()?.imgUrl }}"
+    alt="{{ authService.currentUser()?.userName }}"
+  />
+  <h1 class="mt-1">
+    <span class="profile-name">{{ authService.currentUser()?.fullName }}</span>
+  </h1>
+</div>
+<div class="main-profile">
+  <div class="profile-nav">
+    <div class="d-flex gap-3 align-items-center">
+      <a
+        class="profile-nav-item"
+        (click)="showComponent(1)"
+        [class.active]="currentComponent === 1"
+        >Bài hát đã thích</a
+      >
+      <a
+        class="profile-nav-item"
+        (click)="showComponent(2)"
+        [class.active]="currentComponent === 2"
+        >Danh sách đã thích</a
+      >
+      <a
+        class="profile-nav-item"
+        (click)="showComponent(3)"
+        [class.active]="currentComponent === 3"
+        >Ca sĩ đã thích</a
+      >
+      <a
+        class="profile-nav-item"
+        (click)="showComponent(4)"
+        [class.active]="currentComponent === 4"
+        >Danh sách phát của bạn</a
+      >
+    </div>
+  </div>
+  <div class="profile-content">
+    <div *ngIf="currentComponent === 1">
+      <app-liked-song></app-liked-song>
+    </div>
+    <div *ngIf="currentComponent === 2">
+      <app-liked-playlist></app-liked-playlist>
+    </div>
+    <div *ngIf="currentComponent === 3">
+      <app-liked-singer></app-liked-singer>
+    </div>
+    <div *ngIf="currentComponent === 4">
+      <app-my-playlist></app-my-playlist>
+    </div>
+  </div>
+</div>

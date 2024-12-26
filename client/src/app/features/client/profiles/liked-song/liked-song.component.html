@@ -1,0 +1,111 @@
+<div class="d-flex gap-3 align-items-center mt-2">
+  <button
+    (click)="playList(songs)"
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    class="d-flex justify-content-center align-items-center gap-1"
+  >
+    <i class="bi bi-play-fill" style="font-size: 20px"></i>
+    <span>Phát tất cả</span>
+  </button>
+</div>
+<div class="mt-3">
+  <nz-table
+    #nzTable
+    [nzData]="songs"
+    nzTableLayout="fixed"
+    [nzFrontPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th nzWidth="100px">Ảnh bìa</th>
+        <th>Bài hát</th>
+        <th>Ca sĩ</th>
+        <th nzWidth="120px">Thời gian</th>
+        <th nzWidth="150px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (song of songs; track song.id) {
+      <tr>
+        <audio
+          controls
+          hidden
+          (loadedmetadata)="onMetadataLoaded($event, song.id)"
+        >
+          <source [src]="song.songUrl" type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+        <td>{{ song.id }}</td>
+        <td class="image-column">
+          <img
+            nz-image
+            [nzSrc]="song.imgUrl"
+            [alt]="song.name"
+            class="img-table-mini"
+          />
+        </td>
+        <td>
+          <div class="d-flex gap-2 align-items-center">
+            <a class="song-text" (click)="goSongDetail(song.id)">
+              {{ song.name }}
+            </a>
+            @if(song.isVip) {
+            <img src="img/vip-badge.png" alt="vip-badge" />
+            }
+          </div>
+        </td>
+        <td>
+          <div *ngIf="song.singers.length > 0">
+            <ng-container *ngFor="let singer of song.singers; let i = index">
+              <a class="singer-link" (click)="goSingerDetail(singer)">{{
+                singer.name
+              }}</a>
+              <span *ngIf="i < song.singers.length - 1">, </span>
+            </ng-container>
+          </div>
+        </td>
+        <td>
+          <span *ngIf="audioDurations[song.id]">
+            {{ audioDurations[song.id] }}
+          </span>
+          <span *ngIf="!audioDurations[song.id]">Loading...</span>
+        </td>
+        <td>
+          <button class="btn btn-sm fs-6">
+            <div class="d-flex">
+              <div
+                class="container-btn d-flex gap-2 justify-content-center align-items-center"
+              >
+                <button class="btn-icon" (click)="playSong(song)">
+                  <i class="bi bi-play"></i>
+                </button>
+                <button class="btn-icon">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+                <button class="btn-icon" (click)="unLikeSong(song.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+  <div class="d-flex align-items-center justify-content-center mt-3">
+    <nz-pagination
+      [nzPageIndex]="pagination.currentPage"
+      [nzTotal]="pagination.totalItems"
+      [nzSize]="'default'"
+      [nzPageSize]="pagination.itemsPerPage"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzShowTotal]="totalTemplate"
+    ></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+  </div>
+</div>

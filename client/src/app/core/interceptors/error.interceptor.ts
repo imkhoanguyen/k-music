@@ -37,9 +37,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             );
             break;
           case 404:
-            messageService.showError(
-              error.error.statusCode + ' - ' + error.error.message
-            );
+            if (error.url !== 'http://localhost:4200/') {
+              messageService.showError(
+                error.error.statusCode + ' - ' + error.error.message
+              );
+            }
             break;
           case 500:
             const navigationExtras: NavigationExtras = {

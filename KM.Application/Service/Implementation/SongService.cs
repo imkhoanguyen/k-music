@@ -98,7 +98,7 @@ namespace KM.Application.Service.Implementation
 
         public async Task<PagedList<SongDto>> GetAllAsync(SongParams prm, Expression<Func<Song, bool>>? expression = null)
         {
-            var songs = await _unit.Song.GetAllAsync(prm);
+            var songs = await _unit.Song.GetAllAsync(prm, expression);
 
             var songDtos = songs.Select(SongMapper.EntityToSongDto); // map
 

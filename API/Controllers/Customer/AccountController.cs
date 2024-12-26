@@ -1,6 +1,8 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Songs;
+using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,6 +87,15 @@ namespace API.Controllers.Customer
             dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
             var result = await _accountService.CheckLikePlaylistAsync(dto);
             return Ok(result);
+        }
+
+        [HttpGet("get-song-liked")]
+        public async Task<ActionResult<IEnumerable<SongDto>>> GetSongLiked([FromQuery] SongParams prm)
+        {
+            string userId = ClaimsPrincipleExtensions.GetUserId(User);
+            var pagedList = await _accountService.GetSongLiked(prm, userId);
+            Response.AddPaginationHeader(pagedList);
+            return Ok(pagedList);
         }
 
     }
