@@ -12,11 +12,11 @@ import { Song, SongParams } from '../../shared/models/song';
 export class SingerService {
   private baseUrl = `${environment.apiUrl}admin/`;
   private http = inject(HttpClient);
-  private paginationResult: PaginatedResult<Singer[]> = new PaginatedResult<
-    Singer[]
-  >();
 
   getSingers(singerParams: SingerParams) {
+    let paginationResult: PaginatedResult<Singer[]> = new PaginatedResult<
+      Singer[]
+    >();
     let params = new HttpParams();
     params = params.append('pageNumber', singerParams.pageNumber);
     params = params.append('pageSize', singerParams.pageSize);
@@ -39,12 +39,12 @@ export class SingerService {
       .get<Singer[]>(this.baseUrl + 'singer', { observe: 'response', params })
       .pipe(
         map((response) => {
-          this.paginationResult.result = response.body as Singer[];
+          paginationResult.result = response.body as Singer[];
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
-            this.paginationResult.pagination = JSON.parse(pagination);
+            paginationResult.pagination = JSON.parse(pagination);
           }
-          return this.paginationResult;
+          return paginationResult;
         })
       );
   }
@@ -84,9 +84,11 @@ export class SingerService {
       .pipe(
         map((response) => {
           paginationResult.result = response.body;
+
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
-            this.paginationResult.pagination = JSON.parse(pagination);
+            console.log('vao');
+            paginationResult.pagination = JSON.parse(pagination);
           }
           let singerDetail: SingerDetail = response.body;
           singerDetail.PaginatedResult = paginationResult;

@@ -14,6 +14,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { AccountService } from '../../../../core/services/account.service';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @Component({
   selector: 'app-singer-detail',
@@ -25,6 +26,7 @@ import { AccountService } from '../../../../core/services/account.service';
     NzIconModule,
     NzButtonModule,
     NzTypographyModule,
+    NzPaginationModule,
   ],
   templateUrl: './singer-detail.component.html',
   styleUrl: './singer-detail.component.css',
@@ -80,6 +82,7 @@ export class SingerDetailComponent implements OnInit {
   loadSinger() {
     this.singerService.getSingerDetail(this.singerId, this.prm).subscribe({
       next: (res) => {
+        console.log(res);
         this.singer = res;
         this.pagination = res.PaginatedResult.pagination as Pagination;
       },
@@ -140,5 +143,28 @@ export class SingerDetailComponent implements OnInit {
 
   goSongDetail(songId: number) {
     this.router.navigate(['/song', songId]);
+  }
+
+  //paging sorting
+  onPageIndexChange(newPageNumber: number) {
+    this.prm.pageNumber = newPageNumber;
+    this.loadSinger();
+  }
+
+  onPageSizeChange(newPageSize: number) {
+    this.prm.pageSize = newPageSize;
+    this.loadSinger();
+  }
+
+  onSortChange(sortBy: string) {
+    const currentSort = this.prm.orderBy;
+    if (currentSort === sortBy) {
+      this.prm.orderBy = `${sortBy}_desc`;
+    } else if (currentSort === `${sortBy}_desc`) {
+      this.prm.orderBy = sortBy;
+    } else {
+      this.prm.orderBy = sortBy;
+    }
+    this.loadSinger();
   }
 }
