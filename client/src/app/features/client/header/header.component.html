@@ -60,9 +60,7 @@
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu>
-        <li nz-menu-item>Danh sách phát</li>
-        <li nz-menu-item>Bài hát đã thích</li>
-        <li nz-menu-item>Ca sĩ đã thích</li>
+        <li routerLink="profile" nz-menu-item>Âm nhạc của tôi</li>
         <li
           *ngIf="authService.hasClaim('Access_Admin')"
           routerLink="/admin"

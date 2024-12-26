@@ -15,6 +15,7 @@ import { paymentProcessingGuard } from '../../core/guards/payment-processing.gua
 import { PaymentFailComponent } from './payments/payment-fail/payment-fail.component';
 import { paymentFailedGuard } from '../../core/guards/payment-failed.guard';
 import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
+import { authGuard } from '../../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +23,11 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'profile', component: MyProfileComponent },
+      {
+        path: 'profile',
+        component: MyProfileComponent,
+        canActivate: [authGuard],
+      },
       {
         path: 'payment-fail',
         component: PaymentFailComponent,
@@ -39,11 +44,23 @@ const routes: Routes = [
         canActivate: [paymentProcessingGuard],
       },
       { path: 'vip-package', component: VipPackageComponent },
-      { path: 'playlist/:id', component: PlaylistDetailComponent },
+      {
+        path: 'playlist/:id',
+        component: PlaylistDetailComponent,
+        canActivate: [authGuard],
+      },
       { path: 'song', component: SongListComponent },
-      { path: 'song/:id', component: SongDetailComponent },
+      {
+        path: 'song/:id',
+        component: SongDetailComponent,
+        canActivate: [authGuard],
+      },
       { path: 'singer', component: SingerListComponent },
-      { path: 'singer/:id', component: SingerDetailComponent },
+      {
+        path: 'singer/:id',
+        component: SingerDetailComponent,
+        canActivate: [authGuard],
+      },
     ],
   },
 ];
