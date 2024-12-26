@@ -19,9 +19,17 @@
   >
     <thead>
       <tr>
-        <th nzWidth="60px"></th>
+        <th
+          nzWidth="60px"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
         <th nzWidth="100px">Ảnh bìa</th>
-        <th>Bài hát</th>
+        <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
+          Bài hát
+        </th>
         <th>Ca sĩ</th>
         <th nzWidth="120px">Thời gian</th>
         <th nzWidth="150px"></th>
@@ -74,23 +82,19 @@
           <span *ngIf="!audioDurations[song.id]">Loading...</span>
         </td>
         <td>
-          <button class="btn btn-sm fs-6">
-            <div class="d-flex">
-              <div
-                class="container-btn d-flex gap-2 justify-content-center align-items-center"
-              >
-                <button class="btn-icon" (click)="playSong(song)">
-                  <i class="bi bi-play"></i>
-                </button>
-                <button class="btn-icon">
-                  <i class="bi bi-plus-lg"></i>
-                </button>
-                <button class="btn-icon" (click)="unLikeSong(song.id)">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-            </div>
-          </button>
+          <div
+            class="container-btn d-flex gap-2 justify-content-center align-items-center"
+          >
+            <button class="btn-icon" (click)="playSong(song)">
+              <i class="bi bi-play"></i>
+            </button>
+            <button class="btn-icon">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+            <button class="btn-icon" (click)="unLikeSong(song.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </td>
       </tr>
       }
@@ -105,6 +109,9 @@
       (nzPageIndexChange)="onPageIndexChange($event)"
       (nzPageSizeChange)="onPageSizeChange($event)"
       [nzShowTotal]="totalTemplate"
+      [nzShowSizeChanger]="true"
+      [nzShowQuickJumper]="true"
+      [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
     ></nz-pagination>
     <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
   </div>

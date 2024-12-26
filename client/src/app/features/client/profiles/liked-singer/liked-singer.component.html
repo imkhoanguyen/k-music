@@ -1,1 +1,107 @@
-<p>liked-singer works!</p>
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="singers"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Hình ảnh ca sĩ</th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('name')"
+          style="width: 20%"
+        >
+          Ca sĩ
+        </th>
+        <th
+          style="width: 10%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('gender')"
+        >
+          Giới tính
+        </th>
+        <th
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('location')"
+          style="width: 10%"
+        >
+          Quốc gia
+        </th>
+        <th>Giới thiệu</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody class="align-middle">
+      @for (singer of singers; track singer.id) {
+      <tr>
+        <td class="text-center">{{ singer.id }}</td>
+        <td class="image-column">
+          <img
+            class="img-table"
+            nz-image
+            nzSrc="{{ singer.imgUrl }}"
+            alt="{{ singer.name }}"
+          />
+        </td>
+        <td>
+          <a (click)="goSingerDetail(singer)" class="singer-link">{{
+            singer.name
+          }}</a>
+        </td>
+        <td>
+          {{
+            singer.gender === "Female"
+              ? "Nữ"
+              : singer.gender === "Male"
+              ? "Nam"
+              : "Khác"
+          }}
+        </td>
+        <td>
+          {{ singer.location }}
+        </td>
+        <td>
+          <div class="fixed-height-box">
+            {{ singer.introduction }}
+          </div>
+        </td>
+        <td>
+          <div
+            class="container-btn d-flex gap-2 justify-content-center align-items-center"
+          >
+            <button class="btn-icon" (click)="unLikeSinger(singer.id ?? 0)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>

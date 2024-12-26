@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { MessageService } from '../../../core/services/message.service';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { Singer, SingerParams } from '../../../shared/models/singer';
 import { Pagination } from '../../../shared/models/pagination';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -42,8 +41,8 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 })
 export class SingerComponent implements OnInit {
   // inject
-  private singerServices = inject(SingerService);
-  private messageServies = inject(MessageService);
+  private singerService = inject(SingerService);
+  private messageService = inject(MessageService);
   private fb = inject(FormBuilder);
   constructor(private modal: NzModalService) {}
   ngOnInit(): void {
@@ -65,25 +64,25 @@ export class SingerComponent implements OnInit {
   };
 
   loadSingers() {
-    this.singerServices.getSingers(this.singerParams).subscribe({
+    this.singerService.getSingers(this.singerParams).subscribe({
       next: (paginationResult) => {
         this.singers = paginationResult.result as Singer[];
         this.pagination = paginationResult.pagination as Pagination;
       },
       error: (er) => {
-        this.messageServies.showError(er.message);
+        this.messageService.showError(er.message);
         console.log(er);
       },
     });
   }
 
   loadLocations() {
-    this.singerServices.getLocations().subscribe({
+    this.singerService.getLocations().subscribe({
       next: (data) => {
         this.locations = data;
         console.log(data);
       },
-      error: (er) => this.messageServies.showError(er.message),
+      error: (er) => this.messageService.showError(er.message),
     });
   }
 
@@ -169,11 +168,11 @@ export class SingerComponent implements OnInit {
         formData.append('imgFile', this.frm.value.imgFile);
       }
 
-      this.singerServices.updateSinger(this.singerId, formData).subscribe({
+      this.singerService.updateSinger(this.singerId, formData).subscribe({
         next: (response) => {
           const index = this.singers.findIndex((s) => s.id === this.singerId);
           this.singers[index] = response;
-          this.messageServies.showSuccess('Cập nhật ca sĩ thành công');
+          this.messageService.showSuccess('Cập nhật ca sĩ thành công');
           this.closeModal();
           this.loadLocations();
         },
@@ -192,10 +191,10 @@ export class SingerComponent implements OnInit {
         formData.append('imgFile', this.frm.value.imgFile);
       }
 
-      this.singerServices.addSinger(formData).subscribe({
+      this.singerService.addSinger(formData).subscribe({
         next: (response) => {
           this.singers.unshift(response);
-          this.messageServies.showSuccess('Thêm ca sĩ thành công');
+          this.messageService.showSuccess('Thêm ca sĩ thành công');
           this.closeModal();
           this.loadLocations();
         },
@@ -236,21 +235,21 @@ export class SingerComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === 0) {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
-        this.singerServices.deleteSinger(id).subscribe({
+        this.singerService.deleteSinger(id).subscribe({
           next: (_) => {
             const index = this.singers.findIndex((s) => s.id === id);
             this.singers.splice(index, 1);
-            this.messageServies.showSuccess('Xóa ca sĩ thành công');
+            this.messageService.showSuccess('Xóa ca sĩ thành công');
           },
-          error: (er) => this.messageServies.showError(er),
+          error: (er) => this.messageService.showError(er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 }

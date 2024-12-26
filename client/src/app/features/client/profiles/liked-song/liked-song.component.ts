@@ -69,6 +69,18 @@ export class LikedSongComponent implements OnInit {
     this.loadSongs();
   }
 
+  onSortChange(sortBy: string) {
+    const currentSort = this.songParams.orderBy;
+    if (currentSort === sortBy) {
+      this.songParams.orderBy = `${sortBy}_desc`;
+    } else if (currentSort === `${sortBy}_desc`) {
+      this.songParams.orderBy = sortBy;
+    } else {
+      this.songParams.orderBy = sortBy;
+    }
+    this.loadSongs();
+  }
+
   playSong(song: Song) {
     if (song) {
       this.musicPlayerService.playSong(song);

@@ -1,1 +1,76 @@
-<p>liked-playlist works!</p>
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="playlists"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Ảnh bìa</th>
+        <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
+          Tên danh sách phát
+        </th>
+        <th>Người đăng</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (playlist of playlists; track playlist.id) {
+      <tr>
+        <td class="text-center">{{ playlist.id }}</td>
+        <td class="image-column">
+          <img
+            nz-image
+            nzSrc="{{ playlist.imgUrl }}"
+            alt="{{ playlist.name }}"
+            class="img-table"
+          />
+        </td>
+        <td>
+          <a class="singer-link" (click)="goDetail(playlist.id)">
+            {{ playlist.name }}</a
+          >
+        </td>
+        <td>{{ playlist.userName }}</td>
+        <td>
+          <div
+            class="container-btn d-flex gap-2 justify-content-center align-items-center"
+          >
+            <button class="btn-icon" (click)="playList(playlist.id)">
+              <i class="bi bi-play"></i>
+            </button>
+            <button class="btn-icon" (click)="unLikePlaylist(playlist.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>

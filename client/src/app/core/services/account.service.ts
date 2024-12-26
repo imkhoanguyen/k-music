@@ -4,6 +4,8 @@ import { environment } from '../../../environments/environment';
 import { Song, SongParams } from '../../shared/models/song';
 import { PaginatedResult } from '../../shared/models/pagination';
 import { map } from 'rxjs';
+import { Playlist, PlaylistParams } from '../../shared/models/playlist';
+import { Singer, SingerParams } from '../../shared/models/singer';
 
 @Injectable({
   providedIn: 'root',
@@ -89,6 +91,75 @@ export class AccountService {
         map((response) => {
           paginationResult.result = response.body as Song[];
 
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          return paginationResult;
+        })
+      );
+  }
+
+  getPlaylistLiked(prm: PlaylistParams) {
+    let paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
+      Playlist[]
+    >();
+    let params = new HttpParams();
+    params = params.append('pageNumber', prm.pageNumber);
+    params = params.append('pageSize', prm.pageSize);
+    params = params.append('orderBy', prm.orderBy);
+
+    if (prm.searchTerm) {
+      params = params.append('search', prm.searchTerm);
+    }
+
+    return this.http
+      .get<Playlist[]>(this.baseUrl + 'account/get-playlist-liked', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body as Playlist[];
+
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          return paginationResult;
+        })
+      );
+  }
+
+  getSingerLiked(singerParams: SingerParams) {
+    let paginationResult: PaginatedResult<Singer[]> = new PaginatedResult<
+      Singer[]
+    >();
+    let params = new HttpParams();
+    params = params.append('pageNumber', singerParams.pageNumber);
+    params = params.append('pageSize', singerParams.pageSize);
+    params = params.append('orderBy', singerParams.orderBy);
+
+    if (singerParams.searchTerm) {
+      params = params.append('search', singerParams.searchTerm);
+    }
+
+    if (singerParams.gender) {
+      params = params.append('gender', singerParams.gender);
+    }
+
+    if (singerParams.location) {
+      params = params.append('location', singerParams.location);
+    }
+
+    return this.http
+      .get<Singer[]>(this.baseUrl + 'account/get-singer-liked', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body as Singer[];
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
             paginationResult.pagination = JSON.parse(pagination);

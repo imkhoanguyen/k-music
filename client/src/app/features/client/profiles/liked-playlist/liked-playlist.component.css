@@ -1,0 +1,10 @@
+.btn-icon {
+  border-radius: 50%;
+  font-size: 20px;
+  background-color: #fff;
+}
+
+.btn-icon:hover {
+  color: #3fa9ff;
+  border: 2px solid #3fa9ff;
+}
