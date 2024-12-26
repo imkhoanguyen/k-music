@@ -82,7 +82,9 @@
       <tr>
         <th nzWidth="60px"></th>
         <th nzWidth="100px">Ảnh bìa</th>
-        <th>Bài hát</th>
+        <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
+          Bài hát
+        </th>
         <th>Ca sĩ</th>
         <th nzWidth="120px">Thời gian</th>
         <th nzWidth="150px"></th>
