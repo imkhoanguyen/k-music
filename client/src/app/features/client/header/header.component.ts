@@ -26,6 +26,13 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 export class HeaderComponent {
   authService = inject(AuthService);
   private router = inject(Router);
+
+  search = '';
+
+  emitSearch() {
+    this.router.navigate(['/search'], { queryParams: { q: this.search } });
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/');

@@ -32,6 +32,8 @@
           <input
             type="text"
             nz-input
+            [(ngModel)]="search"
+            (keydown.enter)="emitSearch()"
             placeholder="Tìm kiếm bài hát, ca sĩ, danh sách phát"
           />
         </nz-input-group>

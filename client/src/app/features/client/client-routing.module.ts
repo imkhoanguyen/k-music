@@ -16,6 +16,7 @@ import { PaymentFailComponent } from './payments/payment-fail/payment-fail.compo
 import { paymentFailedGuard } from '../../core/guards/payment-failed.guard';
 import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
 import { authGuard } from '../../core/guards/auth.guard';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      {
+        path: 'search',
+        component: SearchComponent,
+      },
       {
         path: 'profile',
         component: MyProfileComponent,

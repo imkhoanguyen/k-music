@@ -82,19 +82,6 @@ export class SongListComponent implements OnInit {
     this.loadSongs();
   }
 
-  onSortChange(sortBy: string) {
-    const currentSort = this.prm.orderBy;
-
-    if (currentSort === sortBy) {
-      this.prm.orderBy = `${sortBy}_desc`;
-    } else if (currentSort === `${sortBy}_desc`) {
-      this.prm.orderBy = sortBy;
-    } else {
-      this.prm.orderBy = sortBy;
-    }
-    this.loadSongs();
-  }
-
   openSongDetail(songId: number) {
     this.router.navigate(['/song', songId]);
   }

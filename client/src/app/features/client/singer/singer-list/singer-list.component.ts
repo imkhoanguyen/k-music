@@ -81,19 +81,6 @@ export class SingerListComponent {
     this.loadSingers();
   }
 
-  onSortChange(sortBy: string) {
-    const currentSort = this.prm.orderBy;
-
-    if (currentSort === sortBy) {
-      this.prm.orderBy = `${sortBy}_desc`;
-    } else if (currentSort === `${sortBy}_desc`) {
-      this.prm.orderBy = sortBy;
-    } else {
-      this.prm.orderBy = sortBy;
-    }
-    this.loadSingers();
-  }
-
   openSingerDetail(singerId: number) {
     this.router.navigate(['/singer', singerId]);
   }

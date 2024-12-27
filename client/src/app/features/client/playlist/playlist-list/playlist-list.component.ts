@@ -16,7 +16,6 @@ import { PlaylistService } from '../../../../core/services/playlist.service';
   styleUrl: './playlist-list.component.css',
 })
 export class PlaylistListComponent {
-  @Input() orderBy = 'id_desc';
   private playlistService = inject(PlaylistService);
   private router = inject(Router);
 
@@ -36,7 +35,6 @@ export class PlaylistListComponent {
   };
 
   loadPaylists() {
-    this.prm.orderBy = this.orderBy;
     this.playlistService.getPlaylistsPublic(this.prm).subscribe({
       next: (response) => {
         this.playlists = response.result as Playlist[];
@@ -55,19 +53,6 @@ export class PlaylistListComponent {
 
   onPageSizeChange(newPageSize: number) {
     this.prm.pageSize = newPageSize;
-    this.loadPaylists();
-  }
-
-  onSortChange(sortBy: string) {
-    const currentSort = this.prm.orderBy;
-
-    if (currentSort === sortBy) {
-      this.prm.orderBy = `${sortBy}_desc`;
-    } else if (currentSort === `${sortBy}_desc`) {
-      this.prm.orderBy = sortBy;
-    } else {
-      this.prm.orderBy = sortBy;
-    }
     this.loadPaylists();
   }
 

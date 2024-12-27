@@ -1,0 +1,164 @@
+<h1 class="mb-5">Kết quả tìm kiếm</h1>
+<!-- playlist -->
+<div class="playlist-container mb-5">
+  <h2 class="mb-3">Danh sách phát</h2>
+  @if(playlists.length < 1) {
+  <nz-empty></nz-empty>
+  }
+  <nz-list nzGrid>
+    <div nz-row [nzGutter]="16" class="justify-content-center">
+      @for (item of playlists; track item) {
+      <div
+        nz-col
+        [nzXXl]="5"
+        [nzXl]="5"
+        [nzLg]="3"
+        [nzMd]="3"
+        [nzSm]="12"
+        [nzXs]="24"
+      >
+        <nz-list-item (click)="openPlaylistDetail(item.id)">
+          <nz-card nzHoverable style="width: 250px" [nzCover]="coverTemplate">
+            <nz-card-meta nzTitle="{{ item.name }}"></nz-card-meta>
+          </nz-card>
+          <ng-template #coverTemplate>
+            <div class="img-container">
+              <img
+                class="playlist-img"
+                alt="{{ item.name }}"
+                src="{{ item.imgUrl }}"
+              />
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </div>
+      }
+    </div>
+  </nz-list>
+  <!-- pagination -->
+  <div class="d-flex align-items-center justify-content-center mt-3">
+    <nz-pagination
+      [nzPageIndex]="playlistPagination.currentPage"
+      [nzTotal]="playlistPagination.totalItems"
+      [nzSize]="'default'"
+      [nzPageSize]="playlistPagination.itemsPerPage"
+      (nzPageIndexChange)="onPlaylistPageIndexChange($event)"
+      (nzPageSizeChange)="onPlaylistPageSizeChange($event)"
+      [nzShowTotal]="totalTemplate"
+      [nzShowSizeChanger]="true"
+      [nzShowQuickJumper]="true"
+      [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+    ></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+  </div>
+</div>
+
+<!-- song -->
+<div class="song-container mb-5">
+  <h2 class="mb-3">Bài hát</h2>
+  @if(songs.length < 1) {
+  <nz-empty></nz-empty>
+  }
+  <nz-list nzGrid>
+    <div nz-row [nzGutter]="16" class="justify-content-center">
+      @for (item of songs; track item) {
+      <div
+        nz-col
+        [nzXXl]="5"
+        [nzXl]="5"
+        [nzLg]="3"
+        [nzMd]="3"
+        [nzSm]="12"
+        [nzXs]="24"
+      >
+        <nz-list-item (click)="openSongDetail(item.id)">
+          <nz-card nzHoverable style="width: 250px" [nzCover]="coverTemplate">
+            <nz-card-meta nzTitle="{{ item.name }}"></nz-card-meta>
+          </nz-card>
+          <ng-template #coverTemplate>
+            <div class="img-container">
+              <img
+                class="playlist-img"
+                alt="{{ item.name }}"
+                src="{{ item.imgUrl }}"
+              />
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </div>
+      }
+    </div>
+  </nz-list>
+
+  <!-- pagination -->
+  <div class="d-flex align-items-center justify-content-center mt-3">
+    <nz-pagination
+      [nzPageIndex]="songPagination.currentPage"
+      [nzTotal]="songPagination.totalItems"
+      [nzSize]="'default'"
+      [nzPageSize]="songPagination.itemsPerPage"
+      (nzPageIndexChange)="onSongPageIndexChange($event)"
+      (nzPageSizeChange)="onSongPageSizeChange($event)"
+      [nzShowTotal]="totalTemplate"
+      [nzShowSizeChanger]="true"
+      [nzShowQuickJumper]="true"
+      [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+    ></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+  </div>
+</div>
+
+<!-- Ca sĩ -->
+<div class="singer-container mb-5">
+  <h2 class="mb-3">Ca sĩ</h2>
+  @if(singers.length < 1) {
+  <nz-empty></nz-empty>
+  }
+  <nz-list nzGrid>
+    <div nz-row [nzGutter]="16" class="justify-content-center">
+      @for (item of singers; track item) {
+      <div
+        nz-col
+        [nzXXl]="5"
+        [nzXl]="5"
+        [nzLg]="3"
+        [nzMd]="3"
+        [nzSm]="12"
+        [nzXs]="24"
+      >
+        <nz-list-item (click)="openSingerDetail(item.id || 0)">
+          <nz-card nzHoverable style="width: 250px" [nzCover]="coverTemplate">
+            <nz-card-meta nzTitle="{{ item.name }}"></nz-card-meta>
+          </nz-card>
+          <ng-template #coverTemplate>
+            <div class="img-container">
+              <img
+                class="playlist-img"
+                alt="{{ item.name }}"
+                src="{{ item.imgUrl }}"
+              />
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </div>
+      }
+    </div>
+  </nz-list>
+
+  <!-- pagination -->
+  <div class="d-flex align-items-center justify-content-center mt-3">
+    <nz-pagination
+      [nzPageIndex]="singerPagination.currentPage"
+      [nzTotal]="singerPagination.totalItems"
+      [nzSize]="'default'"
+      [nzPageSize]="singerPagination.itemsPerPage"
+      (nzPageIndexChange)="onSingerPageIndexChange($event)"
+      (nzPageSizeChange)="onSingerPageSizeChange($event)"
+      [nzShowTotal]="totalTemplate"
+      [nzShowSizeChanger]="true"
+      [nzShowQuickJumper]="true"
+      [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+    ></nz-pagination>
+    <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+  </div>
+</div>
