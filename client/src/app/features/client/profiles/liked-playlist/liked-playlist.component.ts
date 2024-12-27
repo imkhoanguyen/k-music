@@ -5,13 +5,10 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { AccountService } from '../../../../core/services/account.service';
-import { UtilityService } from '../../../../core/services/utility.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../../core/services/message.service';
 import { Playlist, PlaylistParams } from '../../../../shared/models/playlist';
 import { Pagination } from '../../../../shared/models/pagination';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { Song } from '../../../../shared/models/song';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 

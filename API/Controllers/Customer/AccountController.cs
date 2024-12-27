@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Playlists;
 using KM.Application.DTOs.Songs;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
@@ -11,10 +12,12 @@ namespace API.Controllers.Customer
     public class AccountController : BaseApiController
     {
         private readonly IAccountService _accountService;
+        private readonly IPlaylistService _playlistService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IPlaylistService playlistService)
         {
             _accountService = accountService;
+            _playlistService = playlistService;
         }
 
         [HttpPost("like-song")]
@@ -114,6 +117,15 @@ namespace API.Controllers.Customer
             var pagedList = await _accountService.GetPlaylistLiked(prm, userId);
             Response.AddPaginationHeader(pagedList);
             return Ok(pagedList);
+        }
+
+        [HttpGet("get-my-playlist")]
+        public async Task<IEnumerable<PlaylistDto>> GetMyPlaylist([FromQuery] PlaylistParams prm)
+        {
+            string userId = ClaimsPrincipleExtensions.GetUserId(User);
+            var pagedList = await _playlistService.GetAllAsync(prm, p => p.UserId == userId);
+            Response.AddPaginationHeader(pagedList);
+            return pagedList;
         }
 
     }

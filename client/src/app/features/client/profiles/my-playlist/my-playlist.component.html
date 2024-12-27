@@ -1,1 +1,157 @@
-<p>my-playlist works!</p>
+<!-- search & add btn -->
+<div class="d-flex gap-2 mb-3">
+  <button
+    nz-button
+    nz-popover
+    nzType="primary"
+    nzSize="large"
+    nzPopoverTitle="Thêm danh sách phát"
+    [nzPopoverContent]="contentTemplate"
+  >
+    <i class="bi bi-plus-circle me-2"></i> <span> Thêm danh sách phát</span>
+  </button>
+
+  <ng-template #contentTemplate>
+    <div class="d-flex gap-3">
+      <button
+        nz-button
+        nzSize="large"
+        nzType="primary"
+        (click)="openNomarlAddModal()"
+      >
+        Thêm thủ công
+      </button>
+      <button
+        nz-button
+        nzSize="large"
+        nzType="primary"
+        (click)="openMutiAddModal()"
+      >
+        Thêm tự động
+      </button>
+    </div>
+  </ng-template>
+
+  <form (ngSubmit)="onSearch()" autocomplete="off">
+    <nz-input-group nzSize="large" [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="Nhập tên danh sách phát"
+        [(ngModel)]="prm.searchTerm"
+        name="searchTerm"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </form>
+</div>
+<div class="table-responsive-custom">
+  <nz-table
+    [nzData]="playlists"
+    nzTableLayout="auto"
+    [nzFrontPagination]="false"
+    [nzBordered]="true"
+  >
+    <thead>
+      <tr>
+        <th
+          style="width: 5%"
+          [nzSortFn]="true"
+          (nzSortOrderChange)="onSortChange('id')"
+        >
+          Id
+        </th>
+        <th style="width: 10%">Ảnh bìa</th>
+        <th [nzSortFn]="true" (nzSortOrderChange)="onSortChange('name')">
+          Tên danh sách phát
+        </th>
+        <th>Ngày tạo</th>
+        <th>Ngày cập nhật</th>
+        <th style="width: 10%">Trạng thái</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (playlist of playlists; track playlist.id) {
+      <tr>
+        <td class="text-center">{{ playlist.id }}</td>
+        <td class="image-column">
+          <img
+            nz-image
+            nzSrc="{{ playlist.imgUrl }}"
+            alt="{{ playlist.name }}"
+            class="img-table"
+          />
+        </td>
+        <td>
+          <a class="singer-link" (click)="goDetail(playlist.id)">
+            {{ playlist.name }}</a
+          >
+        </td>
+        <td>{{ utilService.getFormattedDate(playlist.created) }}</td>
+        <td>{{ utilService.getFormattedDate(playlist.updated) }}</td>
+        <td class="fw-bold text-center">
+          <nz-tag
+            *ngIf="playlist.isPublic === true; else draftStatus"
+            [nzColor]="utilService.PUBLIC_STATUS_COLOR"
+          >
+            {{ utilService.PUBLIC_STATUS_STRING }}
+          </nz-tag>
+          <ng-template #draftStatus>
+            <nz-tag [nzColor]="utilService.PRIVATE_STATUS_COLOR">
+              {{ utilService.PRIVATE_STATUS_STRING }}
+            </nz-tag>
+          </ng-template>
+        </td>
+        <td>
+          <div
+            class="container-btn d-flex gap-2 justify-content-center align-items-center"
+          >
+            <button class="btn-icon" (click)="playList(playlist.id)">
+              <i class="bi bi-play"></i>
+            </button>
+            <button class="btn-icon" (click)="openUpdateModal(playlist.id)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn-icon" (click)="showDeleteConfirm(playlist.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+  ></nz-pagination>
+  <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
+</div>
+
+<!-- normal add playlist modal -->
+<app-add-playlist (playlistAdded)="addNewPlaylist($event)"></app-add-playlist>
+
+<!-- update playlist modal  -->
+<app-update-playlist
+  #updatePlaylistModal
+  (playlistUpdated)="updatePlaylist($event)"
+></app-update-playlist>
+
+<app-muti-add-playlist
+  (playlistAdded)="handleEventAutoAddPlaylist($event)"
+></app-muti-add-playlist>

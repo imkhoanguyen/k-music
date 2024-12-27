@@ -168,4 +168,35 @@ export class AccountService {
         })
       );
   }
+
+  getMyPlaylist(prm: PlaylistParams) {
+    let paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
+      Playlist[]
+    >();
+    let params = new HttpParams();
+    params = params.append('pageNumber', prm.pageNumber);
+    params = params.append('pageSize', prm.pageSize);
+    params = params.append('orderBy', prm.orderBy);
+
+    if (prm.searchTerm) {
+      params = params.append('search', prm.searchTerm);
+    }
+
+    return this.http
+      .get<Playlist[]>(this.baseUrl + 'account/get-my-playlist', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body as Playlist[];
+
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          return paginationResult;
+        })
+      );
+  }
 }
