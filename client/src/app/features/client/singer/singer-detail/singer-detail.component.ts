@@ -139,6 +139,44 @@ export class SingerDetailComponent implements OnInit {
     });
   }
 
+  likeSong(songId: number) {
+    this.accountService.likeSong(songId).subscribe({
+      next: (_) => {
+        const index = this.singer?.songList.findIndex((s) => s.id == songId);
+        if (
+          index !== undefined &&
+          index !== -1 &&
+          this.singer?.songList[index]
+        ) {
+          this.messageService.showSuccess('Bài hát đã được lưu vào mục thích');
+          this.singer.songList[index].liked = true;
+        }
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  unLikeSong(songId: number) {
+    this.accountService.unLikeSong(songId).subscribe({
+      next: (_) => {
+        const index = this.singer?.songList.findIndex((s) => s.id == songId);
+        if (
+          index !== undefined &&
+          index !== -1 &&
+          this.singer?.songList[index]
+        ) {
+          this.messageService.showSuccess('Bỏ thích bài hát thành công');
+          this.singer.songList[index].liked = false;
+        }
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
   goSingerDetail(singer: Singer) {
     this.router.navigate(['/singer', singer.id]);
   }
