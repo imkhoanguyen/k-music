@@ -16,5 +16,7 @@ namespace KM.Application.Service.Abstract
         Task DeleteAsync(Expression<Func<Singer, bool>> expression);
         Task<IEnumerable<string>> GetLocationsAsync();
         Task<SingerDetailDto> GetSingerDetail(Expression<Func<Singer, bool>> expression, SongParams prm);
+        Task<SingerDetailDto1> GetSingerDetail(Expression<Func<Singer, bool>> expression, SongParams prm, string userId);
+
     }
 }

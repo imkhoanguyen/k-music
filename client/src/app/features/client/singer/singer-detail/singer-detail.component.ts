@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SingerService } from '../../../../core/services/singer.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { UtilityService } from '../../../../core/services/utility.service';
-import { Singer, SingerDetail } from '../../../../shared/models/singer';
+import { Singer, SingerDetail1 } from '../../../../shared/models/singer';
 import { Song, SongParams } from '../../../../shared/models/song';
 import { Pagination } from '../../../../shared/models/pagination';
 import { CommonModule } from '@angular/common';
@@ -28,8 +28,8 @@ import { QuickAddComponent } from '../../playlist/quick-add/quick-add.component'
     NzButtonModule,
     NzTypographyModule,
     NzPaginationModule,
-    QuickAddComponent
-],
+    QuickAddComponent,
+  ],
   templateUrl: './singer-detail.component.html',
   styleUrl: './singer-detail.component.css',
 })
@@ -43,7 +43,7 @@ export class SingerDetailComponent implements OnInit {
   private messageService = inject(MessageService);
   private router = inject(Router);
   utilService = inject(UtilityService);
-  singer: SingerDetail | undefined;
+  singer: SingerDetail1 | undefined;
   isLiked = false;
 
   // song
@@ -82,7 +82,7 @@ export class SingerDetailComponent implements OnInit {
   }
 
   loadSinger() {
-    this.singerService.getSingerDetail(this.singerId, this.prm).subscribe({
+    this.singerService.getSingerDetail1(this.singerId, this.prm).subscribe({
       next: (res) => {
         console.log(res);
         this.singer = res;

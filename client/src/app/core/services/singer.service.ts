@@ -1,16 +1,22 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Singer, SingerDetail, SingerParams } from '../../shared/models/singer';
+import {
+  Singer,
+  SingerDetail,
+  SingerDetail1,
+  SingerParams,
+} from '../../shared/models/singer';
 import { PaginatedResult } from '../../shared/models/pagination';
 import { map } from 'rxjs';
-import { Song, SongParams } from '../../shared/models/song';
+import { Song, SongHaveLike, SongParams } from '../../shared/models/song';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SingerService {
   private baseUrl = `${environment.apiUrl}admin/`;
+  private customerUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
   getSingers(singerParams: SingerParams) {
@@ -91,6 +97,37 @@ export class SingerService {
             paginationResult.pagination = JSON.parse(pagination);
           }
           let singerDetail: SingerDetail = response.body;
+          singerDetail.PaginatedResult = paginationResult;
+          return singerDetail;
+        })
+      );
+  }
+
+  getSingerDetail1(id: number, prm: SongParams) {
+    let paginationResult: PaginatedResult<SongHaveLike[]> = new PaginatedResult<
+      SongHaveLike[]
+    >();
+
+    let params = new HttpParams();
+    params = params.append('pageNumber', prm.pageNumber);
+    params = params.append('pageSize', prm.pageSize);
+    params = params.append('orderBy', prm.orderBy);
+
+    return this.http
+      .get<any>(this.customerUrl + `singer/${id}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body;
+
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            console.log('vao');
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          let singerDetail: SingerDetail1 = response.body;
           singerDetail.PaginatedResult = paginationResult;
           return singerDetail;
         })

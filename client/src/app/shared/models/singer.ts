@@ -1,6 +1,6 @@
 import { BaseParams } from './base-params';
 import { PaginatedResult } from './pagination';
-import { Song } from './song';
+import { Song, SongHaveLike } from './song';
 
 export interface Singer {
   id?: number;
@@ -14,6 +14,11 @@ export interface Singer {
 export interface SingerDetail extends Singer {
   PaginatedResult: PaginatedResult<Song[]>;
   songList: Song[];
+}
+
+export interface SingerDetail1 extends Singer {
+  PaginatedResult: PaginatedResult<SongHaveLike[]>;
+  songList: SongHaveLike[];
 }
 
 export class SingerParams extends BaseParams {

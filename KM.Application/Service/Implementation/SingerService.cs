@@ -112,6 +112,48 @@ namespace KM.Application.Service.Implementation
             };
         }
 
+        public async Task<SingerDetailDto1> GetSingerDetail(Expression<Func<Singer, bool>> expression, SongParams prm, string userId)
+        {
+            var singer = await _unit.Singer.GetAsync(expression);
+            if (singer == null)
+                throw new NotFoundException("Không tìm thấy ca sĩ");
+            var songs = await _unit.Song.GetAllAsync(prm, s => s.SongSingers.Any(sg => sg.SingerId == singer.Id));
+            var songDtos = songs.Select(SongMapper.EntityToSongDto);
+            var newSongList = new List<SongHaveLikeDto>();
+
+            foreach (var song in songDtos)
+            {
+                var dto = new SongHaveLikeDto
+                {
+                    Id = song.Id,
+                    Name = song.Name,
+                    ImgUrl = song.ImgUrl,
+                    SongUrl = song.SongUrl,
+                    Introduction = song.Introduction,
+                    Lyric = song.Lyric,
+                    Created = song.Created,
+                    Updated = song.Updated,
+                    Singers = song.Singers,
+                    Genres = song.Genres,
+                    IsVip = song.IsVip
+                };
+
+                dto.Liked = await _unit.LikeSong.ExistsAsync(ls => ls.UserId == userId && ls.SongId == dto.Id);
+                newSongList.Add(dto);
+            }
+
+            return new SingerDetailDto1
+            {
+                Id = singer.Id,
+                Name = singer.Name,
+                Gender = singer.Gender.ToString(),
+                Introduction = singer.Introduction,
+                Location = singer.Location,
+                ImgUrl = singer.ImgUrl,
+                SongList = new PagedList<SongHaveLikeDto>(newSongList, songs.TotalCount, songs.CurrentPage, songs.PageSize)
+            };
+        }
+
         public async Task<SingerDto> UpdateSingerAsync(int id, SingerUpdateDto singerUpdateDto)
         {
 
