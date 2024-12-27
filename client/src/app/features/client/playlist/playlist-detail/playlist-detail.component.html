@@ -140,7 +140,7 @@
             <button class="btn-icon" (click)="playSong(song)">
               <i class="bi bi-play"></i>
             </button>
-            <button class="btn-icon">
+            <button class="btn-icon" (click)="openQuickAdd(song.id)">
               <i class="bi bi-plus-lg"></i>
             </button>
             <button class="btn-icon">
@@ -152,4 +152,6 @@
     </tbody>
   </nz-table>
 </div>
+
+<app-quick-add></app-quick-add>
 }

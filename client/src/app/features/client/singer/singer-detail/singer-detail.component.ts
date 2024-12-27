@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SingerService } from '../../../../core/services/singer.service';
 import { MessageService } from '../../../../core/services/message.service';
@@ -15,6 +15,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { AccountService } from '../../../../core/services/account.service';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { QuickAddComponent } from '../../playlist/quick-add/quick-add.component';
 
 @Component({
   selector: 'app-singer-detail',
@@ -27,7 +28,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzButtonModule,
     NzTypographyModule,
     NzPaginationModule,
-  ],
+    QuickAddComponent
+],
   templateUrl: './singer-detail.component.html',
   styleUrl: './singer-detail.component.css',
 })
@@ -166,5 +168,16 @@ export class SingerDetailComponent implements OnInit {
       this.prm.orderBy = sortBy;
     }
     this.loadSinger();
+  }
+
+  @ViewChild(QuickAddComponent)
+  quickAddComponent!: QuickAddComponent;
+  openQuickAdd(songId: number) {
+    if (this.quickAddComponent) {
+      this.quickAddComponent.songId = songId;
+      this.quickAddComponent.showModal();
+    } else {
+      console.error('QuickAddComponent is not initialized yet');
+    }
   }
 }
