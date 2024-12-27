@@ -37,7 +37,6 @@ export class PlaylistListComponent {
 
   loadPaylists() {
     this.prm.orderBy = this.orderBy;
-    this.prm.pageSize = 4;
     this.playlistService.getPlaylistsPublic(this.prm).subscribe({
       next: (response) => {
         this.playlists = response.result as Playlist[];

@@ -53,7 +53,6 @@ export class SingerListComponent {
   };
 
   loadSingers() {
-    this.prm.pageSize = 4;
     console.log(this.prm);
     this.singerService.getSingers(this.prm).subscribe({
       next: (response) => {

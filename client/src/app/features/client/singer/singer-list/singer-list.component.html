@@ -44,7 +44,7 @@
 </nz-list>
 
 <!-- pagination -->
-<div class="d-flex align-items-center justify-content-center my-3">
+<div class="d-flex align-items-center justify-content-center mt-3">
   <nz-pagination
     [nzPageIndex]="pagination.currentPage"
     [nzTotal]="pagination.totalItems"
@@ -52,6 +52,10 @@
     [nzPageSize]="pagination.itemsPerPage"
     (nzPageIndexChange)="onPageIndexChange($event)"
     (nzPageSizeChange)="onPageSizeChange($event)"
+    [nzShowTotal]="totalTemplate"
+    [nzShowSizeChanger]="true"
+    [nzShowQuickJumper]="true"
+    [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
   ></nz-pagination>
   <ng-template #totalTemplate let-total>Total {{ total }} items</ng-template>
 </div>

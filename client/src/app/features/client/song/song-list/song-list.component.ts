@@ -54,7 +54,6 @@ export class SongListComponent implements OnInit {
   };
 
   loadSongs() {
-    this.prm.pageSize = 4;
     this.songService.getSongs(this.prm).subscribe({
       next: (response) => {
         this.songs = response.result as Song[];
