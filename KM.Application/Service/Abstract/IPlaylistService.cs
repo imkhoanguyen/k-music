@@ -19,5 +19,6 @@ namespace KM.Application.Service.Abstract
         Task<PlaylistDto> CreateAutoAsync(PlaylistCreateAutoDto dto);
         Task<PagedList<QuickViewPlaylistResponse>> GetQuickViewMyPlaylistAsync(PlaylistParams prm, QuickViewPlaylistRequest request);
         Task<bool> AddOrRemoveSong(QuickAddSongToPlaylistRequest request); // false = delete, true = add
+        Task<PlaylistDetailDto1> GetAsync(Expression<Func<Playlist, bool>> expression, string userId);
     }
 }

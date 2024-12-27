@@ -144,7 +144,19 @@
               <i class="bi bi-plus-lg"></i>
             </button>
             <button class="btn-icon">
-              <span nz-icon nzType="heart" nzTheme="outline"></span>
+              <span
+                *ngIf="song.liked === false"
+                nz-icon
+                nzType="heart"
+                nzTheme="outline"
+              ></span>
+              <span
+                *ngIf="song.liked === true"
+                nz-icon
+                nzType="heart"
+                nzTheme="fill"
+                style="color: #f06868"
+              ></span>
             </button>
           </div>
         </td>

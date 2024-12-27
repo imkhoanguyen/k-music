@@ -16,6 +16,10 @@ export interface Song {
   genres: Genre[];
 }
 
+export interface SongHaveLike extends Song {
+  liked: boolean;
+}
+
 export class SongParams extends BaseParams {
   orderBy: string = 'id_desc';
   genreList: number[] = [];

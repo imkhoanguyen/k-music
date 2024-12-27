@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Playlists;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,13 @@ namespace API.Controllers.Customer
         public PlaylistController(IPlaylistService playlistService)
         {
             _playlistService = playlistService;
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PlaylistDetailDto1>> GetPlaylist(int id)
+        {
+            var userId = ClaimsPrincipleExtensions.GetUserId(User);
+            return await _playlistService.GetAsync(p => p.Id == id, userId);
         }
 
         [HttpGet("get-quickview-playlist")]

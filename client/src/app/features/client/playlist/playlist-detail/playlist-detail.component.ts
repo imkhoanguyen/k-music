@@ -1,9 +1,12 @@
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { UtilityService } from '../../../../core/services/utility.service';
-import { PlaylistDetail } from '../../../../shared/models/playlist';
+import {
+  PlaylistDetail,
+  PlaylistDetail1,
+} from '../../../../shared/models/playlist';
 import { CommonModule } from '@angular/common';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -24,8 +27,8 @@ import { QuickAddComponent } from '../quick-add/quick-add.component';
     NzTableModule,
     NzIconModule,
     NzButtonModule,
-    QuickAddComponent
-],
+    QuickAddComponent,
+  ],
   templateUrl: './playlist-detail.component.html',
   styleUrl: './playlist-detail.component.css',
 })
@@ -38,7 +41,7 @@ export class PlaylistDetailComponent implements OnInit {
   private accountService = inject(AccountService);
   private router = inject(Router);
   utilService = inject(UtilityService);
-  playlist: PlaylistDetail | undefined;
+  playlist: PlaylistDetail1 | undefined;
   isLiked = false;
 
   expandSet = new Set<number>();
@@ -68,7 +71,7 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   loadPlaylist() {
-    this.playlistService.getPlaylist(this.playlistId).subscribe({
+    this.playlistService.getPlaylistHaveLike(this.playlistId).subscribe({
       next: (res) => {
         console.log(res);
         this.playlist = res;

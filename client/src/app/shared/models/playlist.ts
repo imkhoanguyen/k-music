@@ -1,5 +1,5 @@
 import { BaseParams } from './base-params';
-import { Song } from './song';
+import { Song, SongHaveLike } from './song';
 
 export interface Playlist {
   id: number;
@@ -13,6 +13,10 @@ export interface Playlist {
 
 export interface PlaylistDetail extends Playlist {
   songList: Song[];
+}
+
+export interface PlaylistDetail1 extends Playlist {
+  songList: SongHaveLike[];
 }
 
 export class PlaylistParams extends BaseParams {

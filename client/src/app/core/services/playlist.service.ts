@@ -5,6 +5,7 @@ import {
   AddOrDeleteRequest,
   Playlist,
   PlaylistDetail,
+  PlaylistDetail1,
   PlaylistParams,
   QuickViewResponse,
 } from '../../shared/models/playlist';
@@ -124,5 +125,9 @@ export class PlaylistService {
       this.customerUrl + 'playlist/add-or-delete-song',
       request
     );
+  }
+
+  getPlaylistHaveLike(id: number) {
+    return this.http.get<PlaylistDetail1>(this.customerUrl + `playlist/${id}`);
   }
 }

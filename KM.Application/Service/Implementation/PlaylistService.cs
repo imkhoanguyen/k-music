@@ -1,5 +1,6 @@
 ﻿using KM.Application.DTOs.Accounts;
 using KM.Application.DTOs.Playlists;
+using KM.Application.DTOs.Songs;
 using KM.Application.Interfaces;
 using KM.Application.Mappers;
 using KM.Application.Parameters;
@@ -245,6 +246,51 @@ namespace KM.Application.Service.Implementation
                 IsPublic = playlist.IsPublic,
                 UserName = playlist.AppUser?.UserName ?? string.Empty,
                 SongList = playlist.PlaylistSongs.Select(ps => SongMapper.EntityToSongDto(ps.Song!)).ToList(),
+            };
+        }
+
+        public async Task<PlaylistDetailDto1> GetAsync(Expression<Func<Playlist, bool>> expression, string userId)
+        {
+            var playlist = await _unit.Playlist.GetDetailAsync(expression, false);
+            if (playlist == null)
+            {
+                throw new NotFoundException("Không tìm thấy bài hát");
+            }
+
+            var currentSongList = playlist.PlaylistSongs.Select(ps => SongMapper.EntityToSongDto(ps.Song!)).ToList();
+            var newSongList = new List<SongHaveLikeDto>();
+
+            foreach(var song in currentSongList)
+            {
+                var dto = new SongHaveLikeDto
+                {
+                    Id = song.Id,
+                    Name = song.Name, 
+                    ImgUrl = song.ImgUrl,
+                    SongUrl = song.SongUrl,
+                    Introduction = song.Introduction,
+                    Lyric = song.Lyric,
+                    Created = song.Created,
+                    Updated = song.Updated,
+                    Singers = song.Singers,
+                    Genres = song.Genres,
+                    IsVip = song.IsVip
+                };
+
+                dto.Liked = await _unit.LikeSong.ExistsAsync(ls => ls.UserId == userId && ls.SongId == dto.Id);
+                newSongList.Add(dto);
+            }
+
+            return new PlaylistDetailDto1
+            {
+                Id = playlist.Id,
+                Name = playlist.Name,
+                Created = playlist.Created,
+                Updated = playlist.Updated,
+                ImgUrl = playlist.ImgUrl,
+                IsPublic = playlist.IsPublic,
+                UserName = playlist.AppUser?.UserName ?? string.Empty,
+                SongList = newSongList,
             };
         }
 
