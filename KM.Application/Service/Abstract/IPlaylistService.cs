@@ -1,4 +1,5 @@
-﻿using KM.Application.DTOs.Playlists;
+﻿using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Playlists;
 using KM.Application.Parameters;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
@@ -16,5 +17,7 @@ namespace KM.Application.Service.Abstract
         Task DeleteSongAsync(int playlistId, List<int> songIdList);
         Task<PlaylistDetailDto> GetAsync(Expression<Func<Playlist, bool>> expression);
         Task<PlaylistDto> CreateAutoAsync(PlaylistCreateAutoDto dto);
+        Task<PagedList<QuickViewPlaylistResponse>> GetQuickViewMyPlaylistAsync(PlaylistParams prm, QuickViewPlaylistRequest request);
+        Task<bool> AddOrRemoveSong(QuickAddSongToPlaylistRequest request); // false = delete, true = add
     }
 }

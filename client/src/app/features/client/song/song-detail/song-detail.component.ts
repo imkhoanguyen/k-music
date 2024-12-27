@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -12,6 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MusicPlayerService } from '../../../../core/services/music-player.service';
 import { AccountService } from '../../../../core/services/account.service';
 import { Singer } from '../../../../shared/models/singer';
+import { QuickAddComponent } from '../../playlist/quick-add/quick-add.component';
 
 @Component({
   selector: 'app-song-detail',
@@ -22,7 +23,8 @@ import { Singer } from '../../../../shared/models/singer';
     NzImageModule,
     NzIconModule,
     NzButtonModule,
-  ],
+    QuickAddComponent
+],
   templateUrl: './song-detail.component.html',
   styleUrl: './song-detail.component.css',
 })
@@ -98,5 +100,16 @@ export class SongDetailComponent {
 
   goSingerDetail(singer: Singer) {
     this.router.navigate(['/singer', singer.id]);
+  }
+
+  @ViewChild(QuickAddComponent)
+  quickAddComponent!: QuickAddComponent;
+  openQuickAdd(songId: number) {
+    if (this.quickAddComponent) {
+      this.quickAddComponent.songId = songId;
+      this.quickAddComponent.showModal();
+    } else {
+      console.error('QuickAddComponent is not initialized yet');
+    }
   }
 }

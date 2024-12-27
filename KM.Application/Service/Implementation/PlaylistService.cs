@@ -1,4 +1,5 @@
-﻿using KM.Application.DTOs.Playlists;
+﻿using KM.Application.DTOs.Accounts;
+using KM.Application.DTOs.Playlists;
 using KM.Application.Interfaces;
 using KM.Application.Mappers;
 using KM.Application.Parameters;
@@ -20,6 +21,31 @@ namespace KM.Application.Service.Implementation
         {
             _unit = unit;
             _cloudinaryService = cloudinaryService;
+        }
+
+        public async Task<bool> AddOrRemoveSong(QuickAddSongToPlaylistRequest request)
+        {
+            var ps = await _unit.PlaylistSong.GetAsync(ps => ps.SongId == request.SongId && ps.PlaylistId == request.PlaylistId);
+            bool flag = false;
+
+
+            if(ps != null)
+            {
+                _unit.PlaylistSong.Remove(ps);
+                flag = false;
+            } else
+            {
+                var newPs = new PlaylistSong(request.PlaylistId, request.SongId);
+                await _unit.PlaylistSong.AddAsync(newPs);
+                flag = true;
+            }
+
+            if(await _unit.CompleteAsync())
+            {
+                return flag;
+            }
+
+            throw new BadRequestException("Xảy ra lỗi khi thêm hoặc xóa bài hát khỏi danh sách phát");
         }
 
         public async Task<PlaylistDetailDto> AddSongAsync(int playlistId, List<int> songIdList)
@@ -220,6 +246,42 @@ namespace KM.Application.Service.Implementation
                 UserName = playlist.AppUser?.UserName ?? string.Empty,
                 SongList = playlist.PlaylistSongs.Select(ps => SongMapper.EntityToSongDto(ps.Song!)).ToList(),
             };
+        }
+
+        public async Task<PagedList<QuickViewPlaylistResponse>> GetQuickViewMyPlaylistAsync(PlaylistParams prm, QuickViewPlaylistRequest request)
+        {
+            if (request.SongId < 1)
+            {
+                throw new BadRequestException("Bài hát không tồn tại vui lòng thử lại sau");
+            }
+
+            var pagedList = await GetAllAsync(prm, p => p.UserId == request.UserId);
+
+            var quickViewPlaylists = new List<QuickViewPlaylistResponse>();
+
+            foreach (var playlist in pagedList)
+            {
+                var response = new QuickViewPlaylistResponse
+                {
+                    Id = playlist.Id,
+                    Name = playlist.Name,
+                    ImgUrl = playlist.ImgUrl,
+                    IsPublic = playlist.IsPublic
+                };
+
+                if (await _unit.PlaylistSong.ExistsAsync(ps => ps.SongId == request.SongId && ps.PlaylistId == playlist.Id) == true)
+                {
+                    response.HaveSong = true;
+                }
+                else
+                {
+                    response.HaveSong = false;
+                }
+
+                quickViewPlaylists.Add(response);
+            }
+
+            return new PagedList<QuickViewPlaylistResponse>(quickViewPlaylists, pagedList.TotalCount, pagedList.CurrentPage, pagedList.PageSize);
         }
 
         public async Task<PlaylistDto> UpdateAsync(int playlistId, PlaylistUpdateDto dto)

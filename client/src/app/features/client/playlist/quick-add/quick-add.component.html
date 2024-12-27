@@ -1,0 +1,81 @@
+<nz-modal
+  [nzStyle]="{ width: '800px' }"
+  [(nzVisible)]="isVisibleModal"
+  nzTitle="Lưu bài hát vào..."
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <ng-container *nzModalContent>
+    <nz-table
+      [nzData]="playlists"
+      nzTableLayout="auto"
+      [nzFrontPagination]="false"
+      [nzBordered]="false"
+    >
+      <tbody class="align-middle">
+        @for (playlist of playlists; track playlist.id) {
+        <tr>
+          <td style="width: 20px">
+            <label nz-checkbox (ngModelChange)="onChange(playlist.id, songId)" [(ngModel)]="playlist.haveSong"></label>
+          </td>
+          <td class="image-column" style="width: 100px">
+            <img
+              nz-image
+              nzSrc="{{ playlist.imgUrl }}"
+              alt="{{ playlist.name }}"
+              class="img-table-mini"
+            />
+          </td>
+          <td style="width: 100%">
+            <div class="d-flex gap-1 flex-column">
+              <span
+                class="fw-bold text-ellipsis"
+                nz-tooltip
+                [nzTooltipTitle]="playlist.name"
+                [nzTooltipTrigger]="'hover'"
+              >
+                {{ playlist.name }}
+              </span>
+            </div>
+          </td>
+
+          <td>
+            <button
+              *ngIf="playlist.isPublic === true"
+              type="button"
+              class="btn btn-sm fs-6"
+            >
+              <i class="bi bi-globe-americas"></i>
+            </button>
+            <button
+              *ngIf="playlist.isPublic === false"
+              type="button"
+              class="btn btn-sm fs-6"
+            >
+              <span nz-icon nzType="lock" nzTheme="outline"></span>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+    <!-- pagination -->
+    <div class="d-flex align-items-center justify-content-center mt-3">
+      <nz-pagination
+        [nzPageIndex]="pagination.currentPage"
+        [nzTotal]="pagination.totalItems"
+        [nzSize]="'default'"
+        [nzPageSize]="pagination.itemsPerPage"
+        (nzPageIndexChange)="onPageIndexChange($event)"
+        (nzPageSizeChange)="onPageSizeChange($event)"
+        [nzShowTotal]="totalTemplate"
+        [nzShowSizeChanger]="true"
+        [nzShowQuickJumper]="true"
+        [nzPageSizeOptions]="[3, 5, 10, 20, 50]"
+      ></nz-pagination>
+      <ng-template #totalTemplate let-total
+        >Total {{ total }} items</ng-template
+      >
+    </div>
+  </ng-container>
+</nz-modal>

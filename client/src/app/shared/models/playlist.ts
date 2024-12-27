@@ -18,3 +18,16 @@ export interface PlaylistDetail extends Playlist {
 export class PlaylistParams extends BaseParams {
   orderBy: string = 'id_desc';
 }
+
+export interface QuickViewResponse {
+  id: number;
+  name: string;
+  imgUrl: string;
+  haveSong: boolean;
+  isPublic: boolean;
+}
+
+export interface AddOrDeleteRequest {
+  songId: number;
+  playlistId: number;
+}
