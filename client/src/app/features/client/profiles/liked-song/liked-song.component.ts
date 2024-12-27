@@ -37,6 +37,7 @@ export class LikedSongComponent implements OnInit {
   private musicPlayerService = inject(MusicPlayerService);
   private messageService = inject(MessageService);
   ngOnInit(): void {
+    this.songParams.pageSize = 10;
     this.loadSongs();
   }
 

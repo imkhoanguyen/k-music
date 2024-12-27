@@ -76,6 +76,7 @@ export class SingerDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.singerId = +params['id']; // Lấy lại singerId từ route
+      this.prm.pageSize = 10;
       this.loadSinger(); // Gọi lại hàm loadSinger khi tham số route thay đổi
       this.checkLikeSinger();
     });

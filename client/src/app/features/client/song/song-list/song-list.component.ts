@@ -28,6 +28,7 @@ export class SongListComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
+    this.prm.pageSize = 8;
     this.loadSongs();
   }
   genres: Genre[] = [];

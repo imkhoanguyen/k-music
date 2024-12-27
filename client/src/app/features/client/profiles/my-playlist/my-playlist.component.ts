@@ -53,6 +53,7 @@ export class MyPlaylistComponent implements OnInit {
   private modal = inject(NzModalService);
 
   ngOnInit(): void {
+    this.prm.pageSize = 10;
     this.loadPaylists();
   }
 

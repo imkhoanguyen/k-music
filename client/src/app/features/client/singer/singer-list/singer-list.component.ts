@@ -27,6 +27,7 @@ export class SingerListComponent {
   private router = inject(Router);
 
   ngOnInit(): void {
+    this.prm.pageSize = 8;
     this.loadSingers();
   }
   locations: string[] = [];

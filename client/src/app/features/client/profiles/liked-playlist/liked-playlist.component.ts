@@ -33,6 +33,7 @@ export class LikedPlaylistComponent implements OnInit {
   private musicPlayerService = inject(MusicPlayerService);
 
   ngOnInit(): void {
+    this.prm.pageSize = 10;
     this.loadPaylists();
   }
 

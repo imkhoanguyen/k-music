@@ -40,6 +40,8 @@ export class LikedSingerComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.singerParams.pageSize = 10;
+
     this.loadSingers();
   }
 
