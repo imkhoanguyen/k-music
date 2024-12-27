@@ -4,6 +4,7 @@ using KM.Application.DTOs.Accounts;
 using KM.Application.DTOs.Playlists;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using KM.Application.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
@@ -14,6 +15,15 @@ namespace API.Controllers.Customer
         public PlaylistController(IPlaylistService playlistService)
         {
             _playlistService = playlistService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PagedList<PlaylistDto>>> GetPlaylists([FromQuery] PlaylistParams prm)
+        {
+            var pagedList = await _playlistService.GetAllAsync(prm, p => p.IsPublic == true);
+            Response.AddPaginationHeader(pagedList);
+
+            return Ok(pagedList);
         }
 
         [HttpGet("{id:int}")]

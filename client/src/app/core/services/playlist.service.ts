@@ -19,11 +19,11 @@ export class PlaylistService {
   private baseUrl = `${environment.apiUrl}admin/`;
   private customerUrl = environment.apiUrl;
   private http = inject(HttpClient);
-  private paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
-    Playlist[]
-  >();
 
   getPlaylists(prm: PlaylistParams) {
+    let paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
+      Playlist[]
+    >();
     let params = new HttpParams();
     params = params.append('pageNumber', prm.pageNumber);
     params = params.append('pageSize', prm.pageSize);
@@ -40,13 +40,44 @@ export class PlaylistService {
       })
       .pipe(
         map((response) => {
-          this.paginationResult.result = response.body as Playlist[];
+          paginationResult.result = response.body as Playlist[];
 
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
-            this.paginationResult.pagination = JSON.parse(pagination);
+            paginationResult.pagination = JSON.parse(pagination);
           }
-          return this.paginationResult;
+          return paginationResult;
+        })
+      );
+  }
+
+  getPlaylistsPublic(prm: PlaylistParams) {
+    let paginationResult: PaginatedResult<Playlist[]> = new PaginatedResult<
+      Playlist[]
+    >();
+    let params = new HttpParams();
+    params = params.append('pageNumber', prm.pageNumber);
+    params = params.append('pageSize', prm.pageSize);
+    params = params.append('orderBy', prm.orderBy);
+
+    if (prm.searchTerm) {
+      params = params.append('search', prm.searchTerm);
+    }
+
+    return this.http
+      .get<Playlist[]>(this.customerUrl + 'playlist', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body as Playlist[];
+
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          return paginationResult;
         })
       );
   }
