@@ -72,3 +72,8 @@
   font-weight: bold;
   color: #3fa9ff !important;
 }
+
+.selected {
+  background-color: #1890ff !important;
+  color: #fff !important;
+}

@@ -27,6 +27,12 @@ export class HeaderComponent {
   authService = inject(AuthService);
   private router = inject(Router);
 
+  // 1 = home
+  // 2 = song
+  // 3 = singer
+  // 4 = plans
+  currentPage = 1;
+
   search = '';
 
   emitSearch() {
@@ -36,5 +42,9 @@ export class HeaderComponent {
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/');
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
   }
 }

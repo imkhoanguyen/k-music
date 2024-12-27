@@ -14,10 +14,40 @@
       nzMode="horizontal"
       style="display: inline-block"
     >
-      <li routerLink="/" routerLinkActive="active" nz-menu-item>Trang chủ</li>
-      <li routerLink="/song" routerLinkActive="active" nz-menu-item>Bài hát</li>
-      <li routerLink="/singer" routerLinkActive="active" nz-menu-item>Ca sĩ</li>
-      <li routerLink="/vip-package" routerLinkActive="active" nz-menu-item>
+      <li
+        routerLink="/"
+        routerLinkActive="active"
+        [class.selected]="currentPage === 1"
+        (click)="changePage(1)"
+        nz-menu-item
+      >
+        Trang chủ
+      </li>
+      <li
+        routerLink="/song"
+        routerLinkActive="active"
+        [class.selected]="currentPage === 2"
+        (click)="changePage(2)"
+        nz-menu-item
+      >
+        Bài hát
+      </li>
+      <li
+        routerLink="/singer"
+        routerLinkActive="active"
+        [class.selected]="currentPage === 3"
+        (click)="changePage(3)"
+        nz-menu-item
+      >
+        Ca sĩ
+      </li>
+      <li
+        routerLink="/vip-package"
+        [class.selected]="currentPage === 4"
+        (click)="changePage(4)"
+        routerLinkActive="active"
+        nz-menu-item
+      >
         Hội viên
       </li>
       <li
