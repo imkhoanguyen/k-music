@@ -35,6 +35,8 @@ export class SingerListComponent {
     this.selectedLocation = location;
     if (this.selectedLocation) {
       this.prm.location = this.selectedLocation;
+    } else {
+      this.prm.location = '';
     }
     this.loadSingers();
   }
@@ -52,6 +54,7 @@ export class SingerListComponent {
 
   loadSingers() {
     this.prm.pageSize = 4;
+    console.log(this.prm);
     this.singerService.getSingers(this.prm).subscribe({
       next: (response) => {
         this.singers = response.result as Singer[];
@@ -62,7 +65,6 @@ export class SingerListComponent {
         );
 
         this.locations = uniqueLocations;
-        console.log(this.locations);
       },
       error: (er) => {
         console.log(er);

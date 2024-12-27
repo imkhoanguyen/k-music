@@ -28,7 +28,6 @@ export class SingerService {
     params = params.append('pageSize', singerParams.pageSize);
     params = params.append('orderBy', singerParams.orderBy);
 
-    // quan trọng mất là lỗi liền :)
     if (singerParams.searchTerm) {
       params = params.append('search', singerParams.searchTerm);
     }

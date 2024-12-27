@@ -36,6 +36,8 @@ export class SongListComponent implements OnInit {
     this.selectedGenre = id;
     if (this.selectedGenre >= 1) {
       this.prm.genreList = [this.selectedGenre];
+    } else {
+      this.prm.genreList = [];
     }
     this.loadSongs();
   }
