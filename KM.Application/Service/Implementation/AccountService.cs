@@ -28,29 +28,17 @@ namespace KM.Application.Service.Implementation
 
         public async Task<bool> CheckLikePlaylistAsync(LikePlaylistDto dto)
         {
-            if (await _unit.LikePlaylist.ExistsAsync(lp => lp.UserId == dto.UserId && lp.PlaylistId == dto.PlaylistId) == true)
-            {
-                return true;
-            }
-            return false;
+            return await _unit.LikePlaylist.ExistsAsync(lp => lp.UserId == dto.UserId && lp.PlaylistId == dto.PlaylistId) == true;
         }
 
         public async Task<bool> CheckLikeSingerAsync(LikeSingerDto dto)
         {
-            if (await _unit.LikeSinger.ExistsAsync(ls => ls.UserId == dto.UserId && ls.SingerId == dto.SingerId) == true)
-            {
-                return true;
-            }
-            return false;
+            return await _unit.LikeSinger.ExistsAsync(ls => ls.UserId == dto.UserId && ls.SingerId == dto.SingerId) == true;
         }
 
         public async Task<bool> CheckLikeSongAsync(LikeSongDto dto)
         {
-            if (await _unit.LikeSong.ExistsAsync(ls => ls.UserId == dto.UserId && ls.SongId == dto.SongId) == true)
-            {
-                return true;
-            }
-            return false;
+            return await _unit.LikeSong.ExistsAsync(ls => ls.UserId == dto.UserId && ls.SongId == dto.SongId) == true;
         }
 
         public async Task<PagedList<PlaylistDto>> GetPlaylistLiked(PlaylistParams prm, string userId)
