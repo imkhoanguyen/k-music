@@ -8,6 +8,7 @@ using KM.Application.Parameters;
 using KM.Domain.Entities;
 using KM.Domain.Exceptions;
 using KM.Infrastructure.Ultilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ using System.Security.Claims;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class RoleController : BaseAdminApiController
     {
         private readonly RoleManager<AppRole> _roleManager;

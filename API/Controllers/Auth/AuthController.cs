@@ -1,12 +1,13 @@
 ﻿using API.Controllers.Base;
-using API.Service.Abstract;
 using KM.Application.DTOs.Auth;
+using KM.Application.Interfaces;
 using KM.Domain.Entities;
 using KM.Domain.Enum;
 using KM.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers.Auth
 {
@@ -25,7 +26,7 @@ namespace API.Controllers.Auth
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        public async Task<ActionResult<UserLoginResponse>> Login([FromBody] LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.UserName) ??
                 await _userManager.FindByNameAsync(dto.UserName);
@@ -40,15 +41,18 @@ namespace API.Controllers.Auth
             if (!result.Succeeded)
                 throw new UnauthorizedException("Password không đúng");
 
-            return Ok(new
+            (string accessToken, DateTime expiredDateAccessToken) = await _tokenService.CreateAccessTokenAsync(user);
+            string refreshToken= await _tokenService.CreateRefreshTokenAsync(user);
+
+            return Ok(new UserLoginResponse
             {
-                user.Id,
-                user.UserName,
-                user.FullName,
-                user.Email,
+                UserName = user.UserName,
+                FullName = user.FullName,
                 Gender = user.Gender.ToString(),
-                user.ImgUrl,
-                Token = await _tokenService.CreateTokenAsync(user),
+                ImgUrl = user.ImgUrl,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpiredDateAccessToken = expiredDateAccessToken,
             });
         }
 
@@ -83,6 +87,17 @@ namespace API.Controllers.Auth
                 return BadRequest(result.Errors);
 
             return Ok("Đăng ký tài khoản thành công");
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<UserLoginResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            if(request.RefreshToken.IsNullOrEmpty())
+            {
+                throw new BadRequestException("Could not get refresh token");
+            }
+
+            return Ok(await _tokenService.ValidRefreshToken(request.RefreshToken));
         }
 
 

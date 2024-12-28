@@ -4,13 +4,14 @@ import { NotFoundComponent } from './shared/component/not-found/not-found.compon
 import { LoginComponent } from './shared/component/login/login.component';
 import { RegisterComponent } from './shared/component/register/register.component';
 import { adminGuard } from './core/guards/admin.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
       import('./features/admin/admin.module').then((m) => m.AdminModule),
-    canActivate: [adminGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: '', // default

@@ -11,17 +11,11 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const currentUser = authService.currentUser();
   const haveAccessAdminPage = authService.hasClaim('Access_Admin');
 
-  if (currentUser && haveAccessAdminPage) {
-    return true;
-  }
-
-  if (!currentUser) {
-    messageService.showInfo('Vui lòng đăng nhập');
-    router.navigate(['/login']);
-  } else {
+  if (!haveAccessAdminPage) {
     messageService.showInfo('Bạn không có quyền truy cập vào trang này');
     router.navigate(['/']);
+    return false;
   }
 
-  return false;
+  return true;
 };

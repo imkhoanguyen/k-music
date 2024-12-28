@@ -1,7 +1,5 @@
 ﻿using API.Authorization;
 using API.Middleware;
-using API.Service.Abstract;
-using API.Service.Implementation;
 using KM.Application.Interfaces;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
@@ -54,13 +52,43 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
+        opt.SaveToken = true;
         opt.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSetting:Key"])),
-            ValidIssuer = builder.Configuration["JWTSetting:Issuer"],
+            ValidIssuer = builder.Configuration["JWTSetting:Issuer"], // domain name project api
             ValidateIssuer = true,
-            ValidateAudience = false,
+            ValidAudience = builder.Configuration["JWTSetting:Audience"], // người phát hành
+            ValidateAudience = true,
+            ValidateLifetime = true, // auto validate expired token
+            ClockSkew = TimeSpan.Zero, // xóa bỏ lệch múi giờ
+        };
+        opt.Events = new JwtBearerEvents()
+        {
+            // 2 nếu có throw exception chạy xuống 3 rồi 4
+            // vào đây khi controller có authorize
+            OnTokenValidated = context =>
+            {
+                var tokenService = context.HttpContext.RequestServices.GetRequiredService<ITokenService>();
+                return tokenService.ValidToken(context);
+            },
+            // 3
+            OnAuthenticationFailed = context =>
+            {
+                return Task.CompletedTask;
+            },
+            // 1
+            // luôn vào đầu tiên
+            OnMessageReceived = context =>
+            {
+                return Task.CompletedTask;
+            },
+            //4 
+            OnChallenge = context =>
+            {
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -69,6 +97,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection(CloudinaryConfig.ConfigName));
 builder.Services.Configure<VNPayConfig>(
                 builder.Configuration.GetSection(VNPayConfig.ConfigName));
+builder.Services.Configure<TokenConfig>(builder.Configuration.GetSection(TokenConfig.ConfigName));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenreService, GenreService>();

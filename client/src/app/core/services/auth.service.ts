@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Login } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   role = computed(() => {
     const user = this.currentUser();
-    if (user && user.token) {
-      const role = JSON.parse(atob(user.token.split('.')[1])).role;
+    if (user && user.accessToken) {
+      const role = JSON.parse(atob(user.accessToken.split('.')[1])).role;
       return role;
     }
     return null;
@@ -41,6 +41,13 @@ export class AuthService {
     this.currentUser.set(null);
   }
 
+  callRefreshToken(refreshToken: string) {
+    console.log('Calling refresh token API with refreshToken:', refreshToken);
+    return this.http.post<any>(this.baseUrl + 'auth/refresh-token', {
+      refreshToken,
+    });
+  }
+
   private decodeToken(token: string): any {
     const payload = token.split('.')[1];
     return JSON.parse(atob(payload));
@@ -52,7 +59,7 @@ export class AuthService {
 
     if (userString) {
       const user = JSON.parse(userString);
-      token = user.token;
+      token = user.accessToken;
     }
     if (!token) return false;
     const decodedToken = this.decodeToken(token);
