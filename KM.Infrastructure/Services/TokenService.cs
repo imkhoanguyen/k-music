@@ -38,7 +38,7 @@ namespace KM.Infrastructure.Services
 
         public async Task<(string, DateTime)> CreateAccessTokenAsync(AppUser user)
         {
-            DateTime expiredToken = DateTime.Now.AddSeconds(_config.AccessTokenExpiredByMinutes);
+            DateTime expiredToken = DateTime.Now.AddMinutes(_config.AccessTokenExpiredByMinutes);
 
             var role = await _userManager.GetRolesAsync(user);
 
