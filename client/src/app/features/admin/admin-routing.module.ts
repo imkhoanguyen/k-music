@@ -12,6 +12,7 @@ import { RoleComponent } from './role/role.component';
 import { RolePermissionComponent } from './role-permission/role-permission.component';
 import { VipPackageComponent } from './vip-package/vip-package.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { UserComponent } from './user/user.component';
 
 // chú ý thứ tự để routing
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     children: [
+      { path: 'user', component: UserComponent },
       { path: 'transaction', component: TransactionComponent },
       { path: 'vip-package', component: VipPackageComponent },
       { path: 'role/permission/:id', component: RolePermissionComponent },

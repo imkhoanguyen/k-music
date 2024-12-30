@@ -42,7 +42,6 @@ export class AuthService {
   }
 
   callRefreshToken(refreshToken: string) {
-    console.log('Calling refresh token API with refreshToken:', refreshToken);
     return this.http.post<any>(this.baseUrl + 'auth/refresh-token', {
       refreshToken,
     });
