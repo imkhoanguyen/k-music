@@ -149,13 +149,36 @@
       </nz-tab>
       <nz-tab nzTitle="Thay đổi mật khẩu">
         <div class="mb-3">
+          <label class="form-label" for="currentPassword"
+            >Mật khẩu hiện tại</label
+          >
+          <nz-input-group [nzSuffix]="suffixTemplate">
+            <input
+              id="currentPassword"
+              [type]="passwordVisible ? 'text' : 'password'"
+              nz-input
+              placeholder="Nhập mật khẩu hiện tại của người dùng"
+              [(ngModel)]="currentPassword"
+            />
+          </nz-input-group>
+          <ng-template #suffixTemplate>
+            <span
+              nz-icon
+              class="ant-input-password-icon"
+              [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+              (click)="passwordVisible = !passwordVisible"
+            ></span>
+          </ng-template>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="password">Mật khẩu mới</label>
           <nz-input-group [nzSuffix]="suffixTemplate">
             <input
               id="password"
               [type]="passwordVisible ? 'text' : 'password'"
               nz-input
-              placeholder="Nhập mật khẩu của người dùng"
+              placeholder="Nhập mật khẩu mới của người dùng"
               [(ngModel)]="passwordNew"
             />
           </nz-input-group>
@@ -167,6 +190,20 @@
               (click)="passwordVisible = !passwordVisible"
             ></span>
           </ng-template>
+        </div>
+
+        <hr class="my-3" />
+
+        <div class="d-flex gap-2 justify-content-end align-items-center">
+          <button
+            nz-button
+            nzType="default"
+            type="button"
+            (click)="closeModal()"
+          >
+            Đóng
+          </button>
+          <button nz-button nzType="primary" type="submit" (click)="changePassword()">Lưu</button>
         </div>
       </nz-tab>
       <nz-tab nzTitle="Thay đổi quyền">

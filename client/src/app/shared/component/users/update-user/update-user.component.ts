@@ -23,6 +23,7 @@ import { AppUser } from '../../../models/user';
 import { Role } from '../../../models/role';
 import { GENDER_LIST } from '../../../models/gender-list';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-update-user',
@@ -49,6 +50,7 @@ export class UpdateUserComponent implements OnInit {
   private userService = inject(UserService);
   private messageService = inject(MessageService);
   private roleService = inject(RoleService);
+  private authService = inject(AuthService);
   utilService = inject(UtilityService);
   @Output() userUpdated = new EventEmitter<{
     appUser: AppUser;
@@ -121,6 +123,8 @@ export class UpdateUserComponent implements OnInit {
     this.isVisibleModal = false;
     this.validationErrors = [];
     this.frm.reset();
+    this.currentPassword = '';
+    this.passwordNew = '';
   }
 
   onSubmit() {
@@ -136,7 +140,22 @@ export class UpdateUserComponent implements OnInit {
 
     this.userService.updateInformation(this.userName, formData).subscribe({
       next: (response: AppUser) => {
+        if (this.userName === this.authService.currentUser()?.userName) {
+          this.authService
+            .callRefreshToken(
+              this.authService.currentUser()?.refreshToken ?? ''
+            )
+            .subscribe({
+              next: (res) => {
+                this.authService.setCurrentUser(res);
+              },
+              error: (er) => {
+                console.log(er);
+              },
+            });
+        }
         this.userUpdated.emit({ appUser: response, userName: this.userName });
+        this.messageService.showSuccess('Cập nhật người dùng thành công');
         this.closeModal();
       },
       error: (er) => {
@@ -166,7 +185,22 @@ export class UpdateUserComponent implements OnInit {
     return false; // Ngăn không cho upload tự động
   };
 
+  currentPassword = '';
   passwordNew = '';
+
+  changePassword() {
+    this.userService
+      .changePassword(this.userName, this.currentPassword, this.passwordNew)
+      .subscribe({
+        next: (_) => {
+          this.messageService.showSuccess('Đổi mật khẩu thành công');
+          this.closeModal();
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
+  }
 
   roleName = '';
 }

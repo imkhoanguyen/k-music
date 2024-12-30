@@ -65,4 +65,15 @@ export class UserService {
       { params }
     );
   }
+
+  changePassword(
+    userName: string,
+    currentPassword: string,
+    newPassword: string
+  ) {
+    return this.http.put(
+      this.baseUrl + `user/change-password?userName=${userName}`,
+      { currentPassword: currentPassword, password: newPassword }
+    );
+  }
 }

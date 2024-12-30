@@ -250,6 +250,35 @@ namespace API.Controllers.Admin
             return Ok(dtoResponse);
         }
 
+        [HttpPut("change-password")]
+        public async Task<ActionResult> ChangePassword([FromQuery] string userName, [FromBody] ChangePasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                throw new NotFoundException("Người dùng không tồn tại.");
+            }
+
+            var passwordCheck = await _userManager.CheckPasswordAsync(user, dto.CurrentPassword);
+            if (!passwordCheck)
+            {
+                throw new BadRequestException("Mật khẩu hiện tại không đúng.");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.Password);
+            if (!changePasswordResult.Succeeded)
+            {
+                throw new BadRequestException("Xảy ra lỗi khi đổi mật khẩu. Vui lòng thử lại sau");
+            }
+
+            return NoContent();
+        }
+
 
         #region
         private async Task<bool> CheckEmailExistAsync(string text)
