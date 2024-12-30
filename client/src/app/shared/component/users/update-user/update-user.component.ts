@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -37,7 +36,6 @@ import { AuthService } from '../../../../core/services/auth.service';
     FormsModule,
     CommonModule,
     NzUploadModule,
-    NzImageModule,
     NzSelectModule,
     NzTagModule,
     NzTabsModule,
@@ -50,10 +48,14 @@ export class UpdateUserComponent implements OnInit {
   private userService = inject(UserService);
   private messageService = inject(MessageService);
   private roleService = inject(RoleService);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
   utilService = inject(UtilityService);
   @Output() userUpdated = new EventEmitter<{
     appUser: AppUser;
+    userName: string;
+  }>();
+  @Output() roleUpdated = new EventEmitter<{
+    role: string;
     userName: string;
   }>();
   userName = '';
@@ -61,7 +63,9 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.loadRoles();
+    if (this.authService.hasClaim('Role_Edit')) {
+      this.loadRoles();
+    }
   }
 
   users: AppUser[] = [];
@@ -122,9 +126,12 @@ export class UpdateUserComponent implements OnInit {
   closeModal() {
     this.isVisibleModal = false;
     this.validationErrors = [];
+    this.validationChangeRole = [];
     this.frm.reset();
+    this.userName = '';
     this.currentPassword = '';
     this.passwordNew = '';
+    this.roleName = '';
   }
 
   onSubmit() {
@@ -203,4 +210,33 @@ export class UpdateUserComponent implements OnInit {
   }
 
   roleName = '';
+  validationChangeRole?: string[];
+  changeRole() {
+    console.log(this.roleName);
+    this.userService.changeRole(this.userName, this.roleName).subscribe({
+      next: (_) => {
+        this.roleUpdated.emit({ role: this.roleName, userName: this.userName });
+        this.messageService.showSuccess('Thay đổi quyền thành công');
+        if (this.userName === this.authService.currentUser()?.userName) {
+          this.authService
+            .callRefreshToken(
+              this.authService.currentUser()?.refreshToken ?? ''
+            )
+            .subscribe({
+              next: (res) => {
+                this.authService.setCurrentUser(res);
+              },
+              error: (er) => {
+                console.log(er);
+              },
+            });
+        }
+
+        this.closeModal();
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
 }

@@ -264,6 +264,7 @@ namespace API.Controllers.Admin
                 throw new NotFoundException("Người dùng không tồn tại.");
             }
 
+            // check mật khẩu hiện tại có giống mật khẩu trong db ko 
             var passwordCheck = await _userManager.CheckPasswordAsync(user, dto.CurrentPassword);
             if (!passwordCheck)
             {
@@ -277,6 +278,40 @@ namespace API.Controllers.Admin
             }
 
             return NoContent();
+        }
+
+        [HttpPut("change-role")]
+        public async Task<ActionResult> ChangeRole([FromQuery] string userName, [FromBody]UpdateUserRoleDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                throw new NotFoundException("Người dùng không tồn tại.");
+            }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            // delete current role
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (!removeResult.Succeeded)
+            {
+                throw new BadRequestException("Không thể loại bỏ quyền cũ của người dùng.");
+            }
+
+            // add new role
+            var addRoleResult = await _userManager.AddToRoleAsync(user, dto.Role);
+            if (!addRoleResult.Succeeded)
+            {
+                throw new BadRequestException("Không thể thêm quyền mới cho người dùng.");
+            }
+
+            return NoContent();
+
         }
 
 

@@ -243,4 +243,10 @@ export class UserComponent {
       this.users[index] = res.appUser;
     }
   }
+  updateRole(res: any) {
+    const index = this.users.findIndex((u) => u.userName == res.userName);
+    if (index !== -1) {
+      this.users[index].role = res.role;
+    }
+  }
 }

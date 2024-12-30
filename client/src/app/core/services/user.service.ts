@@ -76,4 +76,11 @@ export class UserService {
       { currentPassword: currentPassword, password: newPassword }
     );
   }
+
+  changeRole(userName: string, role: string) {
+    return this.http.put(
+      this.baseUrl + `user/change-role?userName=${userName}`,
+      { role }
+    );
+  }
 }
