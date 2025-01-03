@@ -9,9 +9,13 @@
       />
     </div>
     <div class="info-container">
-      <a class="song-text" (click)="goSongDetail(currentSong()?.id ?? 0)">
-        {{ currentSong()?.name ?? songNameDefault }}
-      </a>
+      <div class="d-flex gap-2">
+        <a class="song-text" (click)="goSongDetail(currentSong()?.id ?? 0)">
+          {{ currentSong()?.name ?? songNameDefault }}
+        </a>
+        <img src="img/vip-badge.png" alt="vip-badge" />
+      </div>
+
       @if(currentSong()?.singers) {
       <strong>
         <div *ngIf="singers.length > 0">
