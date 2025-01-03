@@ -186,19 +186,20 @@ export class UserComponent {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        if (userName) {
+        console.log(userName);
+        if (!userName) {
           this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
-        // this.userService.deleteGenre(id).subscribe({
-        //   next: (_) => {
-        //     const index = this.genres.findIndex((g) => g.id === id);
-        //     this.genres.splice(index, 1);
-        //     this.messageServies.showSuccess('Xóa thể loại thành công');
-        //   },
-        //   error: (er) => (this.validationErrors = er),
-        // });
+        this.userService.delete(userName).subscribe({
+          next: (_) => {
+            const index = this.users.findIndex((s) => s.userName === userName);
+            this.users.splice(index, 1);
+            this.messageService.showSuccess('Xóa người dùng thành công');
+          },
+          error: (er) => console.log(er),
+        });
       },
       nzCancelText: 'No',
       nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),

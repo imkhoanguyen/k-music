@@ -83,4 +83,8 @@ export class UserService {
       { role }
     );
   }
+
+  delete(userId: string) {
+    return this.http.delete(`${this.baseUrl}user/${userId}`);
+  }
 }

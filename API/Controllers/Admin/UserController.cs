@@ -24,11 +24,11 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserDto>> GetAll([FromQuery]UserParams prm)
+        public async Task<IEnumerable<UserDto>> GetAll([FromQuery] UserParams prm)
         {
             var query = _userManager.Users.AsNoTracking().AsQueryable();
 
-            if(!string.IsNullOrEmpty(prm.Search))
+            if (!string.IsNullOrEmpty(prm.Search))
             {
                 query = query.Where(u => u.PhoneNumber.Contains(prm.Search)
                 || u.FullName.ToLower().Contains(prm.Search.ToLower())
@@ -86,7 +86,7 @@ namespace API.Controllers.Admin
         public async Task<ActionResult<UserDto>> GetUser([FromQuery] string userName)
         {
             var query = _userManager.Users.AsNoTracking().AsQueryable();
-           
+
             var user = await query.FirstOrDefaultAsync(x => x.UserName == userName);
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -131,15 +131,16 @@ namespace API.Controllers.Admin
                 Gender = Enum.Parse<Gender>(dto.Gender, true)
             };
 
-            if(dto.ImgFile != null)
+            if (dto.ImgFile != null)
             {
                 var resultUploadImage = await _cloudinaryService.AddImageAsync(dto.ImgFile);
-                if(resultUploadImage.Error != null)
-                     throw new BadRequestException(resultUploadImage.Error);
+                if (resultUploadImage.Error != null)
+                    throw new BadRequestException(resultUploadImage.Error);
 
                 userToAdd.PublicId = resultUploadImage.PublicId;
                 userToAdd.ImgUrl = resultUploadImage.Url;
-            } else
+            }
+            else
             {
                 userToAdd.ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1735543269/user_pez7rf.webp";
             }
@@ -149,7 +150,7 @@ namespace API.Controllers.Admin
                 return BadRequest(result.Errors);
 
             var resultAddRole = await _userManager.AddToRoleAsync(userToAdd, dto.Role);
-            if(!resultAddRole.Succeeded)
+            if (!resultAddRole.Succeeded)
             {
                 var deleteResult = await _userManager.DeleteAsync(userToAdd);
                 if (!deleteResult.Succeeded)
@@ -160,7 +161,7 @@ namespace API.Controllers.Admin
                 throw new BadRequestException("Thêm quyền thất bại. Người dùng đã bị xóa.");
             }
 
-            
+
             var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == dto.UserName);
             var roles = await _userManager.GetRolesAsync(user);
 
@@ -180,7 +181,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("update-information")]
-        public async Task<ActionResult<UserDto>> UpdateInformation([FromQuery]string userName, [FromForm] UserUpdateDto dto)
+        public async Task<ActionResult<UserDto>> UpdateInformation([FromQuery] string userName, [FromForm] UserUpdateDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -281,7 +282,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("change-role")]
-        public async Task<ActionResult> ChangeRole([FromQuery] string userName, [FromBody]UpdateUserRoleDto dto)
+        public async Task<ActionResult> ChangeRole([FromQuery] string userName, [FromBody] UpdateUserRoleDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -313,6 +314,27 @@ namespace API.Controllers.Admin
             return NoContent();
 
         }
+
+        [HttpDelete("{userName}")]
+        public async Task<ActionResult> DeleteUser(string userName)
+        {
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                throw new NotFoundException("Người dùng không tồn tại.");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new BadRequestException("Failed to delete the user.");
+            }
+
+            
+            return NoContent(); 
+        }
+
 
 
         #region
