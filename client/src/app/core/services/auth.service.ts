@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Login } from '../../shared/models/auth';
+import { Login, Register } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
 import { map, tap } from 'rxjs';
 
@@ -29,6 +29,10 @@ export class AuthService {
         }
       })
     );
+  }
+
+  register(register: Register) {
+    return this.http.post(this.baseUrl + 'auth/register', register);
   }
 
   setCurrentUser(user: User) {

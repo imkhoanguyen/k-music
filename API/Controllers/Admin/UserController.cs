@@ -154,7 +154,7 @@ namespace API.Controllers.Admin
                 var deleteResult = await _userManager.DeleteAsync(userToAdd);
                 if (!deleteResult.Succeeded)
                 {
-                    throw new Exception("Failed to rollback user creation. Please contact support.");
+                    throw new BadRequestException("Failed to rollback user creation. Please contact support.");
                 }
 
                 throw new BadRequestException("Thêm quyền thất bại. Người dùng đã bị xóa.");

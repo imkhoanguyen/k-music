@@ -79,14 +79,27 @@ namespace API.Controllers.Auth
                 UserName = dto.UserName,
                 FullName = dto.FullName,
                 Email = dto.Email,
-                Gender = Enum.Parse<Gender>(dto.Gender, true)
+                Gender = Enum.Parse<Gender>(dto.Gender, true),
+                ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1735543269/user_pez7rf.webp"
             };
 
             var result = await _userManager.CreateAsync(userToAdd, dto.Password);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            return Ok("Đăng ký tài khoản thành công");
+            var resultAddRole = await _userManager.AddToRoleAsync(userToAdd, "Customer");
+            if (!resultAddRole.Succeeded)
+            {
+                var deleteResult = await _userManager.DeleteAsync(userToAdd);
+                if (!deleteResult.Succeeded)
+                {
+                    throw new BadRequestException("Failed to rollback user creation. Please contact support.");
+                }
+
+                throw new BadRequestException("Thêm quyền thất bại. Người dùng đã bị xóa.");
+            }
+
+            return Ok();
         }
 
         [HttpPost("refresh-token")]

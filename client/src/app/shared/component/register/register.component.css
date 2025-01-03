@@ -9,11 +9,7 @@
   align-items: center;
   flex-direction: column;
 }
-.login-box {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+
 .login-title {
   font-size: 24px;
   font-weight: bold;
@@ -22,15 +18,40 @@
   color: white;
 }
 
-[nz-button] {
-  width: 100%;
+.login-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Đảm bảo kích thước cố định */
 }
 
 form {
-  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Khoảng cách giữa các phần tử */
 }
 
+.mb-3 {
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Đảm bảo vị trí của các thành phần ổn định */
+  margin-bottom: 0.5rem !important;
+}
+
+input[nz-input],
 nz-select {
-  margin: 0 8px 10px 0;
   width: 100%;
+}
+
+.text-danger {
+  font-size: 12px;
+  color: red;
+  position: absolute;
+  bottom: -18px; /* Hiển thị ngay bên dưới input */
+  left: 0;
+  visibility: hidden; /* Không hiển thị khi không có lỗi */
+}
+
+.text-danger.show {
+  visibility: visible; /* Hiển thị khi có lỗi */
 }
