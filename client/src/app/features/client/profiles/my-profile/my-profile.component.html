@@ -5,8 +5,18 @@
     src="{{ authService.currentUser()?.imgUrl }}"
     alt="{{ authService.currentUser()?.userName }}"
   />
-  <h1 class="mt-1">
+  <h1 class="mt-1 d-flex justify-content-center align-items-center gap-1">
     <span class="profile-name">{{ authService.currentUser()?.fullName }}</span>
+    <span
+      (click)="openUpdateModal(authService.currentUser()?.userName || '')"
+      nz-icon
+      nzType="edit"
+      nzTheme="outline"
+      style="font-size: 20px; cursor: pointer"
+    ></span>
+    @if(authService.hasSubcription()) {
+    <img src="img/vip-badge.png" alt="vip-badge" />
+    }
   </h1>
 </div>
 <div class="main-profile">
@@ -53,3 +63,5 @@
     </div>
   </div>
 </div>
+<!-- edit form -->
+<app-update-user #updateUserComponent></app-update-user>
