@@ -1,5 +1,6 @@
 ﻿using KM.Application.DTOs.Auth;
 using KM.Application.Interfaces;
+using KM.Application.Repositories;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
 using KM.Domain.Exceptions;
@@ -11,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KM.Infrastructure.Services
 {
@@ -20,8 +22,10 @@ namespace KM.Infrastructure.Services
         private readonly SymmetricSecurityKey _jwtKey;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly IUnitOfWork _unit;
 
-        public TokenService(IOptions<TokenConfig> config, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public TokenService(IOptions<TokenConfig> config, UserManager<AppUser> userManager, 
+            RoleManager<AppRole> roleManager, IUnitOfWork unit)
         {
             _config = new TokenConfig
             {
@@ -34,6 +38,7 @@ namespace KM.Infrastructure.Services
             _jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Key));
             _userManager = userManager;
             _roleManager = roleManager;
+            _unit = unit;
         }
 
         public async Task<(string, DateTime)> CreateAccessTokenAsync(AppUser user)
@@ -52,6 +57,21 @@ namespace KM.Infrastructure.Services
             // Thêm các claims dựa trên role
             var roleClaims = await _roleManager.GetClaimsAsync(await _roleManager.FindByNameAsync(role[0]));
             userClaims.AddRange(roleClaims);
+
+            // thêm vip subcription vào ko có là null
+            var allSubcription = await _unit.UserVipSubscription.GetAllAsync(uvs => uvs.UserId == user.Id);
+            if (allSubcription.Any())
+            {
+                // get những gói vip chưa hết hạn
+                var activeSubscriptions = allSubcription.Where(uvs => uvs.EndDate >= DateTime.Now).ToList();
+                if (activeSubscriptions.Any())
+                {
+                    var date = activeSubscriptions.Max(uvs => uvs.EndDate);
+                    var subcriptionClaim = new Claim("VipExpiredDate", date.ToString("o"));
+                    userClaims.Add(subcriptionClaim);
+                }
+            }
+            
 
 
             var creadentials = new SigningCredentials(_jwtKey, SecurityAlgorithms.HmacSha256Signature);

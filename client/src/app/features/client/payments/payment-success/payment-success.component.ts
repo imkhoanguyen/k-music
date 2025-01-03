@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UtilityService } from '../../../../core/services/utility.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { PaymentService } from '../../../../core/services/payment.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-payment-success',
@@ -29,6 +30,7 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
   subTitle = '';
   private activatedRoute = inject(ActivatedRoute);
   private utilService = inject(UtilityService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -47,6 +49,10 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
       this.subTitle = `Cảm ơn bạn đã đăng ký gói. Thời hạn sử dụng gói đến hết ${this.utilService.getFormattedDate(
         this.transaction.endDate
       )}.`;
+
+      this.authService.callRefreshToken(
+        this.authService.currentUser()?.refreshToken ?? ''
+      );
     });
   }
 

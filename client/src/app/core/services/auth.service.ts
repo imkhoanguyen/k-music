@@ -74,4 +74,25 @@ export class AuthService {
       decodedToken.Permission.includes(claim)
     );
   }
+
+  hasSubcription() {
+    const userString = localStorage.getItem('user');
+    let token = null;
+
+    if (userString) {
+      const user = JSON.parse(userString);
+      token = user.accessToken;
+    }
+    if (!token) return false;
+    const decodedToken = this.decodeToken(token);
+
+    const vipExpiredDateString = decodedToken?.VipExpiredDate;
+    if (!vipExpiredDateString) return false;
+
+    const vipExpiredDate = new Date(vipExpiredDateString);
+    const now = new Date();
+
+    const hasValidSubscription = vipExpiredDate > now;
+    return hasValidSubscription;
+  }
 }

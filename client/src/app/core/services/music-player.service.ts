@@ -1,10 +1,16 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Song } from '../../shared/models/song';
+import { AuthService } from './auth.service';
+import { SongService } from './song.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MusicPlayerService {
+  private authService = inject(AuthService);
+  private songService = inject(SongService);
+  private messageService = inject(MessageService);
   currentSong = signal<Song | null>(null);
   isPlaying = signal<boolean>(false);
   currentList = signal<Song[] | []>([]);
@@ -12,15 +18,20 @@ export class MusicPlayerService {
   repeatEnabled = signal<boolean>(false);
 
   playSong(song: Song) {
-    this.currentSong.set(song);
     this.saveCurrentSong(song);
-    this.isPlaying.set(true);
-    localStorage.setItem('currentTime', '0');
-    this.saveSongUrlToAudioTag(song.songUrl);
-    const audioPlayer = document.getElementById(
-      'audio_player'
-    ) as HTMLAudioElement;
-    audioPlayer.play();
+    if (song.isVip && !this.authService.hasSubcription()) {
+      this.nextSong();
+      this.messageService.showInfo('Chuyển bài');
+    } else {
+      // Nếu không phải bài hát VIP hoặc người dùng có subscription
+      this.isPlaying.set(true);
+      localStorage.setItem('currentTime', '0');
+      this.saveSongUrlToAudioTag(song.songUrl);
+      const audioPlayer = document.getElementById(
+        'audio_player'
+      ) as HTMLAudioElement;
+      audioPlayer.play();
+    }
   }
 
   playList(list: Song[]) {
@@ -39,10 +50,12 @@ export class MusicPlayerService {
   }
 
   saveCurrentSong(song: Song) {
+    this.currentSong.set(song);
     localStorage.setItem('currentSong', JSON.stringify(song));
   }
 
   saveCurrentList(list: Song[]) {
+    this.currentList.set(list);
     localStorage.setItem('currentList', JSON.stringify(list));
   }
 
@@ -53,7 +66,6 @@ export class MusicPlayerService {
       this.currentSong.set(song);
       this.saveSongUrlToAudioTag(song.songUrl);
     }
-    console.log('vao load currentSong');
   }
 
   loadCurrentList() {
@@ -93,19 +105,49 @@ export class MusicPlayerService {
     const currentIndex = currentList.findIndex(
       (song) => song.id === this.currentSong()?.id
     );
+    const currentSong = currentIndex >= 0 ? currentList[currentIndex] : null;
 
     let nextSong: Song | null = null;
 
     // Nếu bật Shuffle
     if (this.shuffleEnabled()) {
-      const randomIndex = Math.floor(Math.random() * currentList.length);
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * currentList.length);
+      } while (randomIndex === currentIndex);
       nextSong = currentList[randomIndex];
-    } else if (currentIndex >= 0 && currentIndex < currentList.length - 1) {
+    }
+    // Phát bài tiếp theo trong danh sách
+    else if (currentIndex >= 0 && currentIndex < currentList.length - 1) {
       nextSong = currentList[currentIndex + 1];
     }
 
+    // call api get random songs nếu ko có nextsong
     if (nextSong) {
       this.playSong(nextSong);
+    } else {
+      this.songService
+        .getRandomList(
+          currentSong?.genres.map((genre) => genre.id ?? 0) ?? [],
+          currentSong?.singers.map((singer) => singer.id ?? 0) ?? []
+        )
+        .subscribe({
+          next: (res) => {
+            // lấy các bài hát mới ko trùng với currentList
+            const newSongs = res.filter(
+              (song) => !currentList.some((current) => current.id === song.id)
+            );
+
+            // Thêm các bài mới vào currentList
+            const updatedList = [...currentList, ...newSongs];
+
+            this.saveCurrentList(updatedList);
+
+            if (newSongs.length > 0) {
+              this.playSong(newSongs[0]); // play bài đầu tiên trong danh sách mới
+            }
+          },
+        });
     }
   }
 
@@ -115,18 +157,37 @@ export class MusicPlayerService {
       (song) => song.id === this.currentSong()?.id
     );
 
-    let nextSong: Song | null = null;
+    let prevSong: Song | null = null;
 
     // Nếu bật Shuffle
     if (this.shuffleEnabled()) {
       const randomIndex = Math.floor(Math.random() * currentList.length);
-      nextSong = currentList[randomIndex];
-    } else if (currentIndex >= 0 && currentIndex < currentList.length - 1) {
-      nextSong = currentList[currentIndex - 1];
+      prevSong = currentList[randomIndex];
+    } else if (currentIndex > 0) {
+      // Nếu không phải đầu danh sách, chọn bài hát trước đó
+      prevSong = currentList[currentIndex - 1];
+    } else {
+      // Nếu đang ở đầu danh sách, trở về bài hát cuối cùng
+      prevSong = currentList[currentList.length - 1];
     }
 
-    if (nextSong) {
-      this.playSong(nextSong);
+    // check bài hát vip
+    while (prevSong && prevSong.isVip && !this.authService.hasSubcription()) {
+      const newIndex =
+        currentList.findIndex((song) => song.id === prevSong?.id) - 1;
+      if (newIndex < 0) {
+        // Nếu không còn bài hát trước đó, quay lại cuối danh sách
+        prevSong = currentList[currentList.length - 1];
+      } else {
+        prevSong = currentList[newIndex];
+      }
+    }
+
+    // Nếu tìm được bài không phải VIP hoặc bài hát còn lại
+    if (prevSong) {
+      this.playSong(prevSong);
+    } else {
+      this.messageService.showInfo('Không có bài hát hợp lệ.');
     }
   }
 

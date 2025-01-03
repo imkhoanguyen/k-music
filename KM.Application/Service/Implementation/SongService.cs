@@ -105,9 +105,15 @@ namespace KM.Application.Service.Implementation
             return new PagedList<SongDto>(songDtos, songs.TotalCount, songs.CurrentPage, songs.PageSize);
         }
 
-        public async Task<IEnumerable<SongDto>> GetAllAsync()
+        public async Task<IEnumerable<SongDto>> GetRandomSongAsync(int size, RandomSongRequest requset)
         {
-            var songs = await _unit.Song.GetAllAsync();
+            var songs = await _unit.Song.GetRandomAsync(size, requset);
+            return songs.Select(SongMapper.EntityToSongDto).ToList();
+        }
+
+        public async Task<IEnumerable<SongDto>> GetAllAsync(Expression<Func<Song, bool>>? expression = null)
+        {
+            var songs = await _unit.Song.GetAllAsync(expression);
             return songs.Select(SongMapper.EntityToSongDto);
         }
 

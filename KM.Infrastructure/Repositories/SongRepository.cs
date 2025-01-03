@@ -1,4 +1,5 @@
-﻿using KM.Application.Parameters;
+﻿using KM.Application.DTOs.Songs;
+using KM.Application.Parameters;
 using KM.Application.Repositories;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
@@ -135,11 +136,48 @@ namespace KM.Infrastructure.Repositories
         {
             var query = tracked ? _context.Songs.AsQueryable() : _context.Songs.AsNoTracking().AsQueryable();
 
-            if(expression != null)
+            query = query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
+                    .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre);
+
+            if (expression != null)
                 query = query.Where(expression);
 
-            return await query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
-                    .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre).ToListAsync();
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Song>> GetRandomAsync(int size, RandomSongRequest request,  bool tracked = false)
+        {
+            var query = tracked ? _context.Songs.AsQueryable() : _context.Songs.AsNoTracking().AsQueryable();
+
+            query = query.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
+                    .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre);
+
+            // Lọc bỏ giá trị 0 trong GenreIdList và SingerIdList
+            var validGenreIds = request.GenreIdList?.Where(id => id != 0).ToList();
+            var validSingerIds = request.SingerIdList?.Where(id => id != 0).ToList();
+
+            if ((validGenreIds != null && validGenreIds.Any()) || (validSingerIds != null && validSingerIds.Any()))
+            {
+                query = query.Where(song =>
+                    (validGenreIds != null && validGenreIds.Any(sg => song.SongGenres.Any(songGenre => songGenre.GenreId == sg))) ||
+                    (validSingerIds != null && validSingerIds.Any(ss => song.SongSingers.Any(songSinger => songSinger.SingerId == ss)))
+                );
+            }
+
+            var random = new Random();
+            var songs = await query.ToListAsync();
+            var randomSongs = songs.OrderBy(_ => random.Next()).Take(size);
+
+            if (!randomSongs.Any())
+            {
+                var newQuery = _context.Songs.AsNoTracking().AsQueryable();
+                newQuery = newQuery.Include(s => s.SongSingers).ThenInclude(ss => ss.Singer)
+                    .Include(s => s.SongGenres).ThenInclude(sg => sg.Genre);
+                var allSongs = await newQuery.ToListAsync();
+                randomSongs = allSongs.OrderBy(_ => random.Next()).Take(20);
+            }
+
+            return randomSongs;
         }
     }
 }

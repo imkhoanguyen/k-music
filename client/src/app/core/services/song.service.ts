@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 export class SongService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}admin/`;
+  private customerUrl = environment.apiUrl;
   private paginationResult: PaginatedResult<Song[]> = new PaginatedResult<
     Song[]
   >();
@@ -67,5 +68,22 @@ export class SongService {
 
   getSong(songId: number) {
     return this.http.get<Song>(this.baseUrl + `song/${songId}`);
+  }
+
+  getRandomList(genreIdList: number[], singerIdList: number[]) {
+    let params = new HttpParams();
+    if (genreIdList && genreIdList.length > 0) {
+      genreIdList.forEach((genreId: number) => {
+        params = params.append('GenreIdList', genreId.toString());
+      });
+    }
+
+    if (singerIdList && singerIdList.length > 0) {
+      singerIdList.forEach((singerIdList: number) => {
+        params = params.append('SingerIdList', singerIdList.toString());
+      });
+    }
+
+    return this.http.get<Song[]>(this.customerUrl + 'song/random-list');
   }
 }
