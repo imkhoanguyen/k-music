@@ -14,6 +14,7 @@
         ILikeSongRepository LikeSong { get; }
         ILikePlaylistRepository LikePlaylist { get; }
         ILikeSingerRepository LikeSinger { get; }
+        ICommentRepository Comment { get; }
         Task<bool> CompleteAsync();
     }
 }

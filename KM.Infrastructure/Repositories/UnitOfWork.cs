@@ -30,6 +30,8 @@ namespace KM.Infrastructure.Repositories
 
         public ILikeSingerRepository LikeSinger { get; private set; }
 
+        public ICommentRepository Comment { get; private set; }
+
         public UnitOfWork(MusicContext context)
         {
             _context = context;
@@ -45,6 +47,7 @@ namespace KM.Infrastructure.Repositories
             LikeSong = new LikeSongRepository(_context);
             LikeSinger = new LikeSingerRepository(_context);
             LikePlaylist = new LikePlaylistRepository(_context);
+            Comment = new CommentRepository(_context);
         }
 
         public async Task<bool> CompleteAsync()
