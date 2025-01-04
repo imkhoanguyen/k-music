@@ -3,10 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { MessageService } from '../../../../core/services/message.service';
 import { UtilityService } from '../../../../core/services/utility.service';
-import {
-  PlaylistDetail,
-  PlaylistDetail1,
-} from '../../../../shared/models/playlist';
+import { PlaylistDetail1 } from '../../../../shared/models/playlist';
 import { CommonModule } from '@angular/common';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -17,6 +14,7 @@ import { Song } from '../../../../shared/models/song';
 import { AccountService } from '../../../../core/services/account.service';
 import { Singer } from '../../../../shared/models/singer';
 import { QuickAddComponent } from '../quick-add/quick-add.component';
+import { CommentComponent } from '../../comments/comment/comment.component';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -28,6 +26,7 @@ import { QuickAddComponent } from '../quick-add/quick-add.component';
     NzIconModule,
     NzButtonModule,
     QuickAddComponent,
+    CommentComponent,
   ],
   templateUrl: './playlist-detail.component.html',
   styleUrl: './playlist-detail.component.css',

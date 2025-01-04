@@ -110,7 +110,7 @@ builder.Services.AddScoped<IVipPackageService, VipPackageService>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 
 // register policy

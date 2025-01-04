@@ -1,0 +1,22 @@
+<!-- add-playlist.component.html -->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Thêm phản hồi"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <ng-container *nzModalContent>
+    <textarea
+      class="w-100 mb-3"
+      [(ngModel)]="content"
+      nz-input
+      rows="4"
+    ></textarea>
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button nz-button nzType="primary" (click)="addReply()">Lưu</button>
+    </div>
+  </ng-container>
+</nz-modal>

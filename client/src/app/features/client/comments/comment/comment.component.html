@@ -1,0 +1,114 @@
+<h2 class="bl-head">Bình luận</h2>
+<!-- add comment -->
+<nz-comment>
+  <nz-avatar
+    nz-comment-avatar
+    nzIcon="user"
+    [nzSrc]="authService.currentUser()?.imgUrl"
+  ></nz-avatar>
+  <nz-comment-content>
+    <nz-form-item>
+      <textarea [(ngModel)]="content" nz-input rows="4"></textarea>
+    </nz-form-item>
+    <nz-form-item>
+      <button
+        style="margin-left: auto"
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        (click)="addComment()"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span>Gửi</span>
+        <span nz-icon nzType="send" nzTheme="outline"></span>
+      </button>
+    </nz-form-item>
+  </nz-comment-content>
+</nz-comment>
+
+<h3 class="abl-head">Tất cả bình luận</h3>
+<nz-divider></nz-divider>
+<!-- list comment -->
+<ng-template #commentTemplateRef let-comment="comment">
+  <nz-comment>
+    <nz-avatar
+      nz-comment-avatar
+      nzIcon="user"
+      [nzSrc]="comment.userComment.imgUrl"
+    >
+    </nz-avatar>
+    <nz-comment-content>
+      <p class="commemt-author">{{ comment.userComment.fullName }}</p>
+      <p class="comment-time">
+        {{ utilService.getFormattedDate(comment.created).trim() }}
+      </p>
+      <p>{{ comment.content }}</p>
+    </nz-comment-content>
+
+    <nz-comment-action>
+      <div class="d-flex gap-3">
+        <div nz-button nzType="link" (click)="toggleReplies(comment.id)">
+          {{ showReplies[comment.id] ? "Ẩn" : "Hiện" }}
+        </div>
+        <div nz-button nzType="link">Phản hồi</div>
+        <div
+          nz-button
+          nzType="link"
+          *ngIf="
+            comment.userComment.userName === authService.currentUser()?.userName
+          "
+        >
+          Chỉnh sửa
+        </div>
+        <div
+          nz-button
+          nzType="link"
+          *ngIf="
+            comment.userComment.userName === authService.currentUser()?.userName
+          "
+        >
+          Xóa
+        </div>
+      </div>
+    </nz-comment-action>
+    <div
+      *ngIf="showReplies[comment.id] && comment.replies?.length > 0"
+      class="replies"
+    >
+      <ng-container *ngFor="let child of comment.replies">
+        <ng-template
+          [ngTemplateOutlet]="commentTemplateRef"
+          [ngTemplateOutletContext]="{ comment: child }"
+        >
+        </ng-template>
+      </ng-container>
+    </div>
+  </nz-comment>
+</ng-template>
+
+<!-- Render dữ liệu từ gốc -->
+<div *ngFor="let comment of data">
+  <ng-template
+    [ngTemplateOutlet]="commentTemplateRef"
+    [ngTemplateOutletContext]="{ comment: comment }"
+  >
+  </ng-template>
+</div>
+
+<!-- pagination -->
+<div class="d-flex align-items-center justify-content-center mt-3">
+  <nz-pagination
+    [nzPageIndex]="pagination.currentPage"
+    [nzTotal]="pagination.totalItems"
+    [nzSize]="'default'"
+    [nzPageSize]="pagination.itemsPerPage"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    (nzPageSizeChange)="onPageSizeChange($event)"
+  ></nz-pagination>
+</div>
+
+<app-add-reply
+  [relatedId]="relatedId"
+  [relatedType]="relatedType"
+  (replyAdded)="handelAddReply($event)"
+></app-add-reply>

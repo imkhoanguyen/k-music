@@ -1,0 +1,41 @@
+::ng-deep .ant-comment-inner {
+  padding-top: 0px;
+  padding-bottom: 0;
+}
+
+::ng-deep .ant-comment-content-detail {
+  margin-top: -8px;
+}
+
+.bl-head {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 58px;
+}
+
+.abl-head {
+  font-weight: 400;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commet-author {
+  font-size: 14px;
+  font-weight: 400;
+  overflow: hidden;
+  height: 26px;
+  line-height: 26px;
+  color: #999;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comment-time {
+  margin-bottom: 10px;
+  height: 20px;
+  line-height: 20px;
+  color: #999;
+  text-indent: -0.5ch;
+}
