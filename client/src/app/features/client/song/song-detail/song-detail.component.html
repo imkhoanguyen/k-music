@@ -79,6 +79,7 @@
         <span>Bỏ thích</span>
       </button>
       <button
+      (click)="scrollToComment()"
         nz-button
         nzType="default"
         nzSize="large"
@@ -132,6 +133,7 @@
 
 <!-- comment component -->
 <app-comment
+id="comment"
   [relatedType]="utilService.RELATED_TYPE_SONG"
   [relatedId]="songId"
 ></app-comment>

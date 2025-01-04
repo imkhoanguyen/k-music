@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { MessageService } from '../../../../core/services/message.service';
@@ -182,6 +188,13 @@ export class PlaylistDetailComponent implements OnInit {
       this.quickAddComponent.showModal();
     } else {
       console.error('QuickAddComponent is not initialized yet');
+    }
+  }
+
+  scrollToComment() {
+    const element = document.getElementById('comment');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

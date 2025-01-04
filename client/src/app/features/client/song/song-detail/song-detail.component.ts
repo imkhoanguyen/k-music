@@ -13,7 +13,7 @@ import { MusicPlayerService } from '../../../../core/services/music-player.servi
 import { AccountService } from '../../../../core/services/account.service';
 import { Singer } from '../../../../shared/models/singer';
 import { QuickAddComponent } from '../../playlist/quick-add/quick-add.component';
-import { CommentComponent } from "../../comments/comment/comment.component";
+import { CommentComponent } from '../../comments/comment/comment.component';
 
 @Component({
   selector: 'app-song-detail',
@@ -25,8 +25,8 @@ import { CommentComponent } from "../../comments/comment/comment.component";
     NzIconModule,
     NzButtonModule,
     QuickAddComponent,
-    CommentComponent
-],
+    CommentComponent,
+  ],
   templateUrl: './song-detail.component.html',
   styleUrl: './song-detail.component.css',
 })
@@ -112,6 +112,13 @@ export class SongDetailComponent {
       this.quickAddComponent.showModal();
     } else {
       console.error('QuickAddComponent is not initialized yet');
+    }
+  }
+
+  scrollToComment() {
+    const element = document.getElementById('comment');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

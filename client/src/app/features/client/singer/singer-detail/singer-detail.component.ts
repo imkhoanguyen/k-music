@@ -16,7 +16,7 @@ import { MusicPlayerService } from '../../../../core/services/music-player.servi
 import { AccountService } from '../../../../core/services/account.service';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickAddComponent } from '../../playlist/quick-add/quick-add.component';
-import { CommentComponent } from "../../comments/comment/comment.component";
+import { CommentComponent } from '../../comments/comment/comment.component';
 
 @Component({
   selector: 'app-singer-detail',
@@ -30,8 +30,8 @@ import { CommentComponent } from "../../comments/comment/comment.component";
     NzTypographyModule,
     NzPaginationModule,
     QuickAddComponent,
-    CommentComponent
-],
+    CommentComponent,
+  ],
   templateUrl: './singer-detail.component.html',
   styleUrl: './singer-detail.component.css',
 })
@@ -219,6 +219,13 @@ export class SingerDetailComponent implements OnInit {
       this.quickAddComponent.showModal();
     } else {
       console.error('QuickAddComponent is not initialized yet');
+    }
+  }
+
+  scrollToComment() {
+    const element = document.getElementById('comment');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

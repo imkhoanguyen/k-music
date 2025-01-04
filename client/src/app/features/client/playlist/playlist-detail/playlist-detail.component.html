@@ -63,6 +63,7 @@
         <span>Bỏ thích</span>
       </button>
       <button
+        (click)="scrollToComment()"
         nz-button
         nzType="default"
         nzSize="large"
@@ -172,6 +173,7 @@
 <app-quick-add></app-quick-add>
 
 <app-comment
+  id="comment"
   [relatedType]="utilService.RELATED_TYPE_PLAYLIST"
   [relatedId]="playlistId"
 ></app-comment>
