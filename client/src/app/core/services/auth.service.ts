@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Login, Register } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
 import { map, tap } from 'rxjs';
+import { CommentService } from './comment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { map, tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+  private commentService = inject(CommentService);
   currentUser = signal<User | null>(null);
   role = computed(() => {
     const user = this.currentUser();
@@ -41,8 +43,9 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.clear();
     this.currentUser.set(null);
+    this.commentService.stopHubConnection();
   }
 
   callRefreshToken(refreshToken: string) {

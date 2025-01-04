@@ -64,6 +64,40 @@ export class CommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComment();
+
+    this.commentService.startConnection();
+
+    // event add comment
+    this.commentService.eventListener(
+      'ReceiveAddComment',
+      (newComment: any) => {
+        this.data.unshift(newComment);
+      }
+    );
+
+    // event add reply
+    this.commentService.eventListener('ReceiveAddReply', (newComment: any) => {
+      const comment = this.findComment(this.data, newComment.parentCommentId);
+
+      if (comment) {
+        comment.replies.unshift(newComment);
+      }
+    });
+
+    // event update comment
+    this.commentService.eventListener(
+      'ReceiveDeleteComment',
+      (commentId: any) => {
+        this.deleteComment(this.data, commentId);
+      }
+    );
+
+    this.commentService.eventListener(
+      'ReceiveUpdateComment',
+      (comment: any) => {
+        this.updateComment(this.data, comment);
+      }
+    );
   }
 
   loadComment() {
@@ -106,7 +140,6 @@ export class CommentComponent implements OnInit {
 
     this.commentService.add(c).subscribe({
       next: (res) => {
-        this.data.unshift(res);
         this.content = '';
         this.messageService.showSuccess('Thêm bình luận thành công');
       },
@@ -119,7 +152,6 @@ export class CommentComponent implements OnInit {
   @ViewChild(AddReplyComponent)
   addReplyComponent!: AddReplyComponent;
   openAddReplyModal(parentId: number) {
-    console.log(parentId);
     if (this.addReplyComponent) {
       this.addReplyComponent.parentCommentId = parentId;
       this.addReplyComponent.showModal();
@@ -144,14 +176,6 @@ export class CommentComponent implements OnInit {
     return null;
   };
 
-  handelAddReply(res: any) {
-    const comment = this.findComment(this.data, res.parentId);
-
-    if (comment) {
-      comment.replies.unshift(res.reply);
-    }
-  }
-
   //delete popup
   showDeleteConfirm(id: number) {
     this.modal.confirm({
@@ -168,16 +192,9 @@ export class CommentComponent implements OnInit {
 
         this.commentService.delete(id).subscribe({
           next: (_) => {
-            const isDeleted = this.deleteComment(this.data, id);
-            if (isDeleted) {
-              this.messageService.showSuccess(
-                'Xóa bình luận/phản hồi thành công'
-              );
-            } else {
-              this.messageService.showError(
-                'Không tìm thấy bình luận/phản hồi để xóa'
-              );
-            }
+            this.messageService.showSuccess(
+              'Xóa bình luận/phản hồi thành công'
+            );
           },
           error: (er) => console.log(er),
         });
@@ -238,16 +255,9 @@ export class CommentComponent implements OnInit {
     };
     this.commentService.update(c).subscribe({
       next: (res) => {
-        const updated = this.updateComment(this.data, res);
-        if (updated) {
-          this.messageService.showSuccess(
-            'Cập nhật bình luận/phản hồi thành công'
-          );
-        } else {
-          this.messageService.showError(
-            'Không tìm thấy bình luận/phản hồi để cập nhật'
-          );
-        }
+        this.messageService.showSuccess(
+          'Cập nhật bình luận/phản hồi thành công'
+        );
         this.isVisible = false;
       },
       error: (er) => {

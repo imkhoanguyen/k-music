@@ -1,5 +1,6 @@
 ﻿using API.Authorization;
 using API.Middleware;
+using API.SignalR;
 using KM.Application.Interfaces;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
@@ -93,7 +94,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
+
 // register DI
+builder.Services.AddSignalR();
 builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection(CloudinaryConfig.ConfigName));
 builder.Services.Configure<VNPayConfig>(
                 builder.Configuration.GetSection(VNPayConfig.ConfigName));
@@ -139,6 +142,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<CommentHub>("hubs/comment");
 
 // seed data
 using var scope = app.Services.CreateScope();

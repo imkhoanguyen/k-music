@@ -10,6 +10,11 @@ import {
 } from '../../shared/models/comment';
 import { PaginatedResult } from '../../shared/models/pagination';
 import { map } from 'rxjs';
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +22,36 @@ import { map } from 'rxjs';
 export class CommentService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+  private hubUrl = environment.hubsUrl;
+  private hubConnection?: HubConnection;
+
+  startConnection() {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.hubUrl + 'comment')
+      .build();
+
+    this.hubConnection
+      .start()
+      .then(() => console.log('SignalR Connection Started'))
+      .catch((err) => console.log('Error starting SignalR connection: ', err));
+  }
+
+  stopHubConnection() {
+    if (this.hubConnection?.state === HubConnectionState.Connected) {
+      this.hubConnection.stop().catch((error) => console.log(error));
+    }
+  }
+
+  // handle event from server
+  eventListener(eventName: string, callback: (data: any) => void) {
+    if (this.hubConnection) {
+      this.hubConnection.on(eventName, (data: any) => {
+        callback(data);
+      });
+    } else {
+      console.error('HubConnection is not initialized');
+    }
+  }
 
   getAll(prm: CommentParams) {
     let paginationResult: PaginatedResult<Comment[]> = new PaginatedResult<

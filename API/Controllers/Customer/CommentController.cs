@@ -1,20 +1,25 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
+using API.SignalR;
 using KM.Application.DTOs.Comments;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using KM.Domain.Entities;
 using KM.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace API.Controllers.Customer
 {
     public class CommentController : BaseApiController
     {
         private readonly ICommentService _commentService;
+        private readonly IHubContext<CommentHub> _hub;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, IHubContext<CommentHub> hub)
         {
             _commentService = commentService;
+            _hub = hub;
         }
 
 
@@ -41,14 +46,22 @@ namespace API.Controllers.Customer
         {
             dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
             var returnDto = await _commentService.AddAsync(dto);
+
+            //send event to client
+            await _hub.Clients.All.SendAsync("ReceiveAddComment", returnDto);
+
             return CreatedAtAction(nameof(Get), new { id = returnDto.Id }, returnDto);
         }
 
         [HttpPost("reply")]
-        public async Task<ActionResult<CommentDto>> AddComment([FromBody] ReplyCreateDto dto)
+        public async Task<ActionResult<CommentDto>> AddReply([FromBody] ReplyCreateDto dto)
         {
             dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
             var returnDto = await _commentService.AddReplyAsync(dto);
+
+            //send event to client
+            await _hub.Clients.All.SendAsync("ReceiveAddReply", returnDto);
+
             return CreatedAtAction(nameof(Get), new { id = returnDto.Id }, returnDto);
         }
 
@@ -62,6 +75,9 @@ namespace API.Controllers.Customer
 
 
             var returnDto = await _commentService.UpdateAsync(dto);
+
+            //send event to client
+            await _hub.Clients.All.SendAsync("ReceiveUpdateComment", returnDto);
             return CreatedAtAction(nameof(Get), new { id = returnDto.Id }, returnDto);
         }
 
@@ -70,6 +86,8 @@ namespace API.Controllers.Customer
         public async Task<ActionResult> Delete(int id)
         {
             await _commentService.RemoveAsync(c => c.Id == id);
+            //send event to client
+            await _hub.Clients.All.SendAsync("ReceiveDeleteComment", id);
             return NoContent();
         }
     }
