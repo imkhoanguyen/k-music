@@ -22,6 +22,7 @@ import { MessageService } from '../../../../core/services/message.service';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { AddReplyComponent } from '../add-reply/add-reply.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 @Component({
   selector: 'app-comment',
   standalone: true,
@@ -38,6 +39,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
     NzPaginationModule,
     AddReplyComponent,
     NzModalModule,
+    NzEmptyModule,
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css',
@@ -107,7 +109,6 @@ export class CommentComponent implements OnInit {
       next: (res) => {
         this.data = res.result as Comment[];
         this.pagination = res.pagination as Pagination;
-        console.log(this.data);
       },
     });
   }

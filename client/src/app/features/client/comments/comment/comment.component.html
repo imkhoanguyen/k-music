@@ -29,6 +29,8 @@
 <h3 class="abl-head">Tất cả bình luận</h3>
 <nz-divider></nz-divider>
 <!-- list comment -->
+@if(data && data.length > 0) {
+
 <ng-template #commentTemplateRef let-comment="comment">
   <nz-comment>
     <nz-avatar
@@ -105,6 +107,9 @@
   >
   </ng-template>
 </div>
+} @else {
+<nz-empty></nz-empty>
+}
 
 <!-- pagination -->
 <div class="d-flex align-items-center justify-content-center mt-3">
@@ -125,7 +130,6 @@
 ></app-add-reply>
 
 <!-- modal update -->
-<!-- add-playlist.component.html -->
 <nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Chỉnh sửa bình luận/phản hồi"

@@ -186,5 +186,12 @@
   </div>
 </div>
 
+<!-- quick add song to playlist component -->
 <app-quick-add></app-quick-add>
+
+<!-- comment component -->
+<app-comment
+  [relatedType]="utilService.RELATED_TYPE_SINGER"
+  [relatedId]="singerId"
+></app-comment>
 }
