@@ -19,6 +19,13 @@ export class UtilityService {
   // format date vietnam
   private readonly defaultDate = '0001-01-01T00:00:00';
 
+  timeUpdatedCheck(date: string): boolean {
+    if (!date || date === this.defaultDate || isNaN(Date.parse(date))) {
+      return false;
+    }
+    return true;
+  }
+
   getFormattedDate(date: string | null | undefined): string {
     // Kiểm tra và xử lý khi giá trị không hợp lệ
     if (!date || date === this.defaultDate || isNaN(Date.parse(date))) {

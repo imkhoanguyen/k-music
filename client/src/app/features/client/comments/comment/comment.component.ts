@@ -260,6 +260,7 @@ export class CommentComponent implements OnInit {
     for (let comment of comments) {
       if (comment.id === update.id) {
         comment.content = update.content;
+        comment.updated = update.updated;
         return true;
       }
 

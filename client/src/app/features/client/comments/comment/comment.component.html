@@ -39,9 +39,16 @@
     </nz-avatar>
     <nz-comment-content>
       <p class="commemt-author">{{ comment.userComment.fullName }}</p>
+      @if(utilService.timeUpdatedCheck(comment.updated)) {
+      <p class="comment-time">
+        {{ utilService.getFormattedDate(comment.updated).trim() }}
+      </p>
+      } @else {
       <p class="comment-time">
         {{ utilService.getFormattedDate(comment.created).trim() }}
       </p>
+      }
+
       <p>{{ comment.content }}</p>
     </nz-comment-content>
 
