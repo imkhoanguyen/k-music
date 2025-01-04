@@ -7,9 +7,10 @@ import {
   Comment,
   CommentAdd,
   CommentParams,
+  CommentUpdate,
 } from '../../../../shared/models/comment';
 import { Pagination } from '../../../../shared/models/pagination';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -20,6 +21,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MessageService } from '../../../../core/services/message.service';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { AddReplyComponent } from '../add-reply/add-reply.component';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-comment',
   standalone: true,
@@ -35,6 +37,7 @@ import { AddReplyComponent } from '../add-reply/add-reply.component';
     NzIconModule,
     NzPaginationModule,
     AddReplyComponent,
+    NzModalModule,
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css',
@@ -43,6 +46,7 @@ export class CommentComponent implements OnInit {
   @Input() relatedType = '';
   @Input() relatedId = 0;
   private commentService = inject(CommentService);
+  private modal = inject(NzModalService);
   utilService = inject(UtilityService);
   authService = inject(AuthService);
   messageService = inject(MessageService);
@@ -148,11 +152,126 @@ export class CommentComponent implements OnInit {
     }
   }
 
-  update() {
+  //delete popup
+  showDeleteConfirm(id: number) {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this task?',
+      nzContent: `<b style="color: red;">Toàn bộ dữ liệu liên quan sẽ bị mất</b>`,
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        if (id === 0) {
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          return;
+        }
 
+        this.commentService.delete(id).subscribe({
+          next: (_) => {
+            const isDeleted = this.deleteComment(this.data, id);
+            if (isDeleted) {
+              this.messageService.showSuccess(
+                'Xóa bình luận/phản hồi thành công'
+              );
+            } else {
+              this.messageService.showError(
+                'Không tìm thấy bình luận/phản hồi để xóa'
+              );
+            }
+          },
+          error: (er) => console.log(er),
+        });
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
+    });
   }
 
-  delete() {
-    
+  deleteComment(comments: Comment[], id: number): boolean {
+    for (let i = 0; i < comments.length; i++) {
+      if (comments[i].id === id) {
+        comments.splice(i, 1);
+        return true;
+      }
+
+      // Nếu không tìm thấy, tiếp tục tìm trong replies
+      if (comments[i].replies?.length > 0) {
+        const isDeleted = this.deleteComment(comments[i].replies, id);
+        if (isDeleted) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  // update
+  isVisible = false;
+  contentUpdate = '';
+  idUpdate = 0;
+
+  closeModal() {
+    this.isVisible = false;
+    this.contentUpdate = '';
+    this.idUpdate = 0;
+  }
+
+  openModal(id: number) {
+    this.commentService.get(id).subscribe({
+      next: (res) => {
+        this.contentUpdate = res.content;
+        this.idUpdate = res.id;
+        this.isVisible = true;
+      },
+      error: (er) => {
+        console.log(er);
+        this.messageService.showError('Vui lòng thử lại sau');
+      },
+    });
+  }
+
+  update() {
+    const c: CommentUpdate = {
+      id: this.idUpdate,
+      content: this.contentUpdate,
+    };
+    this.commentService.update(c).subscribe({
+      next: (res) => {
+        const updated = this.updateComment(this.data, res);
+        if (updated) {
+          this.messageService.showSuccess(
+            'Cập nhật bình luận/phản hồi thành công'
+          );
+        } else {
+          this.messageService.showError(
+            'Không tìm thấy bình luận/phản hồi để cập nhật'
+          );
+        }
+        this.isVisible = false;
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  updateComment(comments: Comment[], update: Comment): boolean {
+    for (let comment of comments) {
+      if (comment.id === update.id) {
+        comment.content = update.content;
+        return true;
+      }
+
+      // Nếu không tìm thấy, tiếp tục tìm trong replies
+      if (comment.replies?.length > 0) {
+        const updated = this.updateComment(comment.replies, update);
+        if (updated) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }

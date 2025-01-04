@@ -5,6 +5,7 @@ import {
   Comment,
   CommentAdd,
   CommentParams,
+  CommentUpdate,
   ReplyAdd,
 } from '../../shared/models/comment';
 import { PaginatedResult } from '../../shared/models/pagination';
@@ -55,5 +56,17 @@ export class CommentService {
 
   addReply(r: ReplyAdd) {
     return this.http.post<Comment>(this.baseUrl + 'comment/reply', r);
+  }
+
+  update(c: CommentUpdate) {
+    return this.http.put<Comment>(this.baseUrl + `comment/${c.id}`, c);
+  }
+
+  delete(id: number) {
+    return this.http.delete(this.baseUrl + `comment/${id}`);
+  }
+
+  get(id: number) {
+    return this.http.get<Comment>(this.baseUrl + `comment/${id}`);
   }
 }

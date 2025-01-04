@@ -12,7 +12,7 @@ namespace KM.Application.Service.Abstract
         Task<CommentDto> AddAsync(CommentCreateDto dto);
         Task<CommentDto> UpdateAsync(CommentUpdateDto dto);
         Task<CommentDto> AddReplyAsync(ReplyCreateDto dto);
-        Task Remove(Expression<Func<Comment, bool>> expression);
+        Task RemoveAsync(Expression<Func<Comment, bool>> expression);
         Task<CommentDto> GetAsync(Expression<Func<Comment, bool>> expression);
     }
 }

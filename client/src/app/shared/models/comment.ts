@@ -4,6 +4,7 @@ export interface Comment {
   id: number;
   content: string;
   created: string;
+  updated: string;
   parentCommentId?: number;
   userComment: UserCommnet;
   replies: Comment[];
@@ -32,4 +33,9 @@ export interface ReplyAdd {
   relatedId: number;
   relatedType: string;
   parentCommentId: number;
+}
+
+export interface CommentUpdate {
+  id: number;
+  content: string;
 }

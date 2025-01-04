@@ -50,8 +50,11 @@
         <div nz-button nzType="link" (click)="toggleReplies(comment.id)">
           {{ showReplies[comment.id] ? "Ẩn" : "Hiện" }}
         </div>
-        <div nz-button nzType="link">Phản hồi</div>
+        <div (click)="openAddReplyModal(comment.id)" nz-button nzType="link">
+          Phản hồi
+        </div>
         <div
+          (click)="openModal(comment.id)"
           nz-button
           nzType="link"
           *ngIf="
@@ -61,6 +64,7 @@
           Chỉnh sửa
         </div>
         <div
+          (click)="showDeleteConfirm(comment.id)"
           nz-button
           nzType="link"
           *ngIf="
@@ -107,8 +111,33 @@
   ></nz-pagination>
 </div>
 
+<!-- modal add reply -->
 <app-add-reply
   [relatedId]="relatedId"
   [relatedType]="relatedType"
   (replyAdded)="handelAddReply($event)"
 ></app-add-reply>
+
+<!-- modal update -->
+<!-- add-playlist.component.html -->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Chỉnh sửa bình luận/phản hồi"
+  [nzFooter]="null"
+  (nzOnCancel)="closeModal()"
+>
+  <ng-container *nzModalContent>
+    <textarea
+      class="w-100 mb-3"
+      [(ngModel)]="contentUpdate"
+      nz-input
+      rows="4"
+    ></textarea>
+    <div class="d-flex gap-2 justify-content-end align-items-center">
+      <button nz-button nzType="default" type="button" (click)="closeModal()">
+        Đóng
+      </button>
+      <button nz-button nzType="primary" (click)="update()">Lưu</button>
+    </div>
+  </ng-container>
+</nz-modal>

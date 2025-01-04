@@ -3,6 +3,7 @@ using API.Extensions;
 using KM.Application.DTOs.Comments;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using KM.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
@@ -49,6 +50,27 @@ namespace API.Controllers.Customer
             dto.UserId = ClaimsPrincipleExtensions.GetUserId(User);
             var returnDto = await _commentService.AddReplyAsync(dto);
             return CreatedAtAction(nameof(Get), new { id = returnDto.Id }, returnDto);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<CommentDto>> Update(int id, [FromBody] CommentUpdateDto dto)
+        {
+            if(id != dto.Id)
+            {
+                throw new BadRequestException("Bình luận không khớp. Thử lại sau");
+            }
+
+
+            var returnDto = await _commentService.UpdateAsync(dto);
+            return CreatedAtAction(nameof(Get), new { id = returnDto.Id }, returnDto);
+        }
+
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _commentService.RemoveAsync(c => c.Id == id);
+            return NoContent();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace KM.Application.Service.Implementation
 
             await _unit.Comment.AddAsync(entity);
 
-            if(await _unit.CompleteAsync())
+            if (await _unit.CompleteAsync())
             {
                 var returnEntity = await _unit.Comment.GetAsync(c => c.Id == entity.Id);
                 return CommentMapper.EntityToCommentDto(returnEntity);
@@ -122,14 +122,40 @@ namespace KM.Application.Service.Implementation
             return CommentMapper.EntityToCommentDto(entity);
         }
 
-        public Task Remove(Expression<Func<Comment, bool>> expression)
+        public async Task RemoveAsync(Expression<Func<Comment, bool>> expression)
         {
-            throw new NotImplementedException();
+            var entity = await _unit.Comment.GetAsync(expression, true);
+            if (entity == null)
+            {
+                throw new NotFoundException("Không tìm thấy bình luận");
+            }
+
+            _unit.Comment.Remove(entity);
+
+            if (!await _unit.CompleteAsync())
+            {
+                throw new BadRequestException("Có lỗi xảy ra khi xóa bình luận");
+            }
         }
 
-        public Task<CommentDto> UpdateAsync(CommentUpdateDto dto)
+        public async Task<CommentDto> UpdateAsync(CommentUpdateDto dto)
         {
-            throw new NotImplementedException();
+            var entity = await _unit.Comment.GetAsync(c => c.Id == dto.Id, true);
+            if (entity == null)
+            {
+                throw new NotFoundException("Không tìm thấy bình luận");
+            }
+
+            entity.Updated = DateTime.Now;
+            entity.Content = dto.Content;
+
+            if (await _unit.CompleteAsync())
+            {
+                var returnEntity = await _unit.Comment.GetAsync(c => c.Id == entity.Id);
+                return CommentMapper.EntityToCommentDto(returnEntity);
+            }
+
+            throw new BadRequestException("Có lỗi xảy ra khi chỉnh sửa bình luận");
         }
     }
 }

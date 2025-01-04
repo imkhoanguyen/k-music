@@ -12,6 +12,7 @@ namespace KM.Application.Mappers
                 Id = entity.Id,
                 Content = entity.Content,
                 Created = entity.Created,
+                Updated = entity.Updated,
                 ParentCommentId = entity.ParentCommentId,
                 UserComment = new UserCommentDto { UserName = entity.AppUser.UserName, FullName = entity.AppUser.FullName, ImgUrl = entity.AppUser.ImgUrl },
                 Replies = entity.Replies.Select(EntityToCommentDto).ToList(),
