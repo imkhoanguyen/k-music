@@ -17,8 +17,28 @@ namespace API.Controllers.Admin
         [HttpGet("revenue/{year:int}")]
         public async Task<ActionResult<IEnumerable<DailyRevenue>>> RevenueInYear(int year)
         {
-            var data = await _statisticService.StatisticRevenue(year);
+            var data = await _statisticService.StatisticRevenueAsync(year);
             return Ok(data);
+        }
+
+        [HttpGet("overview")]
+        public async Task<ActionResult<Overview>> Overview()
+        {
+            var overview = new Overview
+            {
+                TotalPlaylist = await _statisticService.GetTotalPlaylistAsync(),
+                TotalPrice = await _statisticService.GetTotalPriceInDayAsync(),
+                TotalSong = await _statisticService.GetTotalSongAsync(),
+                TotalUser = _statisticService.GetTotalUser()
+            };
+
+            return Ok(overview);
+        }
+
+        [HttpGet("top-favorite/{top:int}")]
+        public async Task<TopFavorite> TopFavorite(int top)
+        {
+            return await _statisticService.GetTopFavoriteAsync(top);
         }
     }
 }
