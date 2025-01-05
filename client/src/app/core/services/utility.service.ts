@@ -53,6 +53,26 @@ export class UtilityService {
     return `${formattedDate} ${formattedTime}`;
   }
 
+  getFormattedOnlyDate(date: string | null | undefined): string {
+    // Kiểm tra và xử lý khi giá trị không hợp lệ
+    if (!date || date === this.defaultDate || isNaN(Date.parse(date))) {
+      return 'Chưa cập nhật';
+    }
+  
+    const dateObj = new Date(date);
+  
+    // Format ngày
+    const formattedDate = dateObj.toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  
+    // Trả về chỉ ngày (không có giờ)
+    return formattedDate;
+  }
+  
+
   // get genre and song string
   getGenresString(song: Song) {
     return song.genres.map((g: Genre) => g.name).join(', ');

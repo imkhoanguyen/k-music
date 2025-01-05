@@ -114,6 +114,7 @@ builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 
 // register policy

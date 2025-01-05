@@ -28,8 +28,8 @@ import { TransactionDetailComponent } from '../../../shared/component/transactio
     FormsModule,
     CommonModule,
     NzDatePickerModule,
-    TransactionDetailComponent
-],
+    TransactionDetailComponent,
+  ],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css',
 })
@@ -56,6 +56,7 @@ export class TransactionComponent {
   loadTransactions() {
     this.transactionService.getAll(this.prm).subscribe({
       next: (response) => {
+        console.log(response);
         this.transactions = response.result as Transaction[];
         this.pagination = response.pagination as Pagination;
       },
