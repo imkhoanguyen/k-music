@@ -28,7 +28,7 @@ namespace KM.Application.Service.Implementation
                 Id = uvs.Id,
                 Name = uvs.VipPackage.Name,
                 Description = uvs.VipPackage.Description,
-                Price = uvs.VipPackage.Price,
+                Price = uvs.VipPackage.PriceSell,
                 DurationDay = uvs.VipPackage.DurationDay,
                 UserName = uvs.AppUser.UserName,
                 StartDate = uvs.StartDate,
