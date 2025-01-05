@@ -10,4 +10,10 @@ import { RouterLink } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  currentPage = 1;
+
+  changePage(page: number) {
+    this.currentPage = page;
+  }
+}
