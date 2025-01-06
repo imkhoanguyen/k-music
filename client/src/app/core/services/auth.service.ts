@@ -3,8 +3,10 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Login, Register } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
-import { map, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CommentService } from './comment.service';
+
+declare var gapi: any;
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +15,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
   private commentService = inject(CommentService);
+  private clientId = environment.ggClientId;
   currentUser = signal<User | null>(null);
   role = computed(() => {
     const user = this.currentUser();
@@ -97,5 +100,42 @@ export class AuthService {
 
     const hasValidSubscription = vipExpiredDate > now;
     return hasValidSubscription;
+  }
+
+  public initGoogleAuth() {
+    gapi.load('auth2', () => {
+      gapi.auth2.init({
+        client_id: this.clientId,
+      });
+    });
+  }
+
+  // Sign in with Google
+  public signInWithGoogle(): Observable<any> {
+    const googleAuth = gapi.auth2.getAuthInstance();
+    return new Observable((observer) => {
+      googleAuth.signIn().then((googleUser: any) => {
+        const token = googleUser.getAuthResponse().id_token;
+        observer.next(token);
+        observer.complete();
+      });
+    });
+  }
+
+  externalLogin(idToken: string) {
+    const dto = {
+      provider: 'google',
+      idToken: idToken,
+    };
+
+    return this.http
+      .post<any>(`${environment.apiUrl}auth/ExternalLogin`, dto)
+      .pipe(
+        map((user) => {
+          if (user) {
+            this.currentUser.set(user);
+          }
+        })
+      );
   }
 }

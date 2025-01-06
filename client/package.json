@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@microsoft/signalr": "^8.0.7",
+    "angular-oauth2-oidc": "^18.0.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "echarts": "^5.6.0",
