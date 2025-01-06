@@ -26,7 +26,7 @@ namespace KM.Infrastructure.Services
         private readonly GoogleAuthConfig _googleAuthConfig;
 
         public TokenService(IOptions<TokenConfig> tokenConfig, UserManager<AppUser> userManager,
-            RoleManager<AppRole> roleManager, IUnitOfWork unit, GoogleAuthConfig ggAuthConfig)
+            RoleManager<AppRole> roleManager, IUnitOfWork unit, IOptions<GoogleAuthConfig> ggAuthConfig)
         {
             _tokenConfig = new TokenConfig
             {
@@ -42,7 +42,7 @@ namespace KM.Infrastructure.Services
             _unit = unit;
             _googleAuthConfig = new GoogleAuthConfig
             {
-                ClientId = ggAuthConfig.ClientId,
+                ClientId = ggAuthConfig.Value.ClientId,
             };
         }
 
