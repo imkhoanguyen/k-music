@@ -133,7 +133,7 @@ export class AuthService {
       .pipe(
         map((user) => {
           if (user) {
-            this.currentUser.set(user);
+            this.setCurrentUser(user);
           }
         })
       );
