@@ -28,22 +28,12 @@ namespace KM.Infrastructure.Services
         public TokenService(IOptions<TokenConfig> tokenConfig, UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager, IUnitOfWork unit, IOptions<GoogleAuthConfig> ggAuthConfig)
         {
-            _tokenConfig = new TokenConfig
-            {
-                Key = tokenConfig.Value.Key,
-                Audience = tokenConfig.Value.Audience,
-                Issuer = tokenConfig.Value.Issuer,
-                AccessTokenExpiredByMinutes = tokenConfig.Value.AccessTokenExpiredByMinutes,
-                RefreshTokenExpiredByHours = tokenConfig.Value.RefreshTokenExpiredByHours,
-            };
+            _tokenConfig = tokenConfig.Value;
             _jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfig.Key));
             _userManager = userManager;
             _roleManager = roleManager;
             _unit = unit;
-            _googleAuthConfig = new GoogleAuthConfig
-            {
-                ClientId = ggAuthConfig.Value.ClientId,
-            };
+            _googleAuthConfig = ggAuthConfig.Value;
         }
 
         public async Task<(string, DateTime)> CreateAccessTokenAsync(AppUser user)

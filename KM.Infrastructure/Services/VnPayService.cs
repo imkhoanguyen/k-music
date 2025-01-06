@@ -18,18 +18,7 @@ namespace KM.Infrastructure.Services
 
         public VnPayService(IOptions<VNPayConfig> config, IUnitOfWork unit, IVipPackageService vipPackageService)
         {
-            var vnpayConfig = new VNPayConfig
-            {
-                Version = config.Value.Version,
-                TmnCode = config.Value.TmnCode,
-                HashSecret = config.Value.HashSecret,
-                ReturnUrl = config.Value.ReturnUrl,
-                BaseUrl = config.Value.BaseUrl,
-                Command = config.Value.Command,
-                CurrCode = config.Value.CurrCode,
-                Locale = config.Value.Locale,
-                TimeZoneId = config.Value.TimeZoneId
-            };
+            var vnpayConfig = config.Value;
             _config = vnpayConfig;
             _unit = unit;
             _vipPackageService = vipPackageService;
