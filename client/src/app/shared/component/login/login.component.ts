@@ -16,7 +16,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { MessageService } from '../../../core/services/message.service';
 import { CommonModule } from '@angular/common';
 import { Login } from '../../models/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../../environments/environment';
 
@@ -32,6 +32,7 @@ import { environment } from '../../../../environments/environment';
     NzDividerModule,
     ReactiveFormsModule,
     CommonModule,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

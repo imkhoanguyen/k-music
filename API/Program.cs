@@ -103,6 +103,7 @@ builder.Services.Configure<VNPayConfig>(
                 builder.Configuration.GetSection(VNPayConfig.ConfigName));
 builder.Services.Configure<TokenConfig>(builder.Configuration.GetSection(TokenConfig.ConfigName));
 builder.Services.Configure<GoogleAuthConfig>(builder.Configuration.GetSection(GoogleAuthConfig.ConfigName));
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection(EmailConfig.ConfigName));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenreService, GenreService>();
@@ -117,6 +118,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 // register policy

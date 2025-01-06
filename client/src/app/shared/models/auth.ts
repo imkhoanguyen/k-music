@@ -10,3 +10,9 @@ export interface Register {
   gender: string;
   fullName: string;
 }
+
+export interface ResetPassword {
+  email: string;
+  token: string;
+  password: string;
+}

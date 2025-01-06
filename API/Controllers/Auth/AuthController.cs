@@ -1,13 +1,16 @@
-﻿using API.Controllers.Base;
-using CloudinaryDotNet.Actions;
+﻿using System.Text;
+using API.Controllers.Base;
 using KM.Application.DTOs.Auth;
 using KM.Domain.Entities;
 using KM.Domain.Enum;
 using KM.Domain.Exceptions;
 using KM.Infrastructure.Abstract;
+using KM.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers.Auth
@@ -17,13 +20,17 @@ namespace API.Controllers.Auth
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
+        private readonly EmailConfig _emailConfig;
 
         public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            ITokenService tokenService)
+            ITokenService tokenService, IEmailService emailService, IOptions<EmailConfig> emailConfig)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailService = emailService;
+            _emailConfig = emailConfig.Value;
         }
 
         [HttpPost("login")]
@@ -167,6 +174,57 @@ namespace API.Controllers.Auth
                 RefreshToken = refreshToken,
                 ExpiredDateAccessToken = expiredDateAccessToken,
             });
+        }
+
+        [HttpGet("forget-password")]
+        public async Task<IActionResult> ForgetPassword(CancellationToken cancellationToken, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) throw new BadRequestException("Email không tồn tại");
+
+            string host = _emailConfig.AppUrl;
+
+            string tokenConfirm = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            string decodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(tokenConfirm));
+
+            string resetPasswordUrl = $"{host}/reset-password?email={email}&token={decodedToken}";
+
+
+            string body = $"Để reset password của bạn vui lòng click link sau: <a href=\"{resetPasswordUrl}\">Bấm vào đây để đổi lại mật khẩu mới</a>";
+
+
+            await _emailService.SendMailAsync(cancellationToken, new EmailRequest
+            {
+                To = user.Email,
+                Subject = "Reset Your Password ",
+                Content = body,
+            });
+
+            return Ok(new { message = "Vui lòng kiểm tra email" });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+            if (user == null) throw new BadRequestException("Email không tồn tại");
+
+            if (string.IsNullOrEmpty(resetPasswordDto.Token))
+                throw new BadRequestException("Không có token");
+
+            string decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(resetPasswordDto.Token));
+
+            var identityResult = await _userManager.ResetPasswordAsync(user, decodedToken, resetPasswordDto.Password);
+
+            if (identityResult.Succeeded)
+            {
+                return Ok(new { message = "Reset password thành công" });
+            }
+            else
+            {
+                throw new BadRequestException(identityResult.Errors.ToList()[0].Description);
+            }
         }
 
 

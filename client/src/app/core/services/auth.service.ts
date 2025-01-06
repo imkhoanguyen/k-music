@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Login, Register } from '../../shared/models/auth';
+import { Login, Register, ResetPassword } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
 import { map, Observable } from 'rxjs';
 import { CommentService } from './comment.service';
@@ -137,5 +137,12 @@ export class AuthService {
           }
         })
       );
+  }
+
+  forgotPassword(email: string) {
+    return this.http.get(this.baseUrl + `auth/forget-password?email=${email}`);
+  }
+  resetPassword(resetPassword: ResetPassword) {
+    return this.http.post(this.baseUrl + 'auth/reset-password', resetPassword);
   }
 }

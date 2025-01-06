@@ -5,6 +5,8 @@ import { LoginComponent } from './shared/component/login/login.component';
 import { RegisterComponent } from './shared/component/register/register.component';
 import { adminGuard } from './core/guards/admin.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { ForgotPasswordComponent } from './shared/component/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './shared/component/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +20,8 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/client/client.module').then((m) => m.ClientModule),
   },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'not-found', component: NotFoundComponent },
