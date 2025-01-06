@@ -1,9 +1,10 @@
-﻿using KM.Application.DTOs.Auth;
-using KM.Application.Interfaces;
+﻿using Google.Apis.Auth;
+using KM.Application.DTOs.Auth;
 using KM.Application.Repositories;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
 using KM.Domain.Exceptions;
+using KM.Infrastructure.Abstract;
 using KM.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -12,38 +13,42 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KM.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly TokenConfig _config;
+        private readonly TokenConfig _tokenConfig;
         private readonly SymmetricSecurityKey _jwtKey;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IUnitOfWork _unit;
+        private readonly GoogleAuthConfig _googleAuthConfig;
 
-        public TokenService(IOptions<TokenConfig> config, UserManager<AppUser> userManager, 
-            RoleManager<AppRole> roleManager, IUnitOfWork unit)
+        public TokenService(IOptions<TokenConfig> tokenConfig, UserManager<AppUser> userManager,
+            RoleManager<AppRole> roleManager, IUnitOfWork unit, GoogleAuthConfig ggAuthConfig)
         {
-            _config = new TokenConfig
+            _tokenConfig = new TokenConfig
             {
-                Key = config.Value.Key,
-                Audience = config.Value.Audience,
-                Issuer = config.Value.Issuer,
-                AccessTokenExpiredByMinutes = config.Value.AccessTokenExpiredByMinutes,
-                RefreshTokenExpiredByHours = config.Value.RefreshTokenExpiredByHours,
+                Key = tokenConfig.Value.Key,
+                Audience = tokenConfig.Value.Audience,
+                Issuer = tokenConfig.Value.Issuer,
+                AccessTokenExpiredByMinutes = tokenConfig.Value.AccessTokenExpiredByMinutes,
+                RefreshTokenExpiredByHours = tokenConfig.Value.RefreshTokenExpiredByHours,
             };
-            _jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Key));
+            _jwtKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfig.Key));
             _userManager = userManager;
             _roleManager = roleManager;
             _unit = unit;
+            _googleAuthConfig = new GoogleAuthConfig
+            {
+                ClientId = ggAuthConfig.ClientId,
+            };
         }
 
         public async Task<(string, DateTime)> CreateAccessTokenAsync(AppUser user)
         {
-            DateTime expiredToken = DateTime.Now.AddMinutes(_config.AccessTokenExpiredByMinutes);
+            DateTime expiredToken = DateTime.Now.AddMinutes(_tokenConfig.AccessTokenExpiredByMinutes);
 
             var role = await _userManager.GetRolesAsync(user);
 
@@ -71,7 +76,7 @@ namespace KM.Infrastructure.Services
                     userClaims.Add(subcriptionClaim);
                 }
             }
-            
+
 
 
             var creadentials = new SigningCredentials(_jwtKey, SecurityAlgorithms.HmacSha256Signature);
@@ -80,8 +85,8 @@ namespace KM.Infrastructure.Services
                 Subject = new ClaimsIdentity(userClaims),
                 Expires = expiredToken,
                 SigningCredentials = creadentials,
-                Issuer = _config.Issuer,
-                Audience = _config.Audience,
+                Issuer = _tokenConfig.Issuer,
+                Audience = _tokenConfig.Audience,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -96,7 +101,7 @@ namespace KM.Infrastructure.Services
         public async Task ValidToken(TokenValidatedContext context)
         {
             var claims = context.Principal.Claims.ToList();
-            if(claims.Count == 0)
+            if (claims.Count == 0)
             {
                 context.Fail("This token contains no information");
                 return;
@@ -110,7 +115,7 @@ namespace KM.Infrastructure.Services
             {
                 var user = await _userManager.FindByIdAsync(userId);
 
-                if(user == null)
+                if (user == null)
                 {
                     context.Fail("This token invalid for user");
                     return;
@@ -120,7 +125,7 @@ namespace KM.Infrastructure.Services
 
         public async Task<string> CreateRefreshTokenAsync(AppUser user)
         {
-            DateTime expiredRefreshToken = DateTime.Now.AddHours(_config.RefreshTokenExpiredByHours);
+            DateTime expiredRefreshToken = DateTime.Now.AddHours(_tokenConfig.RefreshTokenExpiredByHours);
             var role = await _userManager.GetRolesAsync(user);
 
             var userClaims = new List<Claim>
@@ -136,8 +141,8 @@ namespace KM.Infrastructure.Services
                 Subject = new ClaimsIdentity(userClaims),
                 Expires = expiredRefreshToken,
                 SigningCredentials = creadentials,
-                Issuer = _config.Issuer,
-                Audience = _config.Audience,
+                Issuer = _tokenConfig.Issuer,
+                Audience = _tokenConfig.Audience,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -158,10 +163,10 @@ namespace KM.Infrastructure.Services
                     new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Key)),
-                        ValidIssuer = _config.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenConfig.Key)),
+                        ValidIssuer = _tokenConfig.Issuer,
                         ValidateIssuer = true,
-                        ValidAudience = _config.Audience,
+                        ValidAudience = _tokenConfig.Audience,
                         ValidateAudience = true,
                         ValidateLifetime = false, // ko valid thời gian của refresh (vì ko làm chức năng buộc user logout)
                         ClockSkew = TimeSpan.Zero,
@@ -169,9 +174,9 @@ namespace KM.Infrastructure.Services
                      out _
                 );
 
-            if(claimPrinciple == null)
+            if (claimPrinciple == null)
             {
-                throw new UnauthorizedException("RefreshToken Invalid");
+                throw new BadRequestException("RefreshToken Invalid");
             }
 
             string userId = claimPrinciple?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -180,7 +185,7 @@ namespace KM.Infrastructure.Services
 
             var token = await _userManager.GetAuthenticationTokenAsync(user, SD.AccessTokenProvider, SD.AccessToken);
 
-            if(!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(token))
             {
                 (string accessToken, DateTime expiredDateAccessToken) = await CreateAccessTokenAsync(user);
                 string refreshToken = await CreateRefreshTokenAsync(user);
@@ -197,7 +202,26 @@ namespace KM.Infrastructure.Services
                 };
             }
 
-            throw new UnauthorizedException("Problem when check valid refresh token");
+            throw new BadRequestException("Problem when check valid refresh token");
+        }
+
+        public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalAuthDto externalAuth)
+        {
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new List<string>() { _googleAuthConfig.ClientId }
+                };
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
+                return payload;
+            }
+            catch (Exception ex)
+            {
+                //log an exception
+                return null;
+            }
         }
     }
 }

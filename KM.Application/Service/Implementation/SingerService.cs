@@ -1,6 +1,6 @@
-﻿using KM.Application.DTOs.Singers;
+﻿using KM.Application.Abstract;
+using KM.Application.DTOs.Singers;
 using KM.Application.DTOs.Songs;
-using KM.Application.Interfaces;
 using KM.Application.Mappers;
 using KM.Application.Parameters;
 using KM.Application.Repositories;

@@ -2,7 +2,7 @@
 using KM.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace KM.Application.Interfaces
+namespace KM.Infrastructure.Abstract
 {
     public interface IVnPayService
     {

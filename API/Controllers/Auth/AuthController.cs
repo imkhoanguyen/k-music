@@ -1,9 +1,10 @@
 ﻿using API.Controllers.Base;
+using CloudinaryDotNet.Actions;
 using KM.Application.DTOs.Auth;
-using KM.Application.Interfaces;
 using KM.Domain.Entities;
 using KM.Domain.Enum;
 using KM.Domain.Exceptions;
+using KM.Infrastructure.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace API.Controllers.Auth
                 throw new UnauthorizedException("Password không đúng");
 
             (string accessToken, DateTime expiredDateAccessToken) = await _tokenService.CreateAccessTokenAsync(user);
-            string refreshToken= await _tokenService.CreateRefreshTokenAsync(user);
+            string refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
 
             return Ok(new UserLoginResponse
             {
@@ -105,12 +106,67 @@ namespace API.Controllers.Auth
         [HttpPost("refresh-token")]
         public async Task<ActionResult<UserLoginResponse>> RefreshToken([FromBody] RefreshTokenRequest request)
         {
-            if(request.RefreshToken.IsNullOrEmpty())
+            if (request.RefreshToken.IsNullOrEmpty())
             {
                 throw new BadRequestException("Could not get refresh token");
             }
 
             return Ok(await _tokenService.ValidRefreshToken(request.RefreshToken));
+        }
+
+        [HttpPost("ExternalLogin")]
+        public async Task<ActionResult<UserLoginResponse>> ExternalLogin([FromBody] ExternalAuthDto dto)
+        {
+            var payload = await _tokenService.VerifyGoogleToken(dto);
+            if (payload == null)
+                throw new BadRequestException("Invalid External Authentication.");
+
+            var info = new UserLoginInfo(dto.Provider, payload.Subject, dto.Provider);
+
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null) // check user nay da dang nhap = gg lan nao chua
+            {
+                user = await _userManager.FindByEmailAsync(payload.Email);
+                if (user == null)
+                {
+                    user = new AppUser
+                    {
+                        Email = payload.Email,
+                        UserName = payload.Email,
+                        FullName = payload.Name,
+                        ImgUrl = payload.Picture,
+                        Gender = Gender.Male,
+                    };
+
+                    await _userManager.CreateAsync(user);
+                    await _userManager.AddToRoleAsync(user, "Customer");
+                    await _userManager.AddLoginAsync(user, info);
+                }
+                else
+                {
+                    //have account
+                    await _userManager.AddLoginAsync(user, info);
+                }
+            }
+
+            if (user == null)
+            {
+                throw new BadRequestException("Invalid External Authentication.");
+            }
+
+            (string accessToken, DateTime expiredDateAccessToken) = await _tokenService.CreateAccessTokenAsync(user);
+            string refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
+
+            return Ok(new UserLoginResponse
+            {
+                UserName = user.UserName,
+                FullName = user.FullName,
+                Gender = user.Gender.ToString(),
+                ImgUrl = user.ImgUrl,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpiredDateAccessToken = expiredDateAccessToken,
+            });
         }
 
 

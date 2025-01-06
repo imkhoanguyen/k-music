@@ -1,8 +1,8 @@
 ﻿using KM.Application.DTOs.Payment;
-using KM.Application.Interfaces;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
+using KM.Infrastructure.Abstract;
 using KM.Infrastructure.Configuration;
 using KM.Infrastructure.Ultilities;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +28,7 @@ namespace KM.Infrastructure.Services
                 Command = config.Value.Command,
                 CurrCode = config.Value.CurrCode,
                 Locale = config.Value.Locale,
-                TimeZoneId = config.Value.TimeZoneId    
+                TimeZoneId = config.Value.TimeZoneId
             };
             _config = vnpayConfig;
             _unit = unit;
@@ -63,7 +63,7 @@ namespace KM.Infrastructure.Services
 
         public async Task<UserVipSubscription?> HandlePayment(PaymentResponse res)
         {
-            if(res.ResponseCode == "00")
+            if (res.ResponseCode == "00")
             {
                 var vipPackage = await _vipPackageService.GetAsync(vp => vp.Id == res.OrderInfo);
                 var userSubscriptions = await _unit.UserVipSubscription.GetAllAsync(uvs => uvs.UserId == res.UserId);
@@ -73,10 +73,11 @@ namespace KM.Infrastructure.Services
                 // get những gói vip chưa hết hạn
                 var activeSubscriptions = userSubscriptions.Where(uvs => uvs.EndDate >= DateTime.Now).ToList();
 
-                if(activeSubscriptions.Any())
+                if (activeSubscriptions.Any())
                 {
                     newEndDate = activeSubscriptions.Max(uvs => uvs.EndDate).AddDays(vipPackage.DurationDay);
-                } else
+                }
+                else
                 {
                     newEndDate = DateTime.Now.AddDays(vipPackage.DurationDay);
                 }
@@ -91,7 +92,7 @@ namespace KM.Infrastructure.Services
                 };
 
                 await _unit.UserVipSubscription.AddAsync(userVipScription);
-                if(await _unit.CompleteAsync())
+                if (await _unit.CompleteAsync())
                 {
                     var dataReturn = await _unit.UserVipSubscription.GetAsync(uvs => uvs.Id == userVipScription.Id);
                     return dataReturn;

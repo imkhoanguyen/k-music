@@ -1,7 +1,7 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
+using KM.Application.Abstract;
 using KM.Application.DTOs.Users;
-using KM.Application.Interfaces;
 using KM.Application.Parameters;
 using KM.Application.Utilities;
 using KM.Domain.Entities;

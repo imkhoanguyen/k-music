@@ -1,11 +1,12 @@
 ﻿using API.Authorization;
 using API.Middleware;
 using API.SignalR;
-using KM.Application.Interfaces;
+using KM.Application.Abstract;
 using KM.Application.Repositories;
 using KM.Application.Service.Abstract;
 using KM.Application.Service.Implementation;
 using KM.Domain.Entities;
+using KM.Infrastructure.Abstract;
 using KM.Infrastructure.Configuration;
 using KM.Infrastructure.DataAccess;
 using KM.Infrastructure.DataAccess.SeedData;
@@ -101,6 +102,7 @@ builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection(Cl
 builder.Services.Configure<VNPayConfig>(
                 builder.Configuration.GetSection(VNPayConfig.ConfigName));
 builder.Services.Configure<TokenConfig>(builder.Configuration.GetSection(TokenConfig.ConfigName));
+builder.Services.Configure<GoogleAuthConfig>(builder.Configuration.GetSection(GoogleAuthConfig.ConfigName));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenreService, GenreService>();
