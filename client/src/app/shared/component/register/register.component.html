@@ -1,6 +1,6 @@
 <div class="bg">
   <h1 class="login-title">Đăng ký / K-music</h1>
-  <div class="login-box">
+  <nz-card class="login-box">
     <form [formGroup]="frm" (ngSubmit)="onSubmit()" autocomplete="off">
       <div class="mb-3">
         <label class="form-label" for="userName">Username</label>
@@ -13,9 +13,7 @@
         />
         <span
           class="text-danger"
-          [class.show]="
-            frm.get('userName')?.errors && frm.get('userName')?.touched
-          "
+          *ngIf="frm.get('userName')?.errors && frm.get('userName')?.touched"
         >
           Vui lòng nhập UserName
         </span>
@@ -32,9 +30,7 @@
         />
         <span
           class="text-danger"
-          [class.show]="
-            frm.get('fullName')?.errors && frm.get('fullName')?.touched
-          "
+          *ngIf="frm.get('fullName')?.errors && frm.get('fullName')?.touched"
         >
           Vui lòng nhập FullName
         </span>
@@ -50,8 +46,8 @@
           formControlName="email"
         />
         <span
+          *ngIf="frm.get('email')?.errors && frm.get('email')?.touched"
           class="text-danger"
-          [class.show]="frm.get('email')?.errors && frm.get('email')?.touched"
         >
           Vui lòng nhập Email
         </span>
@@ -78,9 +74,7 @@
         </ng-template>
         <span
           class="text-danger"
-          [class.show]="
-            frm.get('password')?.errors && frm.get('password')?.touched
-          "
+          *ngIf="frm.get('password')?.errors && frm.get('password')?.touched"
         >
           Vui lòng nhập password
         </span>
@@ -109,7 +103,7 @@
         </ng-template>
         <span
           class="text-danger"
-          [class.show]="
+          *ngIf="
             frm.get('confirmPassword')?.hasError('isMatching') &&
             (frm.get('confirmPassword')?.dirty ||
               frm.get('confirmPassword')?.touched)
@@ -131,7 +125,7 @@
         </nz-select>
         <span
           class="text-danger"
-          [class.show]="frm.get('gender')?.errors && frm.get('gender')?.touched"
+          *ngIf="frm.get('gender')?.errors && frm.get('gender')?.touched"
         >
           Vui lòng chọn giới tính
         </span>
@@ -165,5 +159,5 @@
         </button>
       </div>
     </form>
-  </div>
+  </nz-card>
 </div>

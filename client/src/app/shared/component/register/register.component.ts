@@ -18,6 +18,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Register } from '../../models/auth';
 import { MessageService } from '../../../core/services/message.service';
 import { RouterLink } from '@angular/router';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,8 @@ import { RouterLink } from '@angular/router';
     NzSelectModule,
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    NzCardModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -84,8 +86,8 @@ export class RegisterComponent implements OnInit {
     };
 
     this.authService.register(register).subscribe({
-      next: _ => {
-        this.messageService.showSuccess("Đăng ký tài khoản thành công");
+      next: (_) => {
+        this.messageService.showSuccess('Đăng ký tài khoản thành công');
       },
       error: (er) => {
         console.log(er);
