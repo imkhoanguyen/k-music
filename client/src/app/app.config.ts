@@ -30,6 +30,7 @@ import {
   DownloadOutline,
   HeartFill,
   LockOutline,
+  SendOutline,
 } from '@ant-design/icons-angular/icons';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -48,6 +49,7 @@ const icons = [
   DownloadOutline,
   HeartFill,
   LockOutline,
+  SendOutline,
 ];
 registerLocaleData(en);
 

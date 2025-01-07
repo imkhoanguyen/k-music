@@ -50,9 +50,16 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
         this.transaction.endDate
       )}.`;
 
-      this.authService.callRefreshToken(
-        this.authService.currentUser()?.refreshToken ?? ''
-      );
+      this.authService
+        .callRefreshToken(this.authService.currentUser()?.refreshToken ?? '')
+        .subscribe({
+          next: (res) => {
+            this.authService.setCurrentUser(res);
+          },
+          error: (er) => {
+            console.log(er);
+          },
+        });
     });
   }
 

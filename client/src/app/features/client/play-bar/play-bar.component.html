@@ -13,7 +13,11 @@
         <a class="song-text" (click)="goSongDetail(currentSong()?.id ?? 0)">
           {{ currentSong()?.name ?? songNameDefault }}
         </a>
-        <img src="img/vip-badge.png" alt="vip-badge" />
+        <img
+          *ngIf="currentSong()?.isVip === true"
+          src="img/vip-badge.png"
+          alt="vip-badge"
+        />
       </div>
 
       @if(currentSong()?.singers) {

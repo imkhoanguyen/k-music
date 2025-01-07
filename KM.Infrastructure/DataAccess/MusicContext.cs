@@ -19,7 +19,6 @@ namespace KM.Infrastructure.DataAccess
         public DbSet<Playlist> Playlist { get; set; }
         public DbSet<VipPackage> VipPackages { get; set; }
         public DbSet<UserVipSubscription> UserVipSubscriptions { get; set; }
-        public DbSet<Banner> Banners { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<SongSinger> SongSingers { get; set; }
         public DbSet<SongGenre> SongGenres { get; set; }
