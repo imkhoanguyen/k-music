@@ -178,7 +178,7 @@ namespace KM.Application.Service.Implementation
 
         public async Task DeleteAsync(Expression<Func<Playlist, bool>> expression)
         {
-            var playlist = await _unit.Playlist.GetAsync(expression);
+            var playlist = await _unit.Playlist.GetAsync(expression, true);
             if (playlist == null)
             {
                 throw new NotFoundException("Không tìm thấy danh sách phát");
