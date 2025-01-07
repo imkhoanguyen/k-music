@@ -11,11 +11,11 @@ import { PaginatedResult } from '../../shared/models/pagination';
 export class GenreService {
   private baseUrl = `${environment.apiUrl}admin/`;
   private http = inject(HttpClient);
-  private paginationResult: PaginatedResult<Genre[]> = new PaginatedResult<
-    Genre[]
-  >();
 
   getGenres(genreParams: GenreParams) {
+    let paginationResult: PaginatedResult<Genre[]> = new PaginatedResult<
+      Genre[]
+    >();
     let params = new HttpParams();
     params = params.append('pageNumber', genreParams.pageNumber);
     params = params.append('pageSize', genreParams.pageSize);
@@ -33,13 +33,13 @@ export class GenreService {
       })
       .pipe(
         map((response) => {
-          this.paginationResult.result = response.body as Genre[];
+          paginationResult.result = response.body as Genre[];
 
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
-            this.paginationResult.pagination = JSON.parse(pagination);
+            paginationResult.pagination = JSON.parse(pagination);
           }
-          return this.paginationResult;
+          return paginationResult;
         })
       );
   }

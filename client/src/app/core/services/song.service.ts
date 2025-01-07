@@ -12,11 +12,11 @@ export class SongService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}admin/`;
   private customerUrl = environment.apiUrl;
-  private paginationResult: PaginatedResult<Song[]> = new PaginatedResult<
-    Song[]
-  >();
 
   getSongs(songParams: SongParams) {
+    let paginationResult: PaginatedResult<Song[]> = new PaginatedResult<
+      Song[]
+    >();
     let params = new HttpParams();
     params = params.append('pageNumber', songParams.pageNumber);
     params = params.append('pageSize', songParams.pageSize);
@@ -39,13 +39,13 @@ export class SongService {
       })
       .pipe(
         map((response) => {
-          this.paginationResult.result = response.body as Song[];
+          paginationResult.result = response.body as Song[];
 
           const pagination = response.headers.get('Pagination');
           if (pagination !== null) {
-            this.paginationResult.pagination = JSON.parse(pagination);
+            paginationResult.pagination = JSON.parse(pagination);
           }
-          return this.paginationResult;
+          return paginationResult;
         })
       );
   }

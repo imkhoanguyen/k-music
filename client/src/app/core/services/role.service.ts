@@ -11,9 +11,11 @@ import { map } from 'rxjs';
 export class RoleService {
   private http = inject(HttpClient);
   baseUrl = `${environment.apiUrl}admin/`;
-  paginatedResult: PaginatedResult<Role[]> = new PaginatedResult<Role[]>();
 
   getRoles(prm: RoleParams) {
+    let paginatedResult: PaginatedResult<Role[]> = new PaginatedResult<
+      Role[]
+    >();
     let params = new HttpParams();
     if (prm.pageNumber && prm.pageSize) {
       params = params.append('pageNumber', prm.pageNumber);
@@ -32,13 +34,13 @@ export class RoleService {
       .pipe(
         map((response) => {
           if (response.body) {
-            this.paginatedResult.result = response.body;
+            paginatedResult.result = response.body;
           }
           const pagination = response.headers.get('Pagination');
           if (pagination) {
-            this.paginatedResult.pagination = JSON.parse(pagination);
+            paginatedResult.pagination = JSON.parse(pagination);
           }
-          return this.paginatedResult;
+          return paginatedResult;
         })
       );
   }
