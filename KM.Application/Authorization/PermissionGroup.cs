@@ -87,6 +87,18 @@ namespace KM.Application.Authorization
                     new PermissionItemDto {Name = "Trang Admin", ClaimValue = AppPermission.Access_Admin},
                 }
             },
+
+            new PermissionGroupDto
+            {
+                GroupName = "Quản lý gói đăng ký",
+                Permissions = new List<PermissionItemDto>
+                {
+                    new PermissionItemDto {Name = "Xem gói", ClaimValue = AppPermission.VipPackage_Read},
+                    new PermissionItemDto {Name = "Tạo gói", ClaimValue = AppPermission.VipPackage_Create},
+                    new PermissionItemDto {Name = "Sửa gói", ClaimValue = AppPermission.VipPackage_Edit},
+                    new PermissionItemDto {Name = "Xóa gói", ClaimValue = AppPermission.VipPackage_Delete},
+                }
+            },
         };
     }
 }

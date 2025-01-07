@@ -36,6 +36,11 @@ namespace KM.Application.Authorization
         public const string Role_Read = nameof(Role_Read);
         public const string Role_ChangePermission = nameof(Role_ChangePermission);
 
+        public const string VipPackage_Create = nameof(VipPackage_Create);
+        public const string VipPackage_Edit = nameof(VipPackage_Edit);
+        public const string VipPackage_Delete = nameof(VipPackage_Delete);
+        public const string VipPackage_Read = nameof(VipPackage_Read);
+
 
         public const string Access_Admin = nameof(Access_Admin);
 
@@ -81,6 +86,12 @@ namespace KM.Application.Authorization
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_Delete},
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_Read},
             new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=Role_ChangePermission},
+
+            // vip package
+            new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=VipPackage_Create},
+            new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=VipPackage_Edit},
+            new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=VipPackage_Delete},
+            new IdentityRoleClaim<string> {ClaimType=SD.Permission, ClaimValue=VipPackage_Read},
 
 
 
