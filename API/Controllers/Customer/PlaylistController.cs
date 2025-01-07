@@ -5,10 +5,12 @@ using KM.Application.DTOs.Playlists;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using KM.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class PlaylistController : BaseApiController
     {
         private readonly IPlaylistService _playlistService;
@@ -18,6 +20,7 @@ namespace API.Controllers.Customer
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<PagedList<PlaylistDto>>> GetPlaylists([FromQuery] PlaylistParams prm)
         {
             var pagedList = await _playlistService.GetAllAsync(prm, p => p.IsPublic == true);

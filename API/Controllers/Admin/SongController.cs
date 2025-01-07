@@ -1,13 +1,16 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using KM.Application.Abstract;
+using KM.Application.Authorization;
 using KM.Application.DTOs.Songs;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class SongController : BaseAdminApiController
     {
         private readonly ISongService _songService;
@@ -20,6 +23,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<SongDto>>> GetSongs([FromQuery] SongParams prm)
         {
             var song = await _songService.GetAllAsync(prm);
@@ -31,6 +35,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<SongDto>> GetSong(int id)
         {
             var song = await _songService.GetAsync(s => s.Id == id);
@@ -39,6 +44,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.Song_Create)]
         public async Task<ActionResult<SongDto>> CreateSong([FromForm] SongCreateDto songCreateDto)
         {
             if (!ModelState.IsValid)
@@ -51,6 +57,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("{songId:int}")]
+        [Authorize(Policy = AppPermission.Song_Edit)]
         public async Task<ActionResult<SongDto>> UpdateSong([FromRoute] int songId, [FromForm] SongUpdateDto songUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -63,6 +70,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Policy = AppPermission.Song_Delete)]
         public async Task<ActionResult> DeleteSong([FromRoute] int id)
         {
             await _songService.DeleteAsync(s => s.Id == id);
@@ -70,6 +78,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("update-vip/{songId:int}")]
+        [Authorize(Policy = AppPermission.Song_Delete)]
         public async Task<ActionResult> UpdateSongVip([FromRoute] int songId, [FromBody] bool vip)
         {
             await _songService.UpdateVipAsync(songId, vip);

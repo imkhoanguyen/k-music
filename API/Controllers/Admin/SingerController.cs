@@ -1,12 +1,15 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
+using KM.Application.Authorization;
 using KM.Application.DTOs.Singers;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class SingerController : BaseAdminApiController
     {
         private readonly ISingerService _singerService;
@@ -17,6 +20,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<SingerDto>>> GetSingers([FromQuery] SingerParams prm)
         {
             var singers = await _singerService.GetAllAsync(prm);
@@ -27,6 +31,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("get-all")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<SingerDto>>> GetAllSinger()
         {
             var singers = await _singerService.GetAllAsync();
@@ -34,6 +39,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<SingerDetailDto>> GetSinger(int id, [FromQuery] SongParams prm)
         {
             var singer = await _singerService.GetSingerDetail(s => s.Id == id, prm);
@@ -42,6 +48,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.Singer_Create)]
         public async Task<ActionResult<SingerDto>> CreateSinger([FromForm] SingerCreateDto singerCreateDto)
         {
             if (!ModelState.IsValid)
@@ -52,6 +59,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Policy = AppPermission.Singer_Edit)]
         public async Task<ActionResult<SingerDto>> UpdateSinger([FromRoute] int id, [FromForm] SingerUpdateDto singerUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -62,6 +70,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Policy = AppPermission.Singer_Delete)]
         public async Task<ActionResult> DeleteSinger([FromRoute] int id)
         {
             await _singerService.DeleteAsync(s => s.Id == id);
@@ -69,6 +78,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("locations")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<string>>> GetLocations()
         {
             var locations = await _singerService.GetLocationsAsync();

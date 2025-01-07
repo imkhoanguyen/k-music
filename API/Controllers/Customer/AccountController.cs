@@ -5,10 +5,12 @@ using KM.Application.DTOs.Playlists;
 using KM.Application.DTOs.Songs;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class AccountController : BaseApiController
     {
         private readonly IAccountService _accountService;

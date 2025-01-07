@@ -1,11 +1,14 @@
 ﻿using API.Controllers.Base;
+using KM.Application.Authorization;
 using KM.Application.DTOs.VipPackages;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class VipPackageController : BaseAdminApiController
     {
         private readonly IVipPackageService _vipPackageService;
@@ -16,6 +19,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<VipPackage>>> GetAll()
         {
             var list = await _vipPackageService.GetAllAsync(vp => vp.IsDelete == false);
@@ -23,12 +27,14 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<VipPackage>> GetVipPackage(int id)
         {
             return await _vipPackageService.GetAsync(vp => vp.Id == id);
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.VipPackage_Create)]
         public async Task<ActionResult<VipPackage>> Create(VipPackageCreateDto dto)
         {
             if (!ModelState.IsValid)
@@ -41,6 +47,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Policy = AppPermission.VipPackage_Edit)]
         public async Task<ActionResult<VipPackage>> Update(int id, VipPackage entity)
         {
             if (!ModelState.IsValid)
@@ -53,6 +60,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Policy = AppPermission.VipPackage_Delete)]
         public async Task<ActionResult> Delete(int id)
         {
             await _vipPackageService.DeleteAsync(vp => vp.Id == id);

@@ -4,10 +4,12 @@ using KM.Application.DTOs.Transactions;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
 using KM.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class TransactionController : BaseAdminApiController
     {
         private readonly ITransactionService _transactionService;

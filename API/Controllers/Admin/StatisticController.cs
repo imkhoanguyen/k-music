@@ -1,10 +1,13 @@
 ﻿using API.Controllers.Base;
+using KM.Application.Authorization;
 using KM.Application.DTOs.Statistics;
 using KM.Application.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize(Policy = AppPermission.Access_Admin)]
     public class StatisticController : BaseAdminApiController
     {
         private readonly IStatisticService _statisticService;

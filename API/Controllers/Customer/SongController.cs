@@ -1,11 +1,12 @@
 ﻿using API.Controllers.Base;
 using KM.Application.DTOs.Songs;
 using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class SongController : BaseApiController
     {
         private readonly ISongService _songService;

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class GenreController : BaseAdminApiController
     {
         private readonly IGenreService _genreService;
@@ -19,6 +20,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetGenres([FromQuery] GenreParams prm)
         {
             var pagedList = await _genreService.GetAllAsync(prm, false);
@@ -29,6 +31,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("get-all")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenre()
         {
 
@@ -36,6 +39,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<GenreDto>> GetGenre(int id)
         {
             return Ok(await _genreService.GetAsync(g => g.Id == id));
@@ -53,6 +57,7 @@ namespace API.Controllers.Admin
             return CreatedAtAction(nameof(GetGenre), new { id = genre.Id }, genre);
         }
 
+        [Authorize(Policy = AppPermission.Genre_Edit)]
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateGenre(int id, GenreDto genreDto)
         {
@@ -65,6 +70,7 @@ namespace API.Controllers.Admin
             return Ok(genre);
         }
 
+        [Authorize(Policy = AppPermission.Genre_Delete)]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteGenre(int id)
         {

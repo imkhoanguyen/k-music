@@ -29,6 +29,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [Authorize(Policy = AppPermission.Role_Read)]
         public async Task<ActionResult<IReadOnlyList<RoleDto>>> GetRoles([FromQuery] RoleParams roleParams)
         {
             var query = _roleManager.Roles.AsQueryable();
@@ -74,6 +75,7 @@ namespace API.Controllers.Admin
 
 
         [HttpGet("{id}")]
+        [Authorize(Policy = AppPermission.Role_Read)]
         public async Task<ActionResult<AppRole>> GetRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -85,6 +87,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.Role_Create)]
         public async Task<ActionResult<RoleDto>> CreateRole(RoleCreateDto roleCreateDto)
         {
             if (!ModelState.IsValid)
@@ -112,6 +115,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = AppPermission.Role_Edit)]
         public async Task<ActionResult> UpdateRole(string id, RoleDto roleDto)
         {
             if (!ModelState.IsValid)
@@ -141,6 +145,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = AppPermission.Role_Delete)]
         public async Task<ActionResult> DeleteRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -157,12 +162,14 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("permissions")]
+        [Authorize(Policy = AppPermission.Role_Read)]
         public ActionResult<List<PermissionGroupDto>> GetAllPermission()
         {
             return PermissionGroup.AllPermissionGroups;
         }
 
         [HttpGet("claims/{roleId}")]
+        [Authorize(Policy = AppPermission.Role_Read)]
         public async Task<ActionResult<List<string>>> GetRoleClaims(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
@@ -174,6 +181,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("update-claims/{roleId}")]
+        [Authorize(Policy = AppPermission.Role_Edit)]
         public async Task<IActionResult> UpdateRoleClaims(string roleId, [FromBody] List<string> newRoleClaims)
         {
             var role = await _roleManager.FindByIdAsync(roleId);

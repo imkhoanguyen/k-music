@@ -3,10 +3,12 @@ using API.Extensions;
 using KM.Application.DTOs.Payment;
 using KM.Domain.Entities;
 using KM.Infrastructure.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class PaymentController : BaseApiController
     {
         private readonly IVnPayService _vnPayService;

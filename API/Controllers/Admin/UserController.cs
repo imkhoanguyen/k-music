@@ -1,18 +1,21 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using KM.Application.Abstract;
+using KM.Application.Authorization;
 using KM.Application.DTOs.Users;
 using KM.Application.Parameters;
 using KM.Application.Utilities;
 using KM.Domain.Entities;
 using KM.Domain.Enum;
 using KM.Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers.Admin
 {
+    [Authorize]
     public class UserController : BaseAdminApiController
     {
         private readonly UserManager<AppUser> _userManager;
@@ -24,6 +27,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet]
+        [Authorize(Policy = AppPermission.User_Read)]
         public async Task<IEnumerable<UserDto>> GetAll([FromQuery] UserParams prm)
         {
             var query = _userManager.Users.AsNoTracking().AsQueryable();
@@ -83,6 +87,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("get-user")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> GetUser([FromQuery] string userName)
         {
             var query = _userManager.Users.AsNoTracking().AsQueryable();
@@ -106,6 +111,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Policy = AppPermission.User_Create)]
         public async Task<ActionResult<UserDto>> Create([FromForm] UserCreateDto dto)
         {
             if (!ModelState.IsValid)
@@ -282,6 +288,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpPut("change-role")]
+        [Authorize(Policy = AppPermission.Role_ChangePermission)]
         public async Task<ActionResult> ChangeRole([FromQuery] string userName, [FromBody] UpdateUserRoleDto dto)
         {
             if (!ModelState.IsValid)
@@ -316,6 +323,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpDelete("{userName}")]
+        [Authorize(Policy =AppPermission.Role_Delete)]
         public async Task<ActionResult> DeleteUser(string userName)
         {
 

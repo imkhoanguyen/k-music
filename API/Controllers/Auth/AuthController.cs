@@ -41,13 +41,13 @@ namespace API.Controllers.Auth
 
             if (user == null)
             {
-                throw new UnauthorizedException("Không tìm thấy tài khoản nào trùng khớp");
+                throw new BadRequestException("Không tìm thấy tài khoản nào trùng khớp");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
 
             if (!result.Succeeded)
-                throw new UnauthorizedException("Password không đúng");
+                throw new BadRequestException("Password không đúng");
 
             (string accessToken, DateTime expiredDateAccessToken) = await _tokenService.CreateAccessTokenAsync(user);
             string refreshToken = await _tokenService.CreateRefreshTokenAsync(user);

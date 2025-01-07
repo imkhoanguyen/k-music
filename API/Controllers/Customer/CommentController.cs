@@ -4,13 +4,14 @@ using API.SignalR;
 using KM.Application.DTOs.Comments;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
 using KM.Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class CommentController : BaseApiController
     {
         private readonly ICommentService _commentService;

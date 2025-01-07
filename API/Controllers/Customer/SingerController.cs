@@ -3,10 +3,12 @@ using API.Extensions;
 using KM.Application.DTOs.Singers;
 using KM.Application.Parameters;
 using KM.Application.Service.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Customer
 {
+    [Authorize]
     public class SingerController : BaseApiController
     {
         private readonly ISingerService _singerService;
