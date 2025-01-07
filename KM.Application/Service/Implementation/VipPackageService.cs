@@ -68,6 +68,17 @@ namespace KM.Application.Service.Implementation
 
         public async Task<VipPackage> UpdateAsync(int vipPackageId, VipPackage entity)
         {
+
+            if (entity.Price < 10000)
+            {
+                throw new BadRequestException("Giá bán phải lớn hơn 10000 (10.000VND)");
+            }
+
+            if (entity.PriceSell < 10000)
+            {
+                throw new BadRequestException("Giá bán sau khi giảm phải lớn hơn 10000 (10.000VND)");
+            }
+
             if (entity.PriceSell >= entity.Price)
             {
                 throw new BadRequestException("Giá bán sau khi giảm phải nhỏ hơn giá bán ban đầu");
@@ -82,7 +93,6 @@ namespace KM.Application.Service.Implementation
             {
                 throw new NotFoundException("Không tìm thấy gói đăng ký");
             }
-
 
             _unit.VipPackage.Update(entity);
 
