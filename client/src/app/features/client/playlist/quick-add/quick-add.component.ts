@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import {
@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PlaylistService } from '../../../../core/services/playlist.service';
 import { MessageService } from '../../../../core/services/message.service';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { AddPlaylistComponent } from '../../../../shared/component/playlists/add-playlist/add-playlist.component';
 @Component({
   selector: 'app-quick-add',
   standalone: true,
@@ -29,6 +31,8 @@ import { MessageService } from '../../../../core/services/message.service';
     NzPaginationModule,
     CommonModule,
     NzIconModule,
+    NzButtonModule,
+    AddPlaylistComponent,
   ],
   templateUrl: './quick-add.component.html',
   styleUrl: './quick-add.component.css',
@@ -101,5 +105,18 @@ export class QuickAddComponent {
         console.log(er);
       },
     });
+  }
+
+  @ViewChild(AddPlaylistComponent) addPlaylistComponent!: AddPlaylistComponent;
+  openNomarlAddModal() {
+    if (this.addPlaylistComponent) {
+      this.addPlaylistComponent.showModal();
+    } else {
+      console.error('AddPlaylistComponent is not initialized yet');
+    }
+  }
+
+  addNewPlaylist(playlist: any) {
+    this.playlists = [playlist, ...this.playlists];
   }
 }

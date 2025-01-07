@@ -6,6 +6,14 @@
   (nzOnCancel)="closeModal()"
 >
   <ng-container *nzModalContent>
+    <button
+      nz-button
+      nzType="primary"
+      class="mb-3"
+      (click)="openNomarlAddModal()"
+    >
+      Danh sách phát mới
+    </button>
     <nz-table
       [nzData]="playlists"
       nzTableLayout="auto"
@@ -16,7 +24,11 @@
         @for (playlist of playlists; track playlist.id) {
         <tr>
           <td style="width: 20px">
-            <label nz-checkbox (ngModelChange)="onChange(playlist.id, songId)" [(ngModel)]="playlist.haveSong"></label>
+            <label
+              nz-checkbox
+              (ngModelChange)="onChange(playlist.id, songId)"
+              [(ngModel)]="playlist.haveSong"
+            ></label>
           </td>
           <td class="image-column" style="width: 100px">
             <img
@@ -79,3 +91,5 @@
     </div>
   </ng-container>
 </nz-modal>
+<!-- normal add playlist modal -->
+<app-add-playlist (playlistAdded)="addNewPlaylist($event)"></app-add-playlist>

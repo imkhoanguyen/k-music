@@ -21,7 +21,7 @@ import { UtilityService } from '../../../../core/services/utility.service';
 import { Song, SongParams } from '../../../models/song';
 import { Pagination } from '../../../models/pagination';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-song',
