@@ -8,6 +8,7 @@ import { LikedSingerComponent } from '../liked-singer/liked-singer.component';
 import { MyPlaylistComponent } from '../my-playlist/my-playlist.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UpdateUserComponent } from '../../../../shared/component/users/update-user/update-user.component';
+import { ListTransactionComponent } from "../list-transaction/list-transaction.component";
 @Component({
   selector: 'app-my-profile',
   standalone: true,
@@ -19,7 +20,8 @@ import { UpdateUserComponent } from '../../../../shared/component/users/update-u
     LikedSingerComponent,
     MyPlaylistComponent,
     NzIconModule,
-    UpdateUserComponent
+    UpdateUserComponent,
+    ListTransactionComponent
 ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.css',

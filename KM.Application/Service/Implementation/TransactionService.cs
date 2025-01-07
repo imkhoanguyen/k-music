@@ -19,9 +19,9 @@ namespace KM.Application.Service.Implementation
         {
             _unit = unit;
         }
-        public async Task<PagedList<TransactionDto>> GetAllAsync(TransactionParams prm, Expression<Func<UserVipSubscription>>? expression = null, bool tracked = false)
+        public async Task<PagedList<TransactionDto>> GetAllAsync(TransactionParams prm, Expression<Func<UserVipSubscription, bool>>? expression = null, bool tracked = false)
         {
-            var pagedList = await _unit.UserVipSubscription.GetAllAsync(prm, null, false);
+            var pagedList = await _unit.UserVipSubscription.GetAllAsync(prm, expression, false);
 
             var transactionDtos = pagedList.Select(uvs => new TransactionDto
             {

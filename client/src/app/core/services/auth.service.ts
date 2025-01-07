@@ -5,6 +5,7 @@ import { Login, Register, ResetPassword } from '../../shared/models/auth';
 import { User } from '../../shared/models/user';
 import { map, Observable } from 'rxjs';
 import { CommentService } from './comment.service';
+import { UtilityService } from './utility.service';
 
 declare var gapi: any;
 
@@ -16,6 +17,7 @@ export class AuthService {
   private baseUrl = environment.apiUrl;
   private commentService = inject(CommentService);
   private clientId = environment.ggClientId;
+  private utilService = inject(UtilityService);
   currentUser = signal<User | null>(null);
   role = computed(() => {
     const user = this.currentUser();
@@ -100,6 +102,23 @@ export class AuthService {
 
     const hasValidSubscription = vipExpiredDate > now;
     return hasValidSubscription;
+  }
+
+  getTimeSubcription(): string {
+    const userString = localStorage.getItem('user');
+    let token = null;
+
+    if (userString) {
+      const user = JSON.parse(userString);
+      token = user.accessToken;
+    }
+    if (!token) return 'Chưa đăng ký vip';
+    const decodedToken = this.decodeToken(token);
+
+    const vipExpiredDateString = decodedToken?.VipExpiredDate;
+    if (!vipExpiredDateString) return 'Chưa đăng ký vip';
+
+    return this.utilService.getFormattedDate(vipExpiredDateString);
   }
 
   public initGoogleAuth() {

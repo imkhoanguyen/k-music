@@ -46,6 +46,12 @@
         [class.active]="currentComponent === 4"
         >Danh sách phát của tôi</a
       >
+      <a
+        class="profile-nav-item"
+        (click)="showComponent(5)"
+        [class.active]="currentComponent === 5"
+        >Các gói đã đăng ký</a
+      >
     </div>
   </div>
   <div class="profile-content">
@@ -60,6 +66,9 @@
     </div>
     <div *ngIf="currentComponent === 4">
       <app-my-playlist></app-my-playlist>
+    </div>
+    <div *ngIf="currentComponent === 5">
+      <app-list-transaction></app-list-transaction>
     </div>
   </div>
 </div>

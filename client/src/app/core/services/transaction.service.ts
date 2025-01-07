@@ -15,6 +15,7 @@ import { map } from 'rxjs';
 export class TransactionService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}admin/`;
+  private customerUrl = environment.apiUrl;
 
   getAll(prm: TransactionParams) {
     let paginationResult: PaginatedResult<Transaction[]> = new PaginatedResult<
@@ -36,6 +37,42 @@ export class TransactionService {
 
     return this.http
       .get<Transaction[]>(this.baseUrl + 'transaction', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginationResult.result = response.body as Transaction[];
+
+          const pagination = response.headers.get('Pagination');
+          if (pagination !== null) {
+            paginationResult.pagination = JSON.parse(pagination);
+          }
+          return paginationResult;
+        })
+      );
+  }
+
+  getMyTransactions(prm: TransactionParams) {
+    let paginationResult: PaginatedResult<Transaction[]> = new PaginatedResult<
+      Transaction[]
+    >();
+    let params = new HttpParams();
+    params = params.append('pageNumber', prm.pageNumber);
+    params = params.append('pageSize', prm.pageSize);
+    params = params.append('orderBy', prm.orderBy);
+
+    if (prm.searchTerm) {
+      params = params.append('search', prm.searchTerm);
+    }
+
+    if (prm.startDate && prm.endDate) {
+      params = params.append('startDate', prm.startDate);
+      params = params.append('endDate', prm.endDate);
+    }
+
+    return this.http
+      .get<Transaction[]>(this.customerUrl + 'transaction', {
         observe: 'response',
         params,
       })

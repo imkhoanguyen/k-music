@@ -8,7 +8,7 @@ namespace KM.Application.Service.Abstract
 {
     public interface ITransactionService
     {
-        public Task<PagedList<TransactionDto>> GetAllAsync(TransactionParams prm, Expression<Func<UserVipSubscription>>? expression = null, bool tracked = false);
+        public Task<PagedList<TransactionDto>> GetAllAsync(TransactionParams prm, Expression<Func<UserVipSubscription, bool>>? expression = null, bool tracked = false);
         public Task<UserVipSubscription> GetAsync(Expression<Func<UserVipSubscription, bool>> expression);
     }
 }
