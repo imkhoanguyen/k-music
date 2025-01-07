@@ -64,40 +64,54 @@ namespace KM.Application.Service.Implementation
 
         public async Task<TopFavorite> GetTopFavoriteAsync(int top)
         {
+            // Get top liked singers with counts
             var likeSinger = await _unit.LikeSinger.GetAllAsync();
             var topLikeSinger = likeSinger
                 .GroupBy(ls => ls.SingerId)
-                .OrderByDescending(group => group.Count()) // Sắp xếp theo số lượng thích giảm dần
+                .Select(group => new { SingerId = group.Key, Count = group.Count() })
+                .OrderByDescending(group => group.Count)
                 .Take(top)
-                .Select(group => group.Key)
                 .ToList();
-            var topSingers = await _unit.Singer.GetAllAsync(s => topLikeSinger.Contains(s.Id));
 
+            var topSingers = (await _unit.Singer.GetAllAsync(s => topLikeSinger.Select(ls => ls.SingerId).Contains(s.Id)))
+                .Select(singer => new { Entity = singer, Count = topLikeSinger.First(ls => ls.SingerId == singer.Id).Count })
+                .OrderByDescending(item => item.Count)
+                .ToList();
+
+            // Get top liked songs with counts
             var likeSong = await _unit.LikeSong.GetAllAsync();
             var topLikeSong = likeSong
                 .GroupBy(ls => ls.SongId)
-                .OrderByDescending(group => group.Count())
+                .Select(group => new { SongId = group.Key, Count = group.Count() })
+                .OrderByDescending(group => group.Count)
                 .Take(top)
-                .Select(group => group.Key)
                 .ToList();
-            var topSongs = await _unit.Song.GetAllAsync(s => topLikeSong.Contains(s.Id));
 
+            var topSongs = (await _unit.Song.GetAllAsync(s => topLikeSong.Select(ls => ls.SongId).Contains(s.Id)))
+                .Select(song => new { Entity = song, Count = topLikeSong.First(ls => ls.SongId == song.Id).Count })
+                .OrderByDescending(item => item.Count)
+                .ToList();
+
+            // Get top liked playlists with counts
             var likePlaylist = await _unit.LikePlaylist.GetAllAsync();
             var topLikePlaylist = likePlaylist
                 .GroupBy(ls => ls.PlaylistId)
-                .OrderByDescending(group => group.Count())
+                .Select(group => new { PlaylistId = group.Key, Count = group.Count() })
+                .OrderByDescending(group => group.Count)
                 .Take(top)
-                .Select (group => group.Key)
                 .ToList();
-            var topPlaylists = await _unit.Playlist.GetAllAsync(p =>topLikePlaylist.Contains(p.Id));
+
+            var topPlaylists = (await _unit.Playlist.GetAllAsync(p => topLikePlaylist.Select(lp => lp.PlaylistId).Contains(p.Id)))
+                .Select(playlist => new { Entity = playlist, Count = topLikePlaylist.First(lp => lp.PlaylistId == playlist.Id).Count })
+                .OrderByDescending(item => item.Count)
+                .ToList();
 
             return new TopFavorite
             {
-                PlaylistList = topPlaylists.Select(PlaylistMapper.EntityToPlaylistDto),
-                SongList = topSongs.Select(SongMapper.EntityToSongDto),
-                SingerList = topSingers.Select(SingerMapper.EntityToSingerDto)
+                PlaylistList = topPlaylists.Select(item => PlaylistMapper.EntityToPlaylistDto(item.Entity)),
+                SongList = topSongs.Select(item => SongMapper.EntityToSongDto(item.Entity)),
+                SingerList = topSingers.Select(item => SingerMapper.EntityToSingerDto(item.Entity))
             };
-           
         }
 
     }
