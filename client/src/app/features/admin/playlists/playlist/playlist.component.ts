@@ -49,7 +49,7 @@ import { Router } from '@angular/router';
 export class PlaylistComponent {
   // inject service
   private playlistService = inject(PlaylistService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   ultilSerivce = inject(UtilityService);
   private modal = inject(NzModalService);
   private router = inject(Router);
@@ -174,7 +174,7 @@ export class PlaylistComponent {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === 0) {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
@@ -182,13 +182,13 @@ export class PlaylistComponent {
           next: (_) => {
             const index = this.playlists.findIndex((g) => g.id === id);
             this.playlists.splice(index, 1);
-            this.messageServies.showSuccess('Xóa danh sách phát thành công');
+            this.messageService.showSuccess('Xóa danh sách phát thành công');
           },
           error: (er) => console.log(er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 }

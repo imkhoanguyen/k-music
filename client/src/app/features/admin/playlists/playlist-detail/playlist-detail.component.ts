@@ -29,7 +29,7 @@ export class PlaylistDetailComponent {
   playlistId: number = 0;
   private route = inject(ActivatedRoute);
   private playlistService = inject(PlaylistService);
-  private messageServie = inject(MessageService);
+  private messageService = inject(MessageService);
   utilService = inject(UtilityService);
   playlist: PlaylistDetail | undefined;
 
@@ -61,7 +61,7 @@ export class PlaylistDetailComponent {
       next: (res) => {
         this.playlist = res;
       },
-      error: (er) => this.messageServie.showError(er),
+      error: (er) => this.messageService.showError(er),
     });
   }
 
@@ -72,7 +72,7 @@ export class PlaylistDetailComponent {
         this.playlist!.songList = this.playlist!.songList.filter(
           (song) => song.id !== songId
         );
-        this.messageServie.showSuccess(
+        this.messageService.showSuccess(
           'Bài hát đã được xóa khỏi danh sách phát'
         );
       },

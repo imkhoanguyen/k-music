@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
 export class GenreComponent implements OnInit {
   // init
   private genreServices = inject(GenreService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   private modal = inject(NzModalService);
 
   ngOnInit(): void {
@@ -147,7 +147,7 @@ export class GenreComponent implements OnInit {
         next: (genre) => {
           const index = this.genres.findIndex((g) => g.id === genreEdit.id);
           this.genres[index] = genre;
-          this.messageServies.showSuccess('Cập nhật thể loại thành công');
+          this.messageService.showSuccess('Cập nhật thể loại thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -164,7 +164,7 @@ export class GenreComponent implements OnInit {
       this.genreServices.addGenre(genreAdd).subscribe({
         next: (response) => {
           this.genres.unshift(response);
-          this.messageServies.showSuccess('Thêm thể loại thành công');
+          this.messageService.showSuccess('Thêm thể loại thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -184,7 +184,7 @@ export class GenreComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === 0) {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
@@ -192,13 +192,13 @@ export class GenreComponent implements OnInit {
           next: (_) => {
             const index = this.genres.findIndex((g) => g.id === id);
             this.genres.splice(index, 1);
-            this.messageServies.showSuccess('Xóa thể loại thành công');
+            this.messageService.showSuccess('Xóa thể loại thành công');
           },
           error: (er) => (this.validationErrors = er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 }

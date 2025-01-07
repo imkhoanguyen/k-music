@@ -19,7 +19,7 @@ export class SongDetailComponent {
   songId: number = 0;
   private route = inject(ActivatedRoute);
   private songServices = inject(SongService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   utilService = inject(UtilityService);
   song: Song | undefined;
 
@@ -33,7 +33,7 @@ export class SongDetailComponent {
       next: (data) => {
         this.song = data;
       },
-      error: (er) => this.messageServies.showError(er),
+      error: (er) => this.messageService.showError(er),
     });
   }
 }

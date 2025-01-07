@@ -39,7 +39,7 @@ import { Router } from '@angular/router';
 export class RoleComponent implements OnInit {
   // init
   private roleService = inject(RoleService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   private modal = inject(NzModalService);
   private router = inject(Router);
 
@@ -147,7 +147,7 @@ export class RoleComponent implements OnInit {
         next: (role) => {
           const index = this.roles.findIndex((g) => g.id === roleEdit.id);
           this.roles[index] = role;
-          this.messageServies.showSuccess('Cập nhật quyền thành công');
+          this.messageService.showSuccess('Cập nhật quyền thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -164,7 +164,7 @@ export class RoleComponent implements OnInit {
       this.roleService.addRole(roleAdd).subscribe({
         next: (res) => {
           this.roles.unshift(res);
-          this.messageServies.showSuccess('Thêm quyền thành công');
+          this.messageService.showSuccess('Thêm quyền thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -184,7 +184,7 @@ export class RoleComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === '') {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
@@ -192,18 +192,18 @@ export class RoleComponent implements OnInit {
           next: (_) => {
             const index = this.roles.findIndex((r) => r.id === id);
             this.roles.splice(index, 1);
-            this.messageServies.showSuccess('Xóa quyền thành công');
+            this.messageService.showSuccess('Xóa quyền thành công');
           },
           error: (er) => (this.validationErrors = er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 
   onGoRolePermission(roleId?: string) {
     if (roleId) this.router.navigate(['/admin/role/permission', roleId]);
-    else this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau');
+    else this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau');
   }
 }

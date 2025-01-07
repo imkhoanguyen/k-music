@@ -17,7 +17,6 @@ import {
   NzUploadChangeParam,
   NzUploadFile,
   NzUploadModule,
-  NzUploadXHRArgs,
 } from 'ng-zorro-antd/upload';
 import { SongService } from '../../../../core/services/song.service';
 import { MessageService } from '../../../../core/services/message.service';
@@ -30,7 +29,6 @@ import { Singer } from '../../../../shared/models/singer';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { Router } from '@angular/router';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-song',
@@ -55,7 +53,7 @@ import { of, Subscription } from 'rxjs';
 export class SongComponent implements OnInit {
   // inject
   private songServices = inject(SongService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   private genreServices = inject(GenreService);
   private singerServices = inject(SingerService);
   private fb = inject(FormBuilder);
@@ -212,7 +210,7 @@ export class SongComponent implements OnInit {
         next: (response) => {
           const index = this.songs.findIndex((s) => s.id === this.songId);
           this.songs[index] = response;
-          this.messageServies.showSuccess('Cập nhật bài hát thành công');
+          this.messageService.showSuccess('Cập nhật bài hát thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -246,7 +244,7 @@ export class SongComponent implements OnInit {
       this.songServices.addSong(formData).subscribe({
         next: (response) => {
           this.songs.unshift(response);
-          this.messageServies.showSuccess('Thêm bài hát thành công');
+          this.messageService.showSuccess('Thêm bài hát thành công');
           this.loadGenres();
           this.loadSingers();
           this.closeModal();
@@ -297,10 +295,10 @@ export class SongComponent implements OnInit {
     this.songServices.updateSongVip(songId, isVip).subscribe({
       next: (_) => {
         if (isVip === true)
-          this.messageServies.showSuccess(
+          this.messageService.showSuccess(
             'Chuyyển bài hát thành vip thành công'
           );
-        else this.messageServies.showSuccess('Hủy vip của bài hát thành công');
+        else this.messageService.showSuccess('Hủy vip của bài hát thành công');
       },
       error: (er) => console.log(er),
     });
@@ -316,20 +314,20 @@ export class SongComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === 0) {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
         this.songServices.deleteSong(id).subscribe({
           next: (_) => {
             const index = this.songs.findIndex((s) => s.id === id);
             this.songs.splice(index, 1);
-            this.messageServies.showSuccess('Xóa bài hát thành công');
+            this.messageService.showSuccess('Xóa bài hát thành công');
           },
           error: (er) => console.log(er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 

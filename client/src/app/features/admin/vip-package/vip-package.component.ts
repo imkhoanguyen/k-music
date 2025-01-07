@@ -39,7 +39,7 @@ import { UtilityService } from '../../../core/services/utility.service';
 export class VipPackageComponent implements OnInit {
   // init
   private vipPackageService = inject(VipPackageService);
-  private messageServies = inject(MessageService);
+  private messageService = inject(MessageService);
   private modal = inject(NzModalService);
   utilService = inject(UtilityService);
   originalVipPackages: VipPackage[] = [];
@@ -135,7 +135,7 @@ export class VipPackageComponent implements OnInit {
             (vp) => vp.id === vipPackage.id
           );
           this.vipPackages[index] = res;
-          this.messageServies.showSuccess('Cập nhật gói đăng ký thành công');
+          this.messageService.showSuccess('Cập nhật gói đăng ký thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -155,7 +155,7 @@ export class VipPackageComponent implements OnInit {
       this.vipPackageService.add(vipPackageAdd).subscribe({
         next: (res) => {
           this.vipPackages.unshift(res);
-          this.messageServies.showSuccess('Thêm gói đăng ký thành công');
+          this.messageService.showSuccess('Thêm gói đăng ký thành công');
           this.closeModal();
         },
         error: (er) => {
@@ -176,7 +176,7 @@ export class VipPackageComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         if (id === 0) {
-          this.messageServies.showError('Có lỗi xảy ra vui lòng thử lại sau.');
+          this.messageService.showError('Có lỗi xảy ra vui lòng thử lại sau.');
           return;
         }
 
@@ -184,13 +184,13 @@ export class VipPackageComponent implements OnInit {
           next: (_) => {
             const index = this.vipPackages.findIndex((vp) => vp.id === id);
             this.vipPackages.splice(index, 1);
-            this.messageServies.showSuccess('Xóa gói đăng ký thành công');
+            this.messageService.showSuccess('Xóa gói đăng ký thành công');
           },
           error: (er) => (this.validationErrors = er),
         });
       },
       nzCancelText: 'No',
-      nzOnCancel: () => this.messageServies.showInfo('Hủy xóa'),
+      nzOnCancel: () => this.messageService.showInfo('Hủy xóa'),
     });
   }
 }
