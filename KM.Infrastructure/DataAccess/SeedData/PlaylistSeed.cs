@@ -25,7 +25,6 @@ namespace KM.Infrastructure.DataAccess.SeedData
             var listImgUrl = new List<string>
             {
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312777/1bbf452e21736a8cfc37a51b9978c39f1136f5c8_11817a_ebmhsg.webp",
-                "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312761/300_10_rt9r3k.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312755/300_11_r34idk.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312751/300_12_w0teig.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312744/300_13_chrrav.webp",
@@ -61,7 +60,6 @@ namespace KM.Infrastructure.DataAccess.SeedData
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1734483639/600_vmxaqu.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736313057/84a5d37abf8fbfb5c52f3951eaac2941872b7e21_facc8_h16wwx.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312669/d7d68662155e54ad1a22821e6891368a807bb6c8_247193_uqrcy5.webp",
-                "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312665/d8bd844a19d36e95cb1ca2afdfcd62ce5c37927f_a8562_ct1gqf.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736313051/eb65d22c05d45783355e1bd2bc53e11181a566a3_359ddf_zmzx2e.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312835/fd1d9aa83906f21fb7be394948ddaac32a1fa39a_200022_xvyb9n.webp",
                 "https://res.cloudinary.com/dh1zsowbp/image/upload/v1736312761/300_10_rt9r3k.webp"
