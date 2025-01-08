@@ -2660,8 +2660,54 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Thanh mai dẫn/青梅引",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736298901/thanhmaidan_ie0one.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736299075/Vietsub_Thanh_mai_d%E1%BA%ABn_-_Th%C3%AC_Th%C6%B0%E1%BB%A3ng_%E9%9D%92%E6%A2%85%E5%BC%95_-_%E6%97%B6%E5%B0%9A_-_R%E1%BA%A5t_nh%E1%BB%9B_r%E1%BA%A5t_nh%E1%BB%9B_anh_OST_%E5%BE%88%E6%83%B3%E5%BE%88%E6%83%B3%E4%BD%A0_fozwad.mp3",
-                    Introduction = @"Tạm chưa có",
-                    Lyric = @"Tạm chưa có",
+                    Introduction = @"Tác từ: Hoài Dữu (怀柚)
+Tác khúc: Khuông Cảnh (匡耿)
+Biên khúc: Chu Kim Thái, Triệu Bằng (朱金泰/赵鹏)",
+                    Lyric = @"🎵 Lyric + pinyin:
+Yǒu yīshēng jiāng qīngméi jìntòu
+yǒu yīshēng jiāng qīngkōng chuī zhòu
+fú luò liǎo wúxíng de chūnyǔ
+tiāndì wéi xūn zài xiūqiè shíhòu
+ 
+tán xiàozhe fǎngfú yǐ qiānshǒu
+chénmòzhe xiàng luò zài wǎnxiá shēnhòu
+nà shùnjiān hái dàng dàng you yōu
+duì shàng yǎn móu rónghuà wūyǒu
+ 
+nǐ jiù xiàng yītiáo héliúguòle xīntóu
+huíxiǎngzhe míngyuè bān héngcháng de wēnróu
+fēiduǎnliúcháng zhōng huíshǒu gùpàn liúzhuàn zhōng xiāng yōng
+měi yīshēng zài duì yīshēng shuō yǒngjiǔ
+ 
+nǐ jiù xiàng wúshù cì zài mèng lǐ tíngliú
+wàng jiàn nǐ jiù téng qǐ qiān wàn cì xīndòng
+fēiniǎo yòu lüèguò chūnqiū lànmàn hóngchén hái yījiù
+zèng wǒmen zìyóu
+ 
+yǒu yīshēng jiāng qīngméi jìntòu
+yǒu yīshēng jiāng qīngkōng chuī zhòu
+fú luò liǎo wúxíng de chūnyǔ
+tiāndì wéi xūn zài xiūqiè shíhòu
+ 
+tán xiàozhe fǎngfú yǐ qiānshǒu
+chénmòzhe xiàng luò zài wǎnxiá shēnhòu
+nà shùnjiān hái dàng dàng you yōu
+duì shàng yǎn móu rónghuà wūyǒu
+ 
+nǐ jiù xiàng yītiáo héliúguòle xīntóu
+huíxiǎngzhe míngyuè bān héngcháng de wēnróu
+fēiduǎnliúcháng zhōng huíshǒu gùpàn liúzhuàn zhōng xiāng yōng
+měi yīshēng zài duì yīshēng shuō yǒngjiǔ
+ 
+nǐ jiù xiàng wúshù cì zài mèng lǐ tíngliú
+wàng jiàn nǐ jiù téng qǐ qiān wàn cì xīndòng
+fēiniǎo yòu lüèguò chūnqiū lànmàn hóngchén hái yījiù
+zèng wǒmen zìyóu
+ 
+wǒmen bèi bǐcǐ niàng chéng jiǔ
+chénzuìzhe jiù zài chénzuì zhōng gǎnshòu
+nǐ shēngyīn mànguò wǒ xīnkǒu mànguò jīnshēng
+méiyǒu jìntóu",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
@@ -2685,8 +2731,55 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Mộng Hoa/梦华",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267057/monghoa_pyihvl.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736268018/Vietsub_Pinyin_M%E1%BB%99ng_Hoa_-_L%C6%B0u_V%C5%A9_Ninh_-_%E6%A2%A6%E5%8D%8E_-_%E5%88%98%E5%AE%87%E5%AE%81_-_A_Dream_of_Splendor_M%E1%BB%99ng_Hoa_L%E1%BB%A5c_%E6%A2%A6%E5%8D%8E%E5%BD%95_OST_h54oid.mp3",
-                    Introduction = @"Tạm chưa có",
-                    Lyric = @"Tạm chưa có",
+                    Introduction = @"♪ Khúc: Mộng Hoa | 梦华
+
+♪ Diễn Xướng: Lưu Vũ Ninh | 刘宇宁
+",
+                    Lyric = @"♪ Pinyin
+
+Áoguò dōngjì wéi pàn yīcì huāqí
+xiào chūnfēng rúhé zhí mí
+shéi de hūxī nuǎn wǒ bīnglěng xīndǐ
+fàn qǐle yī céng liányī
+
+yěxǔ móu zhōng cángzhe mǒu gè shēnyǐng
+niǎnzhuǎnguò duōshǎo huíyì
+nǎpà yīshēng wèi ài diānpèi liúlí
+yuàn suí nǐ kàn yún dàn fēng qīng
+
+bié guài zhè sùmìng zhè tiānyì
+zhè zàohuà wúqíng
+rènpíng hóngchén lái qù xiàng yī chǎng yóuxì
+dǔ shàng wǒ zìjǐ yī kē xīn
+
+yě bù kěxí
+jiāohuàn wǒ yúshēng suǒyǒu huānxǐ
+
+yěxǔ móu zhōng cángzhe mǒu gè shēnyǐng
+niǎnzhuǎnguò duōshǎo huíyì
+nǎpà yīshēng wèi ài diānpèi liúlí
+yuàn suí nǐ kàn yún dàn fēng qīng
+
+bié guài zhè sùmìng zhè tiānyì
+zhè zàohuà wúqíng
+rènpíng hóngchén lái qù xiàng yī chǎng yóuxì
+dǔ shàng wǒ zìjǐ yī kē xīn
+
+yě bù kěxí
+jiāohuàn wǒ yúshēng suǒyǒu huānxǐ
+
+bié guài zhè sùmìng zhè tiānyì
+zhè zàohuà wúqíng
+rènpíng hóngchén lái qù xiàng yī chǎng yóuxì
+dǔ shàng wǒ zìjǐ yī kē xīn
+
+yě bù kěxí
+jiāohuàn wǒ yúshēng suǒyǒu huānxǐ
+
+áoguò dōngjì wéi pàn yīcì huāqí
+xiào chūnfēng rúhé zhí mí
+shéi de hūxī nuǎn wǒ bīnglěng xīndǐ
+fàn qǐle yī céng liányī",
                    SongSingers = new List<SongSinger>
                     {
                         // song, singer
@@ -2707,7 +2800,13 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Như Ca/如歌",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267058/nhuca_o5cnhd.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736267244/VietsubH%C3%A1n_Vi%E1%BB%87t_Nh%C6%B0_Ca_-_%E5%A6%82%E6%AD%8C_ll_Tr%C6%B0%C6%A1ng_Ki%E1%BB%87t_-_%E5%BC%A0%E6%9D%B0_Li%E1%BB%87t_H%E1%BB%8Fa_Nh%C6%B0_Ca_OST_fhm3d6.mp3",
-                    Introduction = @"Tạm chưa có",
+                    Introduction = @"如歌_张杰 
+Như Ca _ Trương Kiệt
+电视剧 (烈火如歌) 主题曲 
+Ca khúc chủ đề phim truyền hình Liệt Hỏa Như Ca
+作词：段思思   Tác từ : Đoạn Tư Tư
+作曲：谭旋       Tác khúc : Đàm Toàn
+编曲：陈思同    Biên khúc : Trần Tư Đồng",
                     Lyric = @"Tạm chưa có",
                     SongSingers = new List<SongSinger>
                     {
@@ -2730,7 +2829,35 @@ nǎi gǎn yǔ ěr jué",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267066/naihanaiha_x3j0ea.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736268135/vietsub_-_N%E1%BA%A1i_H%C3%A0_N%E1%BA%A1i_H%C3%A0_-_%E5%A5%88%E4%BD%95%E5%A5%88%E4%BD%95_Ho%C3%A0ng_Ti%C3%AAu_V%C3%A2n_%E9%BB%84%E9%9C%84%E9%9B%B2_-_Lu%E1%BA%ADn_Anh_H%C3%B9ng_Ai_X%E1%BB%A9ng_Anh_H%C3%B9ng_OST_nul1up.mp3",
                     Introduction = @"Tạm chưa có",
-                    Lyric = @"Tạm chưa có",
+                    Lyric = @"Fàngrèn tiānyì de qīng kuáng
+Yānmò rénshì de wúcháng
+Yǎndǐ yīshùn suìyuè cháng
+Hóngchén báo liáng xīn réng gǔntàng
+Yuánlái huānxīn hé bēishāng
+Dōu bùguò huànmèng yī shǎng
+Liúdài zhuīhuǐ zhōng xīnshǎng
+Cǐshēng jìmò shíguāng shì hé múyàng
+Rénjiān bēi huān yóubudé wǒ nàihé nàihé
+Zòngrán zhízhuó zòngrán nán shě nàihé nàihé
+Xīntóu de huǒshāo xiàng fēngbō nàihé nàihé
+Bìngfēi yījù zhí bù zhídé
+Yuánlái huānxīn hé bēishāng
+Dōu bùguò huànmèng yī shǎng
+Liúdài zhuīhuǐ zhōng xīnshǎng
+Cǐshēng jìmò shíguāng shì hé múyàng
+Rénjiān bēi huān yóubudé wǒ nàihé nàihé
+Zòngrán zhízhuó zòngrán nán shě nàihé nàihé
+Xīntóu de huǒshāo xiàng fēngbō nàihé nàihé
+Bìngfēi yījù zhí bù zhídé
+Yīshēng míngkè qiú ér bùdé nàihé nàihé
+Hòulái bàohàn hòulái lánshān nàihé nàihé
+Jīnzhāo tànxí lái rì juéchàng nàihé nàihé
+Jiǎojiǎo míngyuè hé shí zhào wǒ
+Yīshēng míngkè qiú ér bùdé nàihé nàihé
+Hòulái bàohàn hòulái lánshān nàihé nàihé
+Jīnzhāo tànxí lái rì juéchàng nàihé nàihé
+Jiǎojiǎo míngyuè hé shí zhào wǒ
+Jiǎojiǎo míngyuè hé shí zhào wǒ",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
@@ -2752,7 +2879,39 @@ nǎi gǎn yǔ ěr jué",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267062/nhatsinhnhatniem_sgcdku.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736268105/Vietsub_Nh%E1%BA%A5t_sinh_nh%E1%BA%A5t_ni%E1%BB%87m_-_Thi%E1%BB%87n_Y_Thu%E1%BA%A7n_OST_K%E1%BB%B3_Kim_Tri%C3%AAu_-_%E4%B8%80%E7%94%9F%E4%B8%80%E5%BF%B5_-_%E5%8D%95%E4%BE%9D%E7%BA%AF_OST_%E7%A5%88%E4%BB%8A%E6%9C%9D_suslcs.mp3",
                     Introduction = @"Tạm chưa có",
-                    Lyric = @"Tạm chưa có",
+                    Lyric = @"Yī gēn zhīyā liǎng shēng de huā
+Qiū láichūn qù zhōng luòxià
+Rì shēng yuè luò néng fǒu gěi nǐ róuruǎn huídá
+Wútóng shù xià yǔdī qiāodǎ
+
+Zhézhī lái huàn huíyì wúxiá
+Rú sīxiàn zhī yānyǔ rùhuà
+Yě jié chéng rú hóng qiānguà
+Xǔ nǐ yīshēng yīshì yì chēn yì chī de niánhuá
+
+Huàn nǐ qiánchén wǎngshì yānmò yú xuānhuá
+Péi nǐ diānpèi liúlí yìbùyìqū qīng yàn xià
+Bié hàipà bié hàipà
+Xiě nǐ yīsī yī lǚ yī zì yījù de zhēngzhá
+
+Wèi nǐ bùyóu lǐzhì xīn luàn yě fànshǎ
+Dǔ nǐ yīshēng yīniàn yīxīn yī yuàn yīchànà
+Bù zuò dā bù zuòbà
+Wúbiān yānxiá zhī fú luòhuā
+
+Tì wǒ sòng nǐ yī nuò wú jià
+Jiāng xīnshì suí xuèsè rónghuà
+Kě tīngjiàn chī yǔ yīnyǎ
+Xǔ nǐ yīshēng yīshì yì chēn yì chī de niánhuá
+
+Huàn nǐ qiánchén wǎngshì yānmò yú xuānhuá
+Péi nǐ diānpèi liúlí yìbùyìqū qīng yàn xià
+Bié hàipà bié hàipà
+Xiě nǐ yīsī yī lǚ yī zì yījù de zhēngzhá
+
+Wèi nǐ bùyóu lǐzhì xīn luàn yě fànshǎ
+Dǔ nǐ yīshēng yīniàn yīxīn yī yuàn yīchànà
+Bù zuò dā bù zuòbà",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer
@@ -2773,7 +2932,12 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Không tiếc thời gian/不惜时光",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267060/khongtiecthoigian_j71ct9.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736268118/Vietsub_pinyin_Kh%C3%B4ng_ti%E1%BA%BFc_th%E1%BB%9Di_gian_-_Tr%C6%B0%C6%A1ng_L%C6%B0%C6%A1ng_D%C4%A9nh_M%E1%BB%99ng_hoa_l%E1%BB%A5c_OST_-_%E4%B8%8D%E6%83%9C%E6%97%B6%E5%85%89_-_%E5%BC%A0%E9%9D%93%E9%A2%96_%E6%A2%A6%E5%8D%8E%E5%BD%95_%E4%B8%BB%E9%A2%98%E6%9B%B2_zzmnvy.mp3",
-                    Introduction = @"Tạm chưa có",
+                    Introduction = @"Không tiếc thời gian
+Nhạc phim truyền hình Mộng hoa lục
+Lời: Giang Kha - Đại Nhạc Đông - Diêm Lập Nghiêm
+Nhạc: Bàng Bác
+Biên khúc: Trần Tư Đồng
+Biểu diễn: Trương Lương Dĩnh",
                     Lyric = @"Tạm chưa có",
                     SongSingers = new List<SongSinger>
                     {
@@ -2796,7 +2960,10 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Gió Thổi Khi Nhớ Anh/想你时风起",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267066/giothoikhiemnhoanh_hn0k6o.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736300405/%E6%83%B3%E4%BD%A0%E6%97%B6%E9%A3%8E%E8%B5%B7_%E7%94%B5%E8%A7%86%E5%89%A7%E6%88%91%E7%9A%84%E4%BA%BA%E9%97%B4%E7%83%9F%E7%81%AB%E5%9B%9E%E5%BF%86%E4%B8%BB%E9%A2%98%E6%9B%B2_lt9g9u.mp3",
-                    Introduction = @"Tạm chưa có",
+                    Introduction = @"Gió Thổi Khi Nhớ Anh《想你时风起》- Thiện Y Thuần (单纯依) Shan Yichun
+OST Fireworks of My Heart (Khói Lửa Nhân Gian Của Tôi)《我的人间烟火》
+Dương Dương (杨洋) (Yang Yang), Vương Sở Nhiên (王楚然) (Wang Churan)
+Chuyển thể từ Tiểu thuyết ""Một Tòa Thành Đang Chờ Anh"" của Tác giả Cửu Nguyệt Hi",
                     Lyric = @"Tạm chưa có",
                     SongSingers = new List<SongSinger>
                     {
@@ -2820,8 +2987,46 @@ nǎi gǎn yǔ ěr jué",
                     Name = @"Hy Phong Tấu/曦风奏",
                     ImgUrl = @"https://res.cloudinary.com/dh1zsowbp/image/upload/v1736267062/hyphongtau_mih0mi.jpg",
                     SongUrl = @"https://res.cloudinary.com/dh1zsowbp/video/upload/v1736268151/Vietsub_Hy_Phong_T%E1%BA%A5u_-_L%C3%BD_Ti%C3%AAu_Minh_-_Nh%E1%BA%A1c_ch%E1%BB%A7_%C4%91%E1%BB%81_skin_Valentine_2024_VGVD_--_%E6%9B%A6%E9%A3%8E%E5%A5%8F_-_%E6%9B%A6%E7%8E%84%E5%BC%95%E6%83%85%E6%84%9F%E4%B8%BB%E9%A2%98%E6%9B%B2_2_nvnwi8.mp3",
-                    Introduction = @"Tạm chưa có",
-                    Lyric = @"Tạm chưa có",
+                    Introduction = @"Hi Quang là tiên tử có phong thái rực rỡ, tao nhã bậc nhất
+Nhưng tiên tử cũng có nỗi phiền lòng không muốn cho ai biết
+Khi con quạ đen ấy xuất hiện lúc tuyệt vọng
+
+Tựa như nói:
+“Cho dù thế gian thế nào, ta cũng sẽ nhảy cùng nàng”
+Vậy hãy nhảy múa cho thỏa thích, cho đến khi bình minh rực rỡ chiếu khắp vực thẳm
+Vậy hãy mặc sức quên đi, để khoảnh khắc này chỉ có ta và chàng
+...
+Hi phong tấu khởi, tình ý đậm sâu
+Tiên ma khác đường, lòng này chung lối",
+                    Lyric = @"Lyrics:
+wǒ céng lüè guò qíng kōng xià de qīng bō
+shì rén què shuō nà shi tài yáng de sè zé
+guāng lái bù jí zuò rì luò lín yuān ér xiāo mó
+hái hǎo yǒu zhèn fēng hù xià le wǒ
+juǎn yún fù xuě tā céng cún zài guò
+qián chén jiù yuàn tā bǐ xiǎng xiàng zhōng dān bó
+tiào wú jìn de tiào yuè kōng wǔ yǐ zú niàn
+wéi yǒu xuán yā kòu xián de liú nián
+
+wàn qiān shēng líng tīng fēng guò zěn piān wǒ dòng le shén pò
+jiǔ xiāo zhī xià méi yín hé tā jìng càn rán liáo kuò
+dāng wǒ chōng pò zhè jiā suǒ wàng gǎn zhī tiān dì yú wēn
+bù xiǎng nà yī zhèn fēng zǎo yǐ shì gū běn
+
+bàn biān xié yáng wǒ céng zhì rè guò
+yī shuǐ zhī gé zuò rén jiān yān huǒ chéng chè
+xīn zì yóu dì pán xuán bù fù zhè jì mò
+bù fù qiān chuāng bǎi kǒng de gē
+
+wàn qiān shēng líng tīng fēng guò zěn piān wǒ dòng le shén pò
+jiǔ xiāo zhī xià méi yín hé tā jìng càn rán liáo kuò
+dāng wǒ chōng pò zhè jiā suǒ wàng gǎn zhī tiān dì yú wēn
+bù xiǎng nà yī zhèn fēng zǎo yǐ shì gū běn
+
+wàn qiān yīn guǒ děng fēng guò zěn nài yuè lái yuè cán pò
+tiān dào zhī zhōng méi shén tuó tā móu zhōng jìng yǒu wǒ
+xī guāng chóng shēng yú hún zhuó guò wǎng qǐng kè rú dāo rèn
+yuán lái nà yī zhèn fēng zǎo yǐ shì hóng chén",
                     SongSingers = new List<SongSinger>
                     {
                         // song, singer

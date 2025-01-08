@@ -167,7 +167,9 @@ try
     await SongSeed.SeedAsync(context);
     await PlaylistSeed.SeedAsync(context, userManager);
     await RoleClaimSeed.SeedAsync(context, roleManager);
-} catch(Exception ex)
+    await VipPackageSeed.SeedAsync(context);
+}
+catch (Exception ex)
 {
     Console.WriteLine(ex);
     throw;
