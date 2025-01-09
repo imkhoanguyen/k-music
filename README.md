@@ -12,7 +12,7 @@
 - NG-ZORRO (Angular UI component library)
 - Ngx-echarts
 - Bootstrap
-- Connect Database via Docker
+- Database Connection via Docker
 
 <br/>
 
@@ -21,7 +21,7 @@
 - Manage songs
 - Manage singers
 - Manage playlists
-- Comment with real time
+- Nested Comments with Real-Time Updates using SignalR
 - Play song
 - Payment with VNPay
 - Dynamic Role-Based
