@@ -12,6 +12,7 @@
 - NG-ZORRO (Angular UI component library)
 - Ngx-echarts
 - Bootstrap
+- Cloudinary for upload musics and pictures
 - Database Connection via Docker
 
 <br/>
