@@ -29,6 +29,7 @@ export class SingerListComponent {
   ngOnInit(): void {
     this.prm.pageSize = 8;
     this.loadSingers();
+    this.getLocation();
   }
   locations: string[] = [];
   selectedLocation = '';
@@ -59,16 +60,19 @@ export class SingerListComponent {
       next: (response) => {
         this.singers = response.result as Singer[];
         this.pagination = response.pagination as Pagination;
-        const allLocations = this.singers.flatMap((singer) => singer.location);
-        const uniqueLocations = Array.from(
-          new Map(allLocations.map((location) => [location, location])).values()
-        );
-
-        this.locations = uniqueLocations;
       },
       error: (er) => {
         console.log(er);
       },
+    });
+  }
+
+  getLocation() {
+    this.singerService.getLocations().subscribe({
+      next: (res) => {
+        this.locations = res;
+      },
+      error: (er) => console.log(er),
     });
   }
 

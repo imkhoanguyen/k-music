@@ -9,6 +9,7 @@ import { Pagination } from '../../../../shared/models/pagination';
 import { Genre } from '../../../../shared/models/genre';
 import { CommonModule } from '@angular/common';
 import { SongService } from '../../../../core/services/song.service';
+import { GenreService } from '../../../../core/services/genre.service';
 
 @Component({
   selector: 'app-song-list',
@@ -26,10 +27,12 @@ import { SongService } from '../../../../core/services/song.service';
 export class SongListComponent implements OnInit {
   private songService = inject(SongService);
   private router = inject(Router);
+  private genreService = inject(GenreService);
 
   ngOnInit(): void {
     this.prm.pageSize = 8;
     this.loadSongs();
+    this.loadGenre();
   }
   genres: Genre[] = [];
   selectedGenre = 0;
@@ -59,13 +62,17 @@ export class SongListComponent implements OnInit {
       next: (response) => {
         this.songs = response.result as Song[];
         this.pagination = response.pagination as Pagination;
-        const allGenres = this.songs.flatMap((song) => song.genres);
-        const uniqueGenres = Array.from(
-          new Map(allGenres.map((genre) => [genre.id, genre])).values()
-        );
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
 
-        this.genres = uniqueGenres;
-        console.log(this.genres);
+  loadGenre() {
+    this.genreService.getAllGenre().subscribe({
+      next: (res) => {
+        this.genres = res;
       },
       error: (er) => {
         console.log(er);

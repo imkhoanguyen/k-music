@@ -1,7 +1,7 @@
 <!-- edit -->
 <nz-modal
   [(nzVisible)]="isVisibleModal"
-  nzTitle="Thêm người dùng"
+  nzTitle="Cập nhật thông tin"
   [nzFooter]="null"
   (nzOnCancel)="closeModal()"
 >
@@ -213,7 +213,10 @@
           </button>
         </div>
       </nz-tab>
-      <nz-tab nzTitle="Thay đổi quyền" *ngIf="authService.hasClaim('Role_Edit')">
+      <nz-tab
+        nzTitle="Thay đổi quyền"
+        *ngIf="authService.hasClaim('Role_Edit')"
+      >
         <div class="mb-3">
           <label class="form-label" for="role">Quyền</label>
           <nz-select [(ngModel)]="roleName" id="role">
