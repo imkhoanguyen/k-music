@@ -1,8 +1,8 @@
-﻿using KM.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Music.Core.Entities;
 
-namespace KM.Infrastructure.Configuration.EntityConfig
+namespace Music.Infrastructure.Configuration.EntityConfig
 {
     public class LikeSingerConfig : IEntityTypeConfiguration<LikeSinger>
     {

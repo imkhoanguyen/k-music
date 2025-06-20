@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KM.Application.DTOs.Roles
+namespace Music.Application.DTOs.Roles
 {
     public class RoleCreateDto
     {

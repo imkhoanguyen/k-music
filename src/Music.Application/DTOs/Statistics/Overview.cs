@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Statistics
+﻿namespace Music.Application.DTOs.Statistics
 {
     public class Overview
     {

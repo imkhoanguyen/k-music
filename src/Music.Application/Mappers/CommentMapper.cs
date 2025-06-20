@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Comments;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Comments;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class CommentMapper
     {

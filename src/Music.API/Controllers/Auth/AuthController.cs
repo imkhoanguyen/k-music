@@ -1,17 +1,17 @@
 ﻿using System.Text;
 using API.Controllers.Base;
-using KM.Application.DTOs.Auth;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
-using KM.Infrastructure.Abstract;
-using KM.Infrastructure.Configuration;
+using Music.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Music.Domain.Enum;
+using Music.Core.DTOs.Auth;
+using Music.Core.Enum;
+using Music.Core.Entities;
+using Music.Infrastructure.Intterfaces;
+using Music.Core.Exceptions;
 
 namespace API.Controllers.Auth
 {

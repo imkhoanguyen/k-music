@@ -1,8 +1,8 @@
-﻿using KM.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Music.Domain.Enum;
+﻿using Microsoft.EntityFrameworkCore;
+using Music.Core.Entities;
+using Music.Core.Enum;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class SingerSeed
     {

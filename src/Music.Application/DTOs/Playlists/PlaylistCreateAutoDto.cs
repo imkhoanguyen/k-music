@@ -1,8 +1,8 @@
-﻿using KM.Domain.ValidationAttributes;
+﻿using Music.Domain.ValidationAttributes;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace KM.Application.DTOs.Playlists
+namespace Music.Application.DTOs.Playlists
 {
     public class PlaylistCreateAutoDto
     {

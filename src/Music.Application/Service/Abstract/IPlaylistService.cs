@@ -1,11 +1,11 @@
-﻿using KM.Application.DTOs.Accounts;
-using KM.Application.DTOs.Playlists;
-using KM.Application.Parameters;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Accounts;
+using Music.Application.DTOs.Playlists;
+using Music.Application.Parameters;
+using Music.Application.Utilities;
+using Music.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace KM.Application.Service.Abstract
+namespace Music.Application.Service.Abstract
 {
     public interface IPlaylistService
     {

@@ -1,6 +1,6 @@
-﻿using KM.Application.Utilities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using Music.Core.Utilities;
 
 namespace API.Authorization
 {

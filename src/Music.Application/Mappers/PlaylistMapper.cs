@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Playlists;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Playlists;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class PlaylistMapper
     {

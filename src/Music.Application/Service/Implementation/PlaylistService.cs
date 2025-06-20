@@ -1,17 +1,18 @@
-﻿using KM.Application.Abstract;
-using KM.Application.DTOs.Accounts;
-using KM.Application.DTOs.Playlists;
-using KM.Application.DTOs.Songs;
-using KM.Application.Mappers;
-using KM.Application.Parameters;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
+﻿using Music.Application.Abstract;
+using Music.Application.DTOs.Accounts;
+using Music.Application.DTOs.Playlists;
+using Music.Application.DTOs.Songs;
+using Music.Application.Mappers;
+using Music.Application.Parameters;
+using Music.Application.Repositories;
+using Music.Application.Service.Abstract;
+using Music.Application.Utilities;
+using Music.Domain.Entities;
+using Music.Domain.Exceptions;
+using Music.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace KM.Application.Service.Implementation
+namespace Music.Application.Service.Implementation
 {
     public class PlaylistService : IPlaylistService
     {

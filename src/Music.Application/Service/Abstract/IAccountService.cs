@@ -1,11 +1,11 @@
-﻿using KM.Application.DTOs.Accounts;
-using KM.Application.DTOs.Playlists;
-using KM.Application.DTOs.Singers;
-using KM.Application.DTOs.Songs;
-using KM.Application.Parameters;
-using KM.Application.Utilities;
+﻿using Music.Application.DTOs.Accounts;
+using Music.Application.DTOs.Playlists;
+using Music.Application.DTOs.Singers;
+using Music.Application.DTOs.Songs;
+using Music.Application.Parameters;
+using Music.Application.Utilities;
 
-namespace KM.Application.Service.Abstract
+namespace Music.Application.Service.Abstract
 {
     public interface IAccountService
     {

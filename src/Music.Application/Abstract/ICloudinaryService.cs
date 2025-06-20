@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Cloudinary;
+﻿using Music.Application.DTOs.Cloudinary;
 using Microsoft.AspNetCore.Http;
 
-namespace KM.Application.Abstract
+namespace Music.Application.Abstract
 {
     public interface ICloudinaryService
     {

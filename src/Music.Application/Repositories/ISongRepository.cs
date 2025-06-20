@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
-using KM.Application.DTOs.Songs;
-using KM.Application.Parameters;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
+using Music.Application.DTOs.Songs;
+using Music.Application.Parameters;
+using Music.Application.Utilities;
+using Music.Domain.Entities;
 
-namespace KM.Application.Repositories
+namespace Music.Application.Repositories
 {
     public interface ISongRepository : IRepository<Song>
     {

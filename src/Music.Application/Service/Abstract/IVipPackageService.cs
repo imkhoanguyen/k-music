@@ -1,15 +1,15 @@
 ﻿using System.Linq.Expressions;
-using KM.Application.DTOs.VipPackages;
-using KM.Domain.Entities;
+using Music.Application.DTOs.VipPackages;
+using Music.Domain.Entities;
 
-namespace KM.Application.Service.Abstract
+namespace Music.Application.Service.Abstract
 {
     public interface IVipPackageService
     {
-        Task<IEnumerable<VipPackage>> GetAllAsync(Expression<Func<VipPackage, bool>>? expression = null);
-        Task<VipPackage> GetAsync(Expression<Func<VipPackage, bool>> expression);
-        Task<VipPackage> CreateAsync(VipPackageCreateDto dto);
-        Task<VipPackage> UpdateAsync(int vipPackageId, VipPackage entity);
-        Task DeleteAsync(Expression<Func<VipPackage, bool>> expression);
+        Task<IEnumerable<Plan>> GetAllAsync(Expression<Func<Plan, bool>>? expression = null);
+        Task<Plan> GetAsync(Expression<Func<Plan, bool>> expression);
+        Task<Plan> CreateAsync(VipPackageCreateDto dto);
+        Task<Plan> UpdateAsync(int vipPackageId, Plan entity);
+        Task DeleteAsync(Expression<Func<Plan, bool>> expression);
     }
 }

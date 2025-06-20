@@ -1,4 +1,4 @@
-﻿namespace KM.Application.Parameters
+﻿namespace Music.Application.Parameters
 {
     public class BaseParams : PaginationParams
     {

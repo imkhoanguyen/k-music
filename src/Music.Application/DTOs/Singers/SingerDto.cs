@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Singers
+﻿namespace Music.Application.DTOs.Singers
 {
     public class SingerDto
     {

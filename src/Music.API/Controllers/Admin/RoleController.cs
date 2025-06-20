@@ -1,18 +1,18 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.Authorization;
-using KM.Application.DTOs.Auth;
-using KM.Application.DTOs.Roles;
-using KM.Application.Mappers;
-using KM.Application.Parameters;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
-using KM.Infrastructure.Ultilities;
+using Music.Infrastructure.Ultilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Music.Core.Authorization;
+using Music.Core.Entities;
+using Music.Core.DTOs.Auth;
+using Music.Core.DTOs.Roles;
+using Music.Core.Parameters;
+using Music.Core.Mappers;
+using Music.Core.Exceptions;
 
 namespace API.Controllers.Admin
 {

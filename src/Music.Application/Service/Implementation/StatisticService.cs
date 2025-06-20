@@ -1,11 +1,11 @@
-﻿using KM.Application.DTOs.Statistics;
-using KM.Application.Mappers;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Statistics;
+using Music.Application.Mappers;
+using Music.Application.Repositories;
+using Music.Application.Service.Abstract;
 using Microsoft.AspNetCore.Identity;
+using Music.Domain.Entities;
 
-namespace KM.Application.Service.Implementation
+namespace Music.Application.Service.Implementation
 {
     public class StatisticService : IStatisticService
     {

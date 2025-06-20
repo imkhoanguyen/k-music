@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Roles;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Roles;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class RoleMapper
     {

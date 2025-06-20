@@ -1,15 +1,4 @@
-﻿using KM.Application.DTOs.Accounts;
-using KM.Application.DTOs.Playlists;
-using KM.Application.DTOs.Singers;
-using KM.Application.DTOs.Songs;
-using KM.Application.Parameters;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
-
-namespace KM.Application.Service.Implementation
+﻿namespace Music.Application.Service.Implementation
 {
     public class AccountService : IAccountService
     {

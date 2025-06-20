@@ -1,11 +1,11 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.DTOs.Transactions;
-using KM.Application.Parameters;
-using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.Core.Entities;
+using Music.Core.DTOs.Transactions;
+using Music.Core.Parameters;
+using Music.Core.Service.Interfaces;
 
 namespace API.Controllers.Admin
 {
@@ -28,7 +28,7 @@ namespace API.Controllers.Admin
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<UserVipSubscription>> Get(int id)
+        public async Task<ActionResult<Transaction>> Get(int id)
         {
             var entity = await _transactionService.GetAsync(t => t.Id == id);
             return Ok(entity);

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KM.Application.DTOs.Genres
+namespace Music.Application.DTOs.Genres
 {
     public class GenreCreateDto
     {

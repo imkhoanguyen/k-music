@@ -1,6 +1,6 @@
-﻿using KM.Application.DTOs.Auth;
+﻿using Music.Application.DTOs.Auth;
 
-namespace KM.Application.Authorization
+namespace Music.Application.Authorization
 {
     public class PermissionGroup
     {

@@ -1,12 +1,12 @@
 ﻿using System.Linq.Expressions;
-using KM.Application.Parameters;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
+using Music.Application.Parameters;
+using Music.Application.Utilities;
+using Music.Domain.Entities;
 
-namespace KM.Application.Repositories
+namespace Music.Application.Repositories
 {
-    public interface IUserVipSubscriptionRepository : IRepository<UserVipSubscription>
+    public interface IUserVipSubscriptionRepository : IRepository<Transaction>
     {
-        public Task<PagedList<UserVipSubscription>> GetAllAsync(TransactionParams prm, Expression<Func<UserVipSubscription, bool>>? expression = null, bool tracked = false);
+        public Task<PagedList<Transaction>> GetAllAsync(TransactionParams prm, Expression<Func<Transaction, bool>>? expression = null, bool tracked = false);
     }
 }

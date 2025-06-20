@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Songs;
-using KM.Application.Utilities;
+﻿using Music.Application.DTOs.Songs;
+using Music.Application.Utilities;
 
-namespace KM.Application.DTOs.Singers
+namespace Music.Application.DTOs.Singers
 {
     public class SingerDetailDto : SingerDto
     {

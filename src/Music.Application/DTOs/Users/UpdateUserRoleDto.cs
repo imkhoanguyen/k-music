@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KM.Application.DTOs.Users
+namespace Music.Application.DTOs.Users
 {
     public class UpdateUserRoleDto
     {

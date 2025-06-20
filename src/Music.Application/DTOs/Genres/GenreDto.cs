@@ -1,6 +1,4 @@
-﻿using KM.Domain.Entities;
-
-namespace KM.Application.DTOs.Genres
+﻿namespace Music.Application.DTOs.Genres
 {
     public class GenreDto
     {

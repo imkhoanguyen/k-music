@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Singers;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Singers;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class SingerMapper
     {

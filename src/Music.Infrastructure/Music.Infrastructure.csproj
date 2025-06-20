@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Music.Application\Music.Application.csproj" />
+    <ProjectReference Include="..\Music.Core\Music.Core.csproj" />
   </ItemGroup>
 
 </Project>

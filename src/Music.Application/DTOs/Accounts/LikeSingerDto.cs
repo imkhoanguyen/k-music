@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Accounts
+﻿namespace Music.Application.DTOs.Accounts
 {
     public class LikeSingerDto
     {

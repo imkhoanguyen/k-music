@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KM.Application.DTOs.VipPackages
+namespace Music.Application.DTOs.VipPackages
 {
     public class VipPackageCreateDto
     {

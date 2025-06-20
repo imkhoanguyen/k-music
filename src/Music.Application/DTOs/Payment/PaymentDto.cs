@@ -1,10 +1,10 @@
-﻿using KM.Domain.Entities;
+﻿using Music.Domain.Entities;
 
-namespace KM.Application.DTOs.Payment
+namespace Music.Application.DTOs.Payment
 {
     public class PaymentDto
     {
-        public required VipPackage SelectedPackage { get; set; }
+        public required Plan SelectedPackage { get; set; }
         public string UserId { get; set; } = string.Empty;
     }
 }

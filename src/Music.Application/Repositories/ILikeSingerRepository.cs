@@ -1,6 +1,6 @@
-﻿using KM.Domain.Entities;
+﻿using Music.Domain.Entities;
 
-namespace KM.Application.Repositories
+namespace Music.Application.Repositories
 {
     public interface ILikeSingerRepository : IRepository<LikeSinger>
     {

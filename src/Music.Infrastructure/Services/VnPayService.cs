@@ -1,14 +1,14 @@
-﻿using KM.Application.DTOs.Payment;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
-using KM.Infrastructure.Abstract;
-using KM.Infrastructure.Configuration;
-using KM.Infrastructure.Ultilities;
+﻿using Music.Infrastructure.Intterfaces;
+using Music.Infrastructure.Configuration;
+using Music.Infrastructure.Ultilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Music.Core.Entities;
+using Music.Core.DTOs.Payment;
+using Music.Core.Repositories;
+using Music.Core.Service.Interfaces;
 
-namespace KM.Infrastructure.Services
+namespace Music.Infrastructure.Services
 {
     public class VnPayService : IVnPayService
     {
@@ -34,12 +34,12 @@ namespace KM.Infrastructure.Services
             pay.AddRequestData("vnp_Version", _config.Version);
             pay.AddRequestData("vnp_Command", _config.Command);
             pay.AddRequestData("vnp_TmnCode", _config.TmnCode);
-            pay.AddRequestData("vnp_Amount", ((int)dto.SelectedPackage.PriceSell * 100).ToString());
+            pay.AddRequestData("vnp_Amount", ((int)dto.SelectedPlan.PriceSell * 100).ToString());
             pay.AddRequestData("vnp_CreateDate", timeNow.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", _config.CurrCode);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _config.Locale);
-            pay.AddRequestData("vnp_OrderInfo", $"{dto.SelectedPackage.Id}");
+            pay.AddRequestData("vnp_OrderInfo", $"{dto.SelectedPlan.Id}");
             pay.AddRequestData("vnp_OrderType", "order");
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
@@ -50,14 +50,14 @@ namespace KM.Infrastructure.Services
             return paymentUrl;
         }
 
-        public async Task<UserVipSubscription?> HandlePayment(PaymentResponse res)
+        public async Task<Transaction?> HandlePayment(PaymentResponse res)
         {
             if (res.ResponseCode == "00")
             {
                 var vipPackage = await _vipPackageService.GetAsync(vp => vp.Id == res.OrderInfo);
                 var userSubscriptions = await _unit.UserVipSubscription.GetAllAsync(uvs => uvs.UserId == res.UserId);
 
-                DateTime newEndDate;
+                DateTimeOffset newEndDate;
 
                 // get những gói vip chưa hết hạn
                 var activeSubscriptions = userSubscriptions.Where(uvs => uvs.EndDate >= DateTime.Now).ToList();
@@ -71,13 +71,13 @@ namespace KM.Infrastructure.Services
                     newEndDate = DateTime.Now.AddDays(vipPackage.DurationDay);
                 }
 
-                var userVipScription = new UserVipSubscription
+                var userVipScription = new Transaction
                 {
                     UserId = res.UserId,
                     StartDate = DateTime.Now,
                     EndDate = newEndDate,
                     Price = vipPackage.PriceSell,
-                    VipPackageId = vipPackage.Id
+                    PlanId = vipPackage.Id
                 };
 
                 await _unit.UserVipSubscription.AddAsync(userVipScription);

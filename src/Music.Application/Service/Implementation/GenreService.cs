@@ -1,15 +1,15 @@
-﻿using KM.Application.DTOs.Genres;
-using KM.Application.Mappers;
-using KM.Application.Parameters;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
+﻿using Music.Application.DTOs.Genres;
+using Music.Application.Mappers;
+using Music.Application.Parameters;
+using Music.Application.Repositories;
+using Music.Application.Service.Abstract;
+using Music.Application.Utilities;
+using Music.Domain.Exceptions;
+using Music.Domain.Entities;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace KM.Application.Service.Implementation
+namespace Music.Application.Service.Implementation
 {
     public class GenreService : IGenreService
     {

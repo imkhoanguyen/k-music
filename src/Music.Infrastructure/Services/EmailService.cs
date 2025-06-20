@@ -1,12 +1,12 @@
 ﻿using System.Net.Mail;
 using System.Net;
-using KM.Infrastructure.Configuration;
+using Music.Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
-using KM.Application.DTOs.Auth;
-using KM.Domain.Exceptions;
-using KM.Infrastructure.Abstract;
+using Music.Core.DTOs.Auth;
+using Music.Infrastructure.Intterfaces;
+using Music.Core.Exceptions;
 
-namespace KM.Infrastructure.Services
+namespace Music.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {

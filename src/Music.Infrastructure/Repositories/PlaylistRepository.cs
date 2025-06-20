@@ -1,14 +1,14 @@
-﻿using KM.Application.Parameters;
-using KM.Application.Repositories;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Infrastructure.DataAccess;
-using KM.Infrastructure.Ultilities;
+﻿using Music.Infrastructure.DataAccess;
+using Music.Infrastructure.Ultilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
+using Music.Core.Entities;
+using Music.Core.Utilities;
+using Music.Core.Parameters;
+using Music.Core.Repositories;
 
-namespace KM.Infrastructure.Repositories
+namespace Music.Infrastructure.Repositories
 {
     public class PlaylistRepository : Repository<Playlist>, IPlaylistRepository
     {

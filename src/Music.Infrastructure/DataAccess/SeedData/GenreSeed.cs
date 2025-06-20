@@ -1,7 +1,7 @@
-﻿using KM.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Music.Core.Entities;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class GenreSeed
     {

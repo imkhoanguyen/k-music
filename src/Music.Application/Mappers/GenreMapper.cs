@@ -1,7 +1,7 @@
-﻿using KM.Application.DTOs.Genres;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Genres;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class GenreMapper
     {

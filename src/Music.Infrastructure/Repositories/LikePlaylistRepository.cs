@@ -1,8 +1,8 @@
-﻿using KM.Application.Repositories;
-using KM.Domain.Entities;
-using KM.Infrastructure.DataAccess;
+﻿using Music.Infrastructure.DataAccess;
+using Music.Core.Entities;
+using Music.Core.Repositories;
 
-namespace KM.Infrastructure.Repositories
+namespace Music.Infrastructure.Repositories
 {
     public class LikePlaylistRepository : Repository<LikePlaylist>, ILikePlaylistRepository
     {

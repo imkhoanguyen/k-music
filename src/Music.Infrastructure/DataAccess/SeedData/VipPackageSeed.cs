@@ -1,18 +1,18 @@
-﻿using KM.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Music.Core.Entities;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class VipPackageSeed
     {
         public static async Task SeedAsync(MusicContext context)
         {
-            if (context.VipPackages.Any())
+            if (context.Plans.Any())
                 return;
 
-            var vipPackageList = new List<VipPackage>()
+            var vipPackageList = new List<Plan>()
             {
-                new VipPackage ()
+                new Plan ()
                 {
                     Name = "Gói vip 30 ngày",
                     Description = @"- Nghe nhạc không giới hạn trong 30 ngày
@@ -26,7 +26,7 @@ namespace KM.Infrastructure.DataAccess.SeedData
                     DurationDay = 30,
                 },
 
-                new VipPackage ()
+                new Plan ()
                 {
                     Name = "Gói vip 90 ngày",
                     Description = @"- Nghe nhạc không giới hạn trong 90 ngày
@@ -40,7 +40,7 @@ namespace KM.Infrastructure.DataAccess.SeedData
                     DurationDay = 90,
                 },
 
-                new VipPackage ()
+                new Plan ()
                 {
                     Name = "Gói vip 365 ngày",
                     Description = @"- Nghe nhạc không giới hạn trong 365 ngày
@@ -55,7 +55,7 @@ namespace KM.Infrastructure.DataAccess.SeedData
                 }
             };
 
-            context.VipPackages.AddRange(vipPackageList);
+            context.Plans.AddRange(vipPackageList);
             await context.SaveChangesAsync();
         }
     }

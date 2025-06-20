@@ -1,9 +1,9 @@
-﻿using KM.Application.DTOs.Genres;
-using KM.Application.DTOs.Singers;
-using KM.Application.DTOs.Songs;
-using KM.Domain.Entities;
+﻿using Music.Application.DTOs.Genres;
+using Music.Application.DTOs.Singers;
+using Music.Application.DTOs.Songs;
+using Music.Domain.Entities;
 
-namespace KM.Application.Mappers
+namespace Music.Application.Mappers
 {
     public class SongMapper
     {

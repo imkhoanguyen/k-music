@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using KM.Domain.Entities;
+using Music.Domain.Entities;
 
-namespace KM.Application.Repositories
+namespace Music.Application.Repositories
 {
-    public interface IVipPackageRepository : IRepository<VipPackage>
+    public interface IVipPackageRepository : IRepository<Plan>
     {
     }
 }

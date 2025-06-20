@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Comments
+﻿namespace Music.Application.DTOs.Comments
 {
     public class ReplyCreateDto
     {

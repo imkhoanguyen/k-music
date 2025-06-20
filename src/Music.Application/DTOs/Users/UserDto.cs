@@ -1,6 +1,6 @@
-﻿using KM.Domain.Enum;
+﻿using Music.Domain.Enum;
 
-namespace KM.Application.DTOs.Users
+namespace Music.Application.DTOs.Users
 {
     public class UserDto
     {

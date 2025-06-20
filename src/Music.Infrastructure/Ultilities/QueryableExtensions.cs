@@ -1,7 +1,7 @@
-﻿using KM.Application.Utilities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Music.Core.Utilities;
 
-namespace KM.Infrastructure.Ultilities
+namespace Music.Infrastructure.Ultilities
 {
     public static class QueryableExtensions
     {

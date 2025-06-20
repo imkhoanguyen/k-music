@@ -1,9 +1,9 @@
-﻿using KM.Domain.Entities;
-using KM.Domain.Enum;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Music.Core.Entities;
+using Music.Core.Enum;
 
-namespace KM.Infrastructure.Configuration.EntityConfig
+namespace Music.Infrastructure.Configuration.EntityConfig
 {
     public class CommentConfig : IEntityTypeConfiguration<Comment>
     {

@@ -1,4 +1,4 @@
-﻿using KM.Domain.Exceptions;
+﻿using Music.Core.Exceptions;
 using System.Security.Claims;
 
 namespace API.Extensions

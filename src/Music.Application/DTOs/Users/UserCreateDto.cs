@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using KM.Domain.ValidationAttributes;
+using Music.Domain.ValidationAttributes;
 using Microsoft.AspNetCore.Http;
 
-namespace KM.Application.DTOs.Users
+namespace Music.Application.DTOs.Users
 {
     public class UserCreateDto
     {

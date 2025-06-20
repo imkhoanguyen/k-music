@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Transactions
+﻿namespace Music.Application.DTOs.Transactions
 {
     public class TransactionDto
     {

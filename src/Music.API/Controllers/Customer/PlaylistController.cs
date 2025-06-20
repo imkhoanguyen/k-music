@@ -1,12 +1,12 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.DTOs.Accounts;
-using KM.Application.DTOs.Playlists;
-using KM.Application.Parameters;
-using KM.Application.Service.Abstract;
-using KM.Application.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.Core.DTOs.Accounts;
+using Music.Core.DTOs.Playlists;
+using Music.Core.Utilities;
+using Music.Core.Parameters;
+using Music.Core.Service.Interfaces;
 
 namespace API.Controllers.Customer
 {

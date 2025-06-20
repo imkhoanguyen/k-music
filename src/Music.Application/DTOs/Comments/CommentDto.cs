@@ -1,6 +1,6 @@
-﻿using KM.Domain.Enum;
+﻿using Music.Domain.Enum;
 
-namespace KM.Application.DTOs.Comments
+namespace Music.Application.DTOs.Comments
 {
     public class CommentDto
     {

@@ -1,17 +1,17 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.Abstract;
-using KM.Application.Authorization;
-using KM.Application.DTOs.Users;
-using KM.Application.Parameters;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Music.Domain.Enum;
+using Music.Core.Authorization;
+using Music.Core.DTOs.Users;
+using Music.Core.Enum;
+using Music.Core.Entities;
+using Music.Core.Parameters;
+using Music.Core.Interfaces;
+using Music.Core.Utilities;
+using Music.Core.Exceptions;
 
 namespace API.Controllers.Admin
 {
@@ -49,9 +49,9 @@ namespace API.Controllers.Admin
                     "email_desc" => query.OrderByDescending(u => u.Email),
                     "fullName" => query.OrderBy(u => u.FullName),
                     "fullName_desc" => query.OrderByDescending(u => u.FullName),
-                    "created" => query.OrderBy(u => u.Created),
-                    "created_desc" => query.OrderByDescending(u => u.Created),
-                    _ => query.OrderBy(u => u.Created)
+                    //"created" => query.OrderBy(u => u.Created),
+                    //"created_desc" => query.OrderByDescending(u => u.Created),
+                    _ => query.OrderBy(u => u.UserName)
                 };
             }
 
@@ -72,7 +72,7 @@ namespace API.Controllers.Admin
                     UserName = user.UserName,
                     Gender = user.Gender.ToString(),
                     ImgUrl = user.ImgUrl,
-                    Created = user.Created,
+                    //Created = user.Created,
                     Role = roles[0],
                     Email = user.Email,
                     IsLooked = user.LockoutEnd.HasValue && (user.LockoutEnd > DateTimeOffset.UtcNow || user.LockoutEnd == DateTimeOffset.MaxValue)
@@ -101,7 +101,7 @@ namespace API.Controllers.Admin
                 UserName = user.UserName,
                 Gender = user.Gender.ToString(),
                 ImgUrl = user.ImgUrl,
-                Created = user.Created,
+                //Created = user.Created,
                 Role = roles[0],
                 Email = user.Email,
                 IsLooked = user.LockoutEnd.HasValue && (user.LockoutEnd > DateTimeOffset.UtcNow || user.LockoutEnd == DateTimeOffset.MaxValue)
@@ -177,7 +177,7 @@ namespace API.Controllers.Admin
                 UserName = user.UserName,
                 Gender = user.Gender.ToString(),
                 ImgUrl = user.ImgUrl,
-                Created = user.Created,
+                //Created = user.Created,
                 Role = roles[0],
                 Email = user.Email,
                 IsLooked = user.LockoutEnd.HasValue && (user.LockoutEnd > DateTimeOffset.UtcNow || user.LockoutEnd == DateTimeOffset.MaxValue)
@@ -248,7 +248,7 @@ namespace API.Controllers.Admin
                 UserName = user.UserName,
                 Gender = user.Gender.ToString(),
                 ImgUrl = user.ImgUrl,
-                Created = user.Created,
+                //Created = user.Created,
                 Role = updatedRoles.FirstOrDefault(),
                 Email = user.Email,
                 IsLooked = user.LockoutEnd.HasValue && (user.LockoutEnd > DateTimeOffset.UtcNow || user.LockoutEnd == DateTimeOffset.MaxValue)

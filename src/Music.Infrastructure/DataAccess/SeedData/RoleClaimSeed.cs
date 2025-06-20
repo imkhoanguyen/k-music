@@ -1,8 +1,8 @@
-﻿using KM.Application.Authorization;
-using KM.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Music.Core.Authorization;
+using Music.Core.Entities;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class RoleClaimSeed
     {

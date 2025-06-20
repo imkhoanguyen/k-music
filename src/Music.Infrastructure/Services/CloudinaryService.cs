@@ -1,12 +1,12 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using KM.Application.Abstract;
-using KM.Application.DTOs.Cloudinary;
-using KM.Infrastructure.Configuration;
+using Music.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Music.Core.DTOs.Cloudinary;
+using Music.Core.Interfaces;
 
-namespace KM.Infrastructure.Services
+namespace Music.Infrastructure.Services
 {
     public class CloudinaryService : ICloudinaryService
     {

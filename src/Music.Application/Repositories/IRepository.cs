@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace KM.Application.Repositories
+namespace Music.Application.Repositories
 {
     public interface IRepository<T> where T : class
     {

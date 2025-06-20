@@ -1,4 +1,4 @@
-﻿namespace KM.Application.Repositories
+﻿namespace Music.Application.Repositories
 {
     public interface IUnitOfWork
     {

@@ -1,6 +1,6 @@
-﻿using KM.Domain.Entities;
+﻿using Music.Core.Entities;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class SongSeed
     {

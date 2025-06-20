@@ -1,4 +1,4 @@
-﻿namespace KM.Application.Utilities
+﻿namespace Music.Application.Utilities
 {
     public static class SD
     {

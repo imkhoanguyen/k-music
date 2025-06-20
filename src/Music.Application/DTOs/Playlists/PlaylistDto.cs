@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Playlists
+﻿namespace Music.Application.DTOs.Playlists
 {
     public class PlaylistDto
     {

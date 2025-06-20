@@ -1,5 +1,5 @@
-﻿using KM.Domain.Exceptions;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using Music.Core.Exceptions;
 using System;
 using System.Net;
 using System.Text.Json;

@@ -1,11 +1,5 @@
 ﻿using Google.Apis.Auth;
-using KM.Application.DTOs.Auth;
-using KM.Application.Repositories;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
-using KM.Infrastructure.Abstract;
-using KM.Infrastructure.Configuration;
+using Music.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -13,8 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Music.Core.DTOs.Auth;
+using Music.Core.Entities;
+using Music.Core.Utilities;
+using Music.Core.Repositories;
+using Music.Infrastructure.Intterfaces;
+using Music.Core.Exceptions;
 
-namespace KM.Infrastructure.Services
+namespace Music.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {

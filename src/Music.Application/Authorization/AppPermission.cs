@@ -1,7 +1,7 @@
-﻿using KM.Application.Utilities;
+﻿using Music.Application.Utilities;
 using Microsoft.AspNetCore.Identity;
 
-namespace KM.Application.Authorization
+namespace Music.Application.Authorization
 {
     public static class AppPermission
     {

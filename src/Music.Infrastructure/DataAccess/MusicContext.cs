@@ -1,10 +1,9 @@
-﻿using KM.Domain.Entities;
-using KM.Domain.Enum;
-using KM.Infrastructure.Configuration.EntityConfig;
+﻿using Music.Infrastructure.Configuration.EntityConfig;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Music.Core.Entities;
 
-namespace KM.Infrastructure.DataAccess
+namespace Music.Infrastructure.DataAccess
 {
     public class MusicContext : IdentityDbContext<AppUser>
     {
@@ -17,8 +16,8 @@ namespace KM.Infrastructure.DataAccess
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Singer> Singers { get; set; }
         public DbSet<Playlist> Playlist { get; set; }
-        public DbSet<VipPackage> VipPackages { get; set; }
-        public DbSet<UserVipSubscription> UserVipSubscriptions { get; set; }
+        public DbSet<Plan> Plans { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<SongSinger> SongSingers { get; set; }
         public DbSet<SongGenre> SongGenres { get; set; }

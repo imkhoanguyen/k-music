@@ -1,9 +1,9 @@
-﻿using KM.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Music.Domain.Enum;
+using Music.Core.Entities;
+using Music.Core.Enum;
 
-namespace KM.Infrastructure.DataAccess.SeedData
+namespace Music.Infrastructure.DataAccess.SeedData
 {
     public class UserSeed
     {

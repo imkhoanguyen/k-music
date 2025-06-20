@@ -1,10 +1,10 @@
 ﻿using API.Controllers.Base;
-using KM.Application.Authorization;
-using KM.Application.DTOs.VipPackages;
-using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.Core.Authorization;
+using Music.Core.Entities;
+using Music.Core.DTOs.VipPackages;
+using Music.Core.Service.Interfaces;
 
 namespace API.Controllers.Admin
 {
@@ -20,7 +20,7 @@ namespace API.Controllers.Admin
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<VipPackage>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Plan>>> GetAll()
         {
             var list = await _vipPackageService.GetAllAsync(vp => vp.IsDelete == false);
             return Ok(list);
@@ -28,14 +28,14 @@ namespace API.Controllers.Admin
 
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        public async Task<ActionResult<VipPackage>> GetVipPackage(int id)
+        public async Task<ActionResult<Plan>> GetVipPackage(int id)
         {
             return await _vipPackageService.GetAsync(vp => vp.Id == id);
         }
 
         [HttpPost]
         [Authorize(Policy = AppPermission.VipPackage_Create)]
-        public async Task<ActionResult<VipPackage>> Create(VipPackageCreateDto dto)
+        public async Task<ActionResult<Plan>> Create(VipPackageCreateDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +48,7 @@ namespace API.Controllers.Admin
 
         [HttpPut("{id:int}")]
         [Authorize(Policy = AppPermission.VipPackage_Edit)]
-        public async Task<ActionResult<VipPackage>> Update(int id, VipPackage entity)
+        public async Task<ActionResult<Plan>> Update(int id, Plan entity)
         {
             if (!ModelState.IsValid)
             {

@@ -4,9 +4,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using KM.Application.DTOs.Payment;
 
-namespace KM.Infrastructure.Ultilities
+namespace Music.Infrastructure.Ultilities
 {
     public class VnPayLibrary
     {

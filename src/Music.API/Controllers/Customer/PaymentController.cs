@@ -1,10 +1,10 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.DTOs.Payment;
-using KM.Domain.Entities;
-using KM.Infrastructure.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.Core.Entities;
+using Music.Core.DTOs.Payment;
+using Music.Infrastructure.Intterfaces;
 
 namespace API.Controllers.Customer
 {
@@ -19,11 +19,11 @@ namespace API.Controllers.Customer
         }
 
         [HttpPost]
-        public IActionResult CreatePaymentUrl(VipPackage entity)
+        public IActionResult CreatePaymentUrl(Plan entity)
         {
             var paymentDto = new PaymentDto
             {
-                SelectedPackage = entity,
+                SelectedPlan = entity,
                 UserId = User.GetUserId()
             };
 
@@ -33,7 +33,7 @@ namespace API.Controllers.Customer
         }
 
         [HttpPost("return")]
-        public async Task<ActionResult<UserVipSubscription>> PaymentReturn(PaymentResponse res)
+        public async Task<ActionResult<Transaction>> PaymentReturn(PaymentResponse res)
         {
             res.UserId = User.GetUserId();
             var entity = await _vnPayService.HandlePayment(res);

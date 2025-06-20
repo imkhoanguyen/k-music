@@ -1,11 +1,14 @@
-﻿using KM.Application.Repositories;
-using KM.Infrastructure.DataAccess;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Music.Core.Repositories;
+using Music.Infrastructure.DataAccess;
 
-namespace KM.Infrastructure.Repositories
+namespace Music.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MusicContext _context;
+        private IDbContextTransaction _dbContextTransaction;
+        private bool _disposed;
         public IGenreRepository Genre { get; private set; }
 
         public ISingerRepository Singer { get; private set; }
@@ -20,9 +23,9 @@ namespace KM.Infrastructure.Repositories
 
         public IPlaylistSongRepository PlaylistSong { get; private set; }
 
-        public IVipPackageRepository VipPackage { get; private set; }
+        public IPlanRepository VipPackage { get; private set; }
 
-        public IUserVipSubscriptionRepository UserVipSubscription { get; private set; }
+        public ITransactionRepository UserVipSubscription { get; private set; }
 
         public ILikeSongRepository LikeSong { get; private set; }
 
@@ -42,8 +45,8 @@ namespace KM.Infrastructure.Repositories
             SongSinger = new SongSingerRepository(_context);
             Playlist = new PlaylistRepository(_context);
             PlaylistSong = new PlaylistSongRepository(_context);
-            VipPackage = new VipPackageRepository(_context);
-            UserVipSubscription = new UserVipSubscriptionRepository(_context);
+            VipPackage = new PlanRepository(_context);
+            UserVipSubscription = new TransactionRepository(_context);
             LikeSong = new LikeSongRepository(_context);
             LikeSinger = new LikeSingerRepository(_context);
             LikePlaylist = new LikePlaylistRepository(_context);
@@ -53,6 +56,44 @@ namespace KM.Infrastructure.Repositories
         public async Task<bool> CompleteAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task BeginTransactionAsync()
+        {
+            _dbContextTransaction = await _context.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            if(_dbContextTransaction != null)
+                await _dbContextTransaction.CommitAsync();
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            if(_dbContextTransaction != null)
+                await _dbContextTransaction.RollbackAsync();
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // equal: _dbContextTransaction?.Dispose();
+                    if (_dbContextTransaction != null)
+                        _dbContextTransaction.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

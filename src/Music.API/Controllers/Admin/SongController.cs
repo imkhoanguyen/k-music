@@ -1,12 +1,12 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
-using KM.Application.Abstract;
-using KM.Application.Authorization;
-using KM.Application.DTOs.Songs;
-using KM.Application.Parameters;
-using KM.Application.Service.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.Core.Authorization;
+using Music.Core.DTOs.Songs;
+using Music.Core.Parameters;
+using Music.Core.Interfaces;
+using Music.Core.Service.Interfaces;
 
 namespace API.Controllers.Admin
 {

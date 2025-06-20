@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Payment
+﻿namespace Music.Application.DTOs.Payment
 {
     public class PaymentResponse
     {

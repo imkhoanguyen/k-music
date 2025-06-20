@@ -1,6 +1,6 @@
-﻿using KM.Application.DTOs.Songs;
+﻿using Music.Application.DTOs.Songs;
 
-namespace KM.Application.DTOs.Playlists
+namespace Music.Application.DTOs.Playlists
 {
     public class PlaylistDetailDto1 : PlaylistDto
     {

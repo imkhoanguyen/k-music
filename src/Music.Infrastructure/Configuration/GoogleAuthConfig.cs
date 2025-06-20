@@ -1,4 +1,4 @@
-﻿namespace KM.Infrastructure.Configuration
+﻿namespace Music.Infrastructure.Configuration
 {
     public class GoogleAuthConfig
     {

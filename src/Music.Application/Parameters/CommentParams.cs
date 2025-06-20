@@ -1,6 +1,6 @@
-﻿using KM.Domain.Enum;
+﻿using Music.Domain.Enum;
 
-namespace KM.Application.Parameters
+namespace Music.Application.Parameters
 {
     public class CommentParams : BaseParams
     {

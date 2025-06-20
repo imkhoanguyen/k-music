@@ -1,7 +1,7 @@
 ﻿
-using KM.Application.DTOs.Statistics;
+using Music.Application.DTOs.Statistics;
 
-namespace KM.Application.Service.Abstract
+namespace Music.Application.Service.Abstract
 {
     public interface IStatisticService
     {

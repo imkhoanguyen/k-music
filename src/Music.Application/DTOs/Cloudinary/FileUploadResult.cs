@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Cloudinary
+﻿namespace Music.Application.DTOs.Cloudinary
 {
     public class FileUploadResult
     {

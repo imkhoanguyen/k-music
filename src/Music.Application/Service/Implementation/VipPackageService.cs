@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
-using KM.Application.DTOs.VipPackages;
-using KM.Application.Repositories;
-using KM.Application.Service.Abstract;
-using KM.Domain.Entities;
-using KM.Domain.Exceptions;
+using Music.Application.DTOs.VipPackages;
+using Music.Application.Repositories;
+using Music.Application.Service.Abstract;
+using Music.Domain.Exceptions;
+using Music.Domain.Entities;
 
-namespace KM.Application.Service.Implementation
+namespace Music.Application.Service.Implementation
 {
     public class VipPackageService : IVipPackageService
     {
@@ -16,14 +16,14 @@ namespace KM.Application.Service.Implementation
             _unit = unit;
         }
 
-        public async Task<VipPackage> CreateAsync(VipPackageCreateDto dto)
+        public async Task<Plan> CreateAsync(VipPackageCreateDto dto)
         {
             if (dto.PriceSell >= dto.Price)
             {
                 throw new BadRequestException("Giá bán sau khi giảm phải nhỏ hơn giá bán ban đầu");
             }
 
-            var entity = new VipPackage
+            var entity = new Plan
             {
                 Name = dto.Name,
                 Price = dto.Price,
@@ -42,7 +42,7 @@ namespace KM.Application.Service.Implementation
             throw new BadRequestException("Có lỗi xảy ra khi thêm gói đăng ký");
         }
 
-        public async Task DeleteAsync(Expression<Func<VipPackage, bool>> expression)
+        public async Task DeleteAsync(Expression<Func<Plan, bool>> expression)
         {
             var entity = await _unit.VipPackage.GetAsync(expression, true);
             if (entity == null)
@@ -56,17 +56,17 @@ namespace KM.Application.Service.Implementation
             }
         }
 
-        public async Task<IEnumerable<VipPackage>> GetAllAsync(Expression<Func<VipPackage, bool>>? expression = null)
+        public async Task<IEnumerable<Plan>> GetAllAsync(Expression<Func<Plan, bool>>? expression = null)
         {
             return await _unit.VipPackage.GetAllAsync(expression);
         }
 
-        public async Task<VipPackage> GetAsync(Expression<Func<VipPackage, bool>> expression)
+        public async Task<Plan> GetAsync(Expression<Func<Plan, bool>> expression)
         {
             return await _unit.VipPackage.GetAsync(expression) ?? throw new NotFoundException("Không tìm thấy gói đăng ký");
         }
 
-        public async Task<VipPackage> UpdateAsync(int vipPackageId, VipPackage entity)
+        public async Task<Plan> UpdateAsync(int vipPackageId, Plan entity)
         {
 
             if (entity.Price < 10000)

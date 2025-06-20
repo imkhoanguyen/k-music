@@ -1,8 +1,8 @@
-﻿using KM.Application.DTOs.Playlists;
-using KM.Application.DTOs.Singers;
-using KM.Application.DTOs.Songs;
+﻿using Music.Application.DTOs.Playlists;
+using Music.Application.DTOs.Singers;
+using Music.Application.DTOs.Songs;
 
-namespace KM.Application.DTOs.Statistics
+namespace Music.Application.DTOs.Statistics
 {
     public class TopFavorite
     {

@@ -1,13 +1,13 @@
 ﻿using API.Controllers.Base;
 using API.Extensions;
 using API.SignalR;
-using KM.Application.DTOs.Comments;
-using KM.Application.Parameters;
-using KM.Application.Service.Abstract;
-using KM.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Music.Core.DTOs.Comments;
+using Music.Core.Exceptions;
+using Music.Core.Parameters;
+using Music.Core.Service.Interfaces;
 
 namespace API.Controllers.Customer
 {

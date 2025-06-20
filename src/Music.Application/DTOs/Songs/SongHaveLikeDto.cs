@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Songs
+﻿namespace Music.Application.DTOs.Songs
 {
     public class SongHaveLikeDto : SongDto
     {

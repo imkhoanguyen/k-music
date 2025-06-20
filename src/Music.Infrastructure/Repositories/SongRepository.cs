@@ -1,15 +1,15 @@
-﻿using KM.Application.DTOs.Songs;
-using KM.Application.Parameters;
-using KM.Application.Repositories;
-using KM.Application.Utilities;
-using KM.Domain.Entities;
-using KM.Infrastructure.DataAccess;
-using KM.Infrastructure.Ultilities;
+﻿using Music.Infrastructure.DataAccess;
+using Music.Infrastructure.Ultilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
+using Music.Core.Entities;
+using Music.Core.DTOs.Songs;
+using Music.Core.Utilities;
+using Music.Core.Parameters;
+using Music.Core.Repositories;
 
-namespace KM.Infrastructure.Repositories
+namespace Music.Infrastructure.Repositories
 {
     public class SongRepository : Repository<Song>, ISongRepository
     {
@@ -108,7 +108,7 @@ namespace KM.Infrastructure.Repositories
                 songFromDb.Name = song.Name;
                 songFromDb.Introduction = song.Introduction;
                 songFromDb.Lyric = song.Lyric;
-                songFromDb.Updated = DateTime.Now;
+                songFromDb.LastModifiedDate = DateTime.Now;
             }
         }
 

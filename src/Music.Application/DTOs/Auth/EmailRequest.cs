@@ -1,4 +1,4 @@
-﻿namespace KM.Application.DTOs.Auth
+﻿namespace Music.Application.DTOs.Auth
 {
     public class EmailRequest
     {
