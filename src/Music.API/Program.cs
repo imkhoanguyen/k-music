@@ -1,25 +1,26 @@
 ﻿using API.Authorization;
 using API.Middleware;
 using API.SignalR;
-using Music.Application.Service.Implementation;
-using Music.Infrastructure.Configuration;
-using Music.Infrastructure.DataAccess;
-using Music.Infrastructure.DataAccess.SeedData;
-using Music.Infrastructure.Repositories;
-using Music.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Serilog;
+using Music.API.Filters;
+using Music.Application.Service.Implementation;
 using Music.Core.Entities;
-using Music.Core.Repositories;
 using Music.Core.Interfaces;
+using Music.Core.Repositories;
 using Music.Core.Service.Implements;
 using Music.Core.Service.Interfaces;
+using Music.Infrastructure.Configuration;
+using Music.Infrastructure.DataAccess;
+using Music.Infrastructure.DataAccess.SeedData;
 using Music.Infrastructure.Intterfaces;
+using Music.Infrastructure.Repositories;
+using Music.Infrastructure.Services;
+using Serilog;
+using System.Text;
 
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();

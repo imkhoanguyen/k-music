@@ -2,8 +2,11 @@
 using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Music.API.Filters;
 using Music.Core.Authorization;
+using Music.Core.Common;
 using Music.Core.DTOs.Genres;
+using Music.Core.Exceptions;
 using Music.Core.Parameters;
 using Music.Core.Service.Interfaces;
 
@@ -34,8 +37,8 @@ namespace API.Controllers.Admin
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenre()
         {
-
-            return Ok(await _genreService.GetAllAsync());
+            var genres = await _genreService.GetAllAsync();
+            return Ok(Result.Ok(genres));
         }
 
         [HttpGet("{id:int}")]
@@ -47,14 +50,12 @@ namespace API.Controllers.Admin
 
         [HttpPost]
         [Authorize(Policy = AppPermission.Genre_Create)]
+        [ValidateModelState]
         public async Task<ActionResult<GenreDto>> CreateGenre(GenreCreateDto genreCreateDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var result = await _genreService.CreateAsync(genreCreateDto);
 
-            var genre = await _genreService.CreateAsync(genreCreateDto);
-
-            return CreatedAtAction(nameof(GetGenre), new { id = genre.Id }, genre);
+            return StatusCode(201, Result.Ok(result, 201));
         }
 
         [Authorize(Policy = AppPermission.Genre_Edit)]

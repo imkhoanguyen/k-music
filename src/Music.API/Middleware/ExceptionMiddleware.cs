@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Music.Core.Common;
 using Music.Core.Exceptions;
 using System;
 using System.Net;
@@ -47,20 +48,21 @@ namespace API.Middleware
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)status;
 
-                var response = _env.IsDevelopment()
-                ? new ApiException(context.Response.StatusCode, message, ex.StackTrace)
-                : new ApiException(context.Response.StatusCode, message, "Internal server error");
+                var result = _env.IsDevelopment() ? Result.Fail(context.Response.StatusCode, message, ex.StackTrace) 
+                    : Result.Fail(context.Response.StatusCode, message, "Internal server error");
+
 
                 var options = new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 };
 
-                var json = JsonSerializer.Serialize(response, options);
+
+                var json = JsonSerializer.Serialize(result, options);
                 await context.Response.WriteAsync(json);
             }
         }
 
-       
+
     }
 }

@@ -2,12 +2,12 @@
 {
     public class Result<TValue> : Result
     {
-        public TValue Value { get; set; }
+        public TValue Data { get; set; }
 
-        protected internal Result(TValue value, bool success, string error)
-            : base(success, error)
+        protected internal Result(TValue data, bool success, int statusCode, string message, string error)
+            : base(success, statusCode, message, error)
         {
-            Value = value;
+            Data = data;
         }
     }
 }
